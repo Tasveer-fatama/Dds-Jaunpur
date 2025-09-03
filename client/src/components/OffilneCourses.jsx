@@ -1,6 +1,6 @@
 import React from 'react'
 
-const Photos = () => {
+const OffilneCourses = () => {
   return (
     <div>
         <div
@@ -13,7 +13,7 @@ const Photos = () => {
         <div className="absolute inset-0 bg-gradient-to-r from-black/70 to-black/50"></div>
         <div className="relative z-10 max-w-4xl px-6 text-center">
           <h1 className="text-3xl md:text-5xl font-bold">
-            <span className="border-l-4 border-red-500 pl-2">Photos</span>
+            <span className="border-l-4 border-red-500 pl-2">Offline courses</span>
           </h1>
         </div>
       </div>
@@ -21,4 +21,4 @@ const Photos = () => {
   )
 }
 
-export default Photos
+export default OffilneCourses

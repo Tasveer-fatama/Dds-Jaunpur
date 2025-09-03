@@ -1,11 +1,67 @@
-import React, { useEffect } from "react";
+import React, { useEffect,useState} from "react";
 import Slider from "react-slick";
 import AOS from "aos";
 import "aos/dist/aos.css";
+import { motion } from "framer-motion";
 
 const Banner = () => {
+   useEffect(() => {
+    AOS.init({ duration: 1000, once: true });
+  }, []);
 
+  const messages = [
+    {
+      title: "Message from the Director",
+      name: "Mr. Rakesh Sharma",
+      role: "Director, DDS Institution",
+      img: "https://randomuser.me/api/portraits/men/32.jpg",
+      content: `At DDS Institution, we believe in empowering students with 
+      knowledge and practical skills that prepare them for the future. 
+      Our mission is to provide quality education in English and Computer studies.`,
+    },
+    {
+      title: "Message from the CEO",
+      name: "Ms. Priya Verma",
+      role: "CEO, DDS Institution",
+      img: "https://randomuser.me/api/portraits/women/44.jpg",
+      content: `Education is not just about academics, it is about building confidence, 
+      values, and lifelong learning habits. At DDS Institution, our vision is 
+      to create a platform where students gain the right balance of theory and practice.`,
+    },
+    {
+      title: "Message from the Manager",
+      name: "Mr. Anil Singh",
+      role: "Manager, DDS Institution",
+      img: "https://randomuser.me/api/portraits/men/65.jpg",
+      content: `We at DDS Institution focus on a student-centric approach. 
+      Every learner is unique, and our responsibility is to guide them with 
+      personalized attention, structured learning modules, and real-world exposure.`,
+    },
+  ];
+ 
 
+ const [isVisible, setIsVisible] = useState(false);
+  useEffect(() => {
+    // Trigger animations after component mounts
+    setIsVisible(true);
+    
+    // Set up intersection observer for scroll animations
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("visible");
+        }
+      });
+    }, { threshold: 0.1 });
+    
+    // Observe all elements with fade-up class
+    const fadeElements = document.querySelectorAll(".fade-up");
+    fadeElements.forEach((el) => observer.observe(el));
+    
+    return () => {
+      fadeElements.forEach((el) => observer.unobserve(el));
+    };
+  }, []);
  
 
   useEffect(() => {
@@ -37,11 +93,8 @@ const Banner = () => {
     <div>
         {/* Banner Section */}
       <div
-        className="relative w-full h-[300px] md:h-[400px] flex items-center justify-center bg-cover bg-center text-white"
-        style={{
-          backgroundImage:
-            "url('https://static.vecteezy.com/system/resources/previews/002/626/082/non_2x/light-red-yellow-gradient-blur-background-vector.jpg')",
-        }}
+        className="relative w-full h-[300px] md:h-[400px] flex items-center justify-center bg-cover bg-center text-white bg-black"
+      
       >
         <div className="absolute inset-0 bg-gradient-to-r from-black/70 to-black/50"></div>
         <div className="relative z-10 max-w-4xl px-6 text-center">
@@ -156,8 +209,40 @@ const Banner = () => {
           </div>
         </div>
       </section>
-    </div>
 
+    </div>
+  <div className="bg-gray-100 py-10">
+      <div className="max-w-6xl mx-auto space-y-8 px-4">
+        {messages.map((msg, index) => (
+          <div
+            key={index}
+            className="bg-white shadow-lg rounded-lg p-6 flex flex-col md:flex-row items-center"
+            data-aos={index % 2 === 0 ? "fade-up" : "fade-in"}
+          >
+            {/* Text Section */}
+            <div className="md:w-2/3">
+              <h2 className="text-xl font-bold text-gray-900">{msg.title}</h2>
+              <p className="text-gray-700 mt-4">{msg.content}</p>
+              <p className="text-gray-900 font-semibold mt-6">With warm regards,</p>
+              <p className="font-bold text-gray-900">{msg.name}</p>
+              <p className="font-semibold text-gray-700">{msg.role}</p>
+            </div>
+
+            {/* Image Section */}
+            <div className="md:w-1/3 flex justify-center mt-6 md:mt-0">
+              <div className="text-center">
+                <img
+                  src={msg.img}
+                  alt={msg.name}
+                  className="rounded-full w-40 h-40 object-cover border-4 border-blue-500"
+                />
+                <p className="font-bold text-gray-900 mt-2">{msg.name}</p>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
   
     </>
   )

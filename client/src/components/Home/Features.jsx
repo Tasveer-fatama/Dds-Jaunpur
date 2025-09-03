@@ -76,7 +76,7 @@ const DDSFeatures = () => {
             <span className="text-red-600 font-semibold">English Communication</span>,{" "}
             <span className="text-red-600 font-semibold">Computer Education</span> and
             career-focused training. With{" "}
-            <strong className="text-black">15+ years of excellence</strong>, DDS
+            <strong className="text-black">25+ years of excellence</strong>, DDS
             ensures practical knowledge, global exposure, and recognized
             certifications.
           </p>

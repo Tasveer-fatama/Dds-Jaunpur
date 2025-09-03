@@ -7,7 +7,7 @@ const Navbar = () => {
 
   const navItems = [
     { title: "Home", link: "/" },
-    { title: "About Us", link: "/about1" },
+    { title: "About ", link: "/about1" },
     { title: "Services", dropdown: true }, // Services dropdown
     { title: "Events", dropdown: true }, // Events dropdown
     { title: "Course", dropdown: true }, // ✅ New Course dropdown
@@ -19,24 +19,24 @@ const Navbar = () => {
     {
       title: "Marketing",
       items: [
-        { name: "Digital Marketing", link: "/services/marketing/digital" },
-        { name: "Social Media Marketing", link: "/services/marketing/social" },
-       { name: "SEO", link: "/services/marketing/seo" },
-        { name: "Content Writing", link: "/services/marketing/content" },
+        { name: "Digital Marketing", link: "/digital" },
+        { name: "Social Media Marketing", link: "/social" },
+       { name: "SEO", link: "/Seo" },
+        { name: "Content Writing", link: "/Content" },
       ],
     },
     {
       title: "Development",
       items: [
-        { name: "Web Development", link: "/services/dev/web" },
-        { name: "Software Development", link: "/services/dev/software" },
+        { name: "Web Development", link: "/Web" },
+    
       ],
     },
     {
       title: "Design",
       items: [
-        { name: "Graphic Design", link: "/services/design/graphic" },
-        { name: "Video Editing", link: "/services/design/video" },
+        { name: "Graphic Design", link: "/Graphic" },
+        { name: "Video Editing", link: "/videoediting" },
       ],
     },
   ];
@@ -46,8 +46,8 @@ const Navbar = () => {
     {
       title: "Gallery",
       items: [
-        { name: "Photos", link: "/events/photos" },
-        { name: "Videos", link: "/events/videos" },
+        { name: "Photos", link: "/Photos" },
+        { name: "Videos", link: "/Videos" },
       ],
     },
   ];
@@ -57,9 +57,9 @@ const Navbar = () => {
     {
       title: "Courses",
       items: [
-        { name: "Offline Course", link: "/course/offline" },
-        { name: "Online Course", link: "/course/online" },
-      ],
+        { name: "Offline Course", link: "/OfflineCourses" },
+        { name: "Online Course", link: "/OnilneCourses" },
+      ]
     },
   ];
 
@@ -92,14 +92,14 @@ const Navbar = () => {
           <a href="/" className="flex items-center space-x-2 z-20">
             <div className="w-12 h-12 bg-red-700 rounded-full flex items-center justify-center overflow-hidden border-2 border-red-600 transition-transform duration-300 hover:scale-105">
               <img
-                src="/ddslogo.png"
+                src="/Ddslogo.png"
                 alt="DDS Logo"
                 className="w-full h-full object-contain p-1"
               />
             </div>
             <div className="text-black text-xl md:text-2xl font-bold hidden sm:block font-poppins">
-              <span className="text-red-600">DDS</span> The Group Of
-              Institutions
+              <span className="text-red-600">DDS</span>  Group Of
+              Institution
             </div>
           </a>
 
@@ -158,10 +158,11 @@ const Navbar = () => {
 
             {/* Get in Touch Button */}
             <a
-              href="/contact"
+              href="/GetInTouch"
               className="ml-4 px-4 py-2 rounded-lg bg-red-600 text-white font-medium hover:bg-red-500 transition-all duration-300"
             >
-              Get in Touch
+            Download Certificate 
+            
             </a>
           </div>
 

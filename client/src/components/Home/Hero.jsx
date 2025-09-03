@@ -116,20 +116,28 @@ const HeroSection = () => {
                 At <span className="font-semibold text-red-400">DDS Institute of Jaunpur</span>, we transform your career aspirations into reality with industry-relevant courses and expert guidance.
               </p>
               
-              <div className="flex flex-col sm:flex-row gap-3 md:gap-4 transition-all duration-1000 delay-300">
-                <button className="px-6 py-3 md:px-8 md:py-4 bg-gradient-to-r from-red-600 to-red-700 text-white font-bold rounded-lg transform transition-all duration-300 hover:from-red-500 hover:to-red-600 hover:scale-105 hover:shadow-xl shadow-lg shadow-red-900/30 relative overflow-hidden group">
-                  <span className="relative z-10">Explore Courses</span>
-                  <div className="absolute inset-0 animate-shimmer"></div>
-                </button>
-                <button className="px-6 py-3 md:px-8 md:py-4 bg-transparent border-2 border-red-500 text-white font-bold rounded-lg transform transition-all duration-300 hover:bg-red-500/10 hover:scale-105 shadow-lg shadow-red-900/20">
-                  Contact Us
-                </button>
-              </div>
+            <div className="flex flex-col sm:flex-row gap-3 md:gap-4 transition-all duration-1000 delay-300">
+  <a 
+    href="/OfflineCourses" 
+    className="px-6 py-3 md:px-8 md:py-4 bg-gradient-to-r from-red-600 to-red-700 text-white font-bold rounded-lg transform transition-all duration-300 hover:from-red-500 hover:to-red-600 hover:scale-105 hover:shadow-xl shadow-lg shadow-red-900/30 relative overflow-hidden group"
+  >
+    <span className="relative z-10">Explore Courses</span>
+    <div className="absolute inset-0 animate-shimmer"></div>
+  </a>
+
+  <a 
+    href="/InquiryForm" 
+    className="px-6 py-3 md:px-8 md:py-4 bg-transparent border-2 border-red-500 text-white font-bold rounded-lg transform transition-all duration-300 hover:bg-red-500/10 hover:scale-105 shadow-lg shadow-red-900/20"
+  >
+    Contact Us
+  </a>
+</div>
+
 
               {/* Stats */}
               <div className="flex flex-wrap justify-center md:justify-start gap-4 md:gap-6 mt-8 md:mt-12">
                 <div className="text-center">
-                  <div className="text-2xl md:text-3xl font-bold text-red-400">500+</div>
+                  <div className="text-2xl md:text-3xl font-bold text-red-400"> 1 Lakh+</div>
                   <div className="text-gray-400 text-sm">Students Trained</div>
                 </div>
                 <div className="text-center">
@@ -137,7 +145,7 @@ const HeroSection = () => {
                   <div className="text-gray-400 text-sm">Placement Rate</div>
                 </div>
                 <div className="text-center">
-                  <div className="text-2xl md:text-3xl font-bold text-red-400">10+</div>
+                  <div className="text-2xl md:text-3xl font-bold text-red-400">25+</div>
                   <div className="text-gray-400 text-sm">Years Experience</div>
                 </div>
               </div>
@@ -158,10 +166,10 @@ const HeroSection = () => {
                     {[
                       "English Speaking",
                       "Web Development",
-                      "Data Science",
+                      "ADCA",
                       "Graphic Design",
-                      "Digital Marketing",
-                      "Networking"
+                      "DCA",
+                      "‘O’ Level"
                     ].map((course, index) => (
                       <div key={index} className="flex items-center transition-all duration-300 hover:translate-x-1 group">
                         <div className="w-5 h-5 bg-gradient-to-r from-red-600 to-red-700 rounded-full flex items-center justify-center mr-2 shadow-md flex-shrink-0">

@@ -4,6 +4,7 @@ import AboutUs from './About.jsx'
 import Feature from './Features.jsx'
 import Banner from './Banner.jsx'
 import Cards from './Cards.jsx'
+import InquiryForm from '../Inquiryform.jsx'
 
 const Home = () => {
   return (
@@ -13,6 +14,7 @@ const Home = () => {
        <Feature/>
        <Banner/>
        <Cards/>
+       <InquiryForm/>
     </div>
   )
 }

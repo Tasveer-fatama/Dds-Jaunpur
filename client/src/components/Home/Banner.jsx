@@ -18,7 +18,7 @@ const DDSInstituteBanner = () => {
           {/* DDS Logo */}
           <div className="flex justify-center mb-4 ">
             <img
-              src="/ddslogo.png"
+              src="/Ddslogo.png"
               alt="DDS Institute Logo"
               className="w-auto h-48 object-contain"
             />
@@ -26,7 +26,7 @@ const DDSInstituteBanner = () => {
 
           {/* Main Title */}
           <h1 className="text-5xl md:text-6xl font-bold text-white mb-4 animate-fade-in">
-            DDS The Group <span className="text-red-600">Of Institutions</span>
+            DDS  Group <span className="text-red-600">Of Institution</span>
           </h1>
 
           {/* Subtitle */}
@@ -35,11 +35,15 @@ const DDSInstituteBanner = () => {
           </p>
 
           {/* Call-to-Action Button */}
-          <div className="flex justify-center animate-pulse">
-            <button className="px-8 py-3 bg-red-600 text-white font-semibold rounded-full transition duration-300 transform hover:scale-105 hover:bg-white hover:text-red-600">
-              Join DDS Now
-            </button>
-          </div>
+        <div className="flex justify-center animate-pulse">
+  <a 
+    href="/InquiryForm"   // yaha apna page link daal do
+    className="px-8 py-3 bg-red-600 text-white font-semibold rounded-full transition duration-300 transform hover:scale-105 hover:bg-white hover:text-red-600"
+  >
+    Join DDS Now
+  </a>
+</div>
+
         </div>
 
         {/* Floating Elements (Decoration) */}
