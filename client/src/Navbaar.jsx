@@ -8,9 +8,9 @@ const Navbar = () => {
   const navItems = [
     { title: "Home", link: "/" },
     { title: "About ", link: "/about1" },
-    { title: "Services", dropdown: true }, // Services dropdown
-    { title: "Events", dropdown: true }, // Events dropdown
-    { title: "Course", dropdown: true }, // ✅ New Course dropdown
+    { title: "Services", dropdown: true },
+    { title: "Events", dropdown: true },
+    { title: "Course", dropdown: true },
     { title: "Donation", link: "/donation" },
   ];
 
@@ -21,16 +21,13 @@ const Navbar = () => {
       items: [
         { name: "Digital Marketing", link: "/digital" },
         { name: "Social Media Marketing", link: "/social" },
-       { name: "SEO", link: "/Seo" },
+        { name: "SEO", link: "/Seo" },
         { name: "Content Writing", link: "/Content" },
       ],
     },
     {
       title: "Development",
-      items: [
-        { name: "Web Development", link: "/Web" },
-    
-      ],
+      items: [{ name: "Web Development", link: "/Web" }],
     },
     {
       title: "Design",
@@ -52,14 +49,14 @@ const Navbar = () => {
     },
   ];
 
-  // ✅ Course dropdown data
+  // Course dropdown data
   const courseDropdown = [
     {
       title: "Courses",
       items: [
         { name: "Offline Course", link: "/OfflineCourses" },
         { name: "Online Course", link: "/OnilneCourses" },
-      ]
+      ],
     },
   ];
 
@@ -69,7 +66,6 @@ const Navbar = () => {
     setTimeout(() => setAnimateBg(false), 600);
   };
 
-  // Helper: pick dropdown data based on item.title
   const getDropdownData = (title) => {
     if (title === "Services") return servicesDropdown;
     if (title === "Events") return eventsDropdown;
@@ -98,8 +94,7 @@ const Navbar = () => {
               />
             </div>
             <div className="text-black text-xl md:text-2xl font-bold hidden sm:block font-poppins">
-              <span className="text-red-600">DDS</span>  Group Of
-              Institution
+              <span className="text-red-600">DDS</span> Group Of Institution
             </div>
           </a>
 
@@ -110,14 +105,12 @@ const Navbar = () => {
                 {!item.dropdown ? (
                   <a
                     href={item.link}
-                    className={`px-4 py-2 rounded-md font-medium transition-all duration-300 transform hover:scale-105 relative overflow-hidden group font-montserrat
-                      text-black hover:bg-gray-100`}
+                    className="px-4 py-2 rounded-md font-medium transition-all duration-300 transform hover:scale-105 relative overflow-hidden group font-montserrat text-black hover:bg-gray-100"
                   >
                     {item.title}
                   </a>
                 ) : (
                   <>
-                    {/* Dropdown button */}
                     <button
                       onClick={() =>
                         setOpenDropdown(openDropdown === index ? null : index)
@@ -126,8 +119,6 @@ const Navbar = () => {
                     >
                       {item.title} ▾
                     </button>
-
-                    {/* Dropdown menu */}
                     {openDropdown === index && (
                       <div className="absolute left-0 mt-2 w-[90vw] sm:w-[600px] bg-white shadow-lg rounded-lg p-6 grid grid-cols-2 sm:grid-cols-3 gap-6 z-50">
                         {getDropdownData(item.title).map((col, i) => (
@@ -155,14 +146,11 @@ const Navbar = () => {
                 )}
               </div>
             ))}
-
-            {/* Get in Touch Button */}
             <a
               href="/GetInTouch"
               className="ml-4 px-4 py-2 rounded-lg bg-red-600 text-white font-medium hover:bg-red-500 transition-all duration-300"
             >
-            Download Certificate 
-            
+              Download Certificate
             </a>
           </div>
 
@@ -192,6 +180,71 @@ const Navbar = () => {
           </div>
         </div>
       </div>
+
+      {/* ✅ Mobile Navigation Menu */}
+      {isOpen && (
+        <div className="lg:hidden absolute top-full left-0 w-full bg-white shadow-lg z-40 animate-slide-down">
+          <ul className="flex flex-col space-y-2 p-4">
+            {navItems.map((item, index) => (
+              <li key={index}>
+                {!item.dropdown ? (
+                  <a
+                    href={item.link}
+                    className="block px-4 py-2 rounded-md font-medium text-black hover:bg-gray-100"
+                    onClick={() => setIsOpen(false)}
+                  >
+                    {item.title}
+                  </a>
+                ) : (
+                  <div>
+                    <button
+                      onClick={() =>
+                        setOpenDropdown(openDropdown === index ? null : index)
+                      }
+                      className="w-full text-left px-4 py-2 rounded-md font-medium text-black hover:bg-gray-100 flex justify-between items-center"
+                    >
+                      {item.title} ▾
+                    </button>
+                    {openDropdown === index && (
+                      <div className="pl-6 py-2 space-y-2">
+                        {getDropdownData(item.title).map((col, i) => (
+                          <div key={i}>
+                            <h4 className="font-bold text-red-600 mb-2">
+                              {col.title}
+                            </h4>
+                            <ul className="space-y-1">
+                              {col.items.map((subItem, j) => (
+                                <li key={j}>
+                                  <a
+                                    href={subItem.link}
+                                    className="block text-gray-700 hover:text-red-600 transition-colors"
+                                    onClick={() => setIsOpen(false)}
+                                  >
+                                    {subItem.name}
+                                  </a>
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                )}
+              </li>
+            ))}
+            <li>
+              <a
+                href="/GetInTouch"
+                className="block text-center w-full px-4 py-2 rounded-lg bg-red-600 text-white font-medium hover:bg-red-500 transition-all duration-300"
+                onClick={() => setIsOpen(false)}
+              >
+                Download Certificate
+              </a>
+            </li>
+          </ul>
+        </div>
+      )}
     </nav>
   );
 };
