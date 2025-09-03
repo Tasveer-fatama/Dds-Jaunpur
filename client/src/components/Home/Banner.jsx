@@ -18,7 +18,7 @@ const DDSInstituteBanner = () => {
           {/* DDS Logo */}
           <div className="flex justify-center mb-4 ">
             <img
-              src="/Ddslogo.png"
+              src="/ddslogo.png"
               alt="DDS Institute Logo"
               className="w-auto h-48 object-contain"
             />

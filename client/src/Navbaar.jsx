@@ -92,7 +92,7 @@ const Navbar = () => {
           <a href="/" className="flex items-center space-x-2 z-20">
             <div className="w-12 h-12 bg-red-700 rounded-full flex items-center justify-center overflow-hidden border-2 border-red-600 transition-transform duration-300 hover:scale-105">
               <img
-                src="/Ddslogo.png"
+                src="/ddslogo.png"
                 alt="DDS Logo"
                 className="w-full h-full object-contain p-1"
               />
