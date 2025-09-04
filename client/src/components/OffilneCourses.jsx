@@ -81,9 +81,13 @@ const OffilneCourses = () => {
             <div className="bg-white shadow-lg rounded-2xl p-6 hover:shadow-2xl transition-all duration-300 border-t-4 border-red-600">
               <h3 className="text-xl font-bold text-red-600 mb-3">{course.title}</h3>
               <p className="text-gray-600">{course.desc}</p>
-              <button className="mt-4 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-500 transition">
-                Enroll Now
-              </button>
+            <a
+  href="/AdmissionForm"
+  className="mt-4 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-500 transition inline-block"
+>
+  Enroll Now
+</a>
+
             </div>
           </FadeInSection>
         ))}
