@@ -1,14 +1,13 @@
 import express from "express";
 import dotenv from "dotenv";
-
-
-dotenv.config();
+import connectDB from "./utils/db.js";
+import router from "./router/Inquiryroute.js";
 const app = express();
 
-app.get("/", (req, res) =>
-     res.send("DDS Institution API is running")
-);
-
+connectDB();
+dotenv.config();
+app.use(express.json());
+app.use("/api/inquiry", router);
 
 const PORT = process.env.PORT;
 app.listen(PORT, () => {
