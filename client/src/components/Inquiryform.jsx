@@ -12,8 +12,8 @@ export default function InquiryForm() {
     message: ""
   });
 
-  const [popup, setPopup] = useState(""); // ✅ popup message
-  const [popupType, setPopupType] = useState("success"); // ✅ success/error
+  const [popup, setPopup] = useState(""); 
+  const [popupType, setPopupType] = useState("success"); 
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -32,14 +32,17 @@ export default function InquiryForm() {
     }
 
     try {
-      const res = await axios.post("http://localhost:5000/api/inquiry", formData);
-      if (res.data.success) {
-        setPopup("✅ Successfully Submitted!");
-        setPopupType("success");
-        setFormData({ name: "", email: "", phone: "", course: "", message: "" });
+      const res = await axios.post("http://localhost:5000/api/inquiry/inquiryform", formData);
 
-        setTimeout(() => setPopup(""), 3000);
+      // ✅ backend ke message ko directly use karo
+      setPopup(res.data.message);
+      setPopupType(res.data.success ? "success" : "error");
+
+      if (res.data.success) {
+        setFormData({ name: "", email: "", phone: "", course: "", message: "" });
       }
+
+      setTimeout(() => setPopup(""), 3000);
     } catch (err) {
       console.error(err);
       setPopup("❌ Something went wrong!");
@@ -95,10 +98,18 @@ export default function InquiryForm() {
               required
               className="w-full p-3 rounded bg-black/40 text-white border border-red-400"
             >
-              <option value="">Select Course</option>
-              <option value="spoken">Spoken English</option>
-              <option value="computer">Computer Course</option>
-              <option value="both">Both</option>
+              <option value="" className="bg-black text-white">
+    Select Course
+  </option>
+  <option value="spoken" className="bg-black text-white hover:bg-red-600">
+    Spoken English
+  </option>
+  <option value="computer" className="bg-black text-white hover:bg-red-600">
+    Computer Course
+  </option>
+  <option value="both" className="bg-black text-white hover:bg-red-600">
+    Both
+  </option>
             </select>
             <textarea
               name="message" placeholder="Your Message"

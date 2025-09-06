@@ -62,7 +62,7 @@ Dr. Ajit Kumar ke paas, Ramaswamy, Jaunpur</span>
               </li>
               <li className="flex items-center gap-2">
                 <FaEnvelope className="text-red-600" />
-                <span className="text-gray-300 text-sm sm:text-base">romiomarch1987@gmail.com</span>
+                <span className="text-gray-300 text-sm sm:text-base">ddsgroupofinstitutionjaunpur@gmail.com</span>
               </li>
             </ul>
           </div>

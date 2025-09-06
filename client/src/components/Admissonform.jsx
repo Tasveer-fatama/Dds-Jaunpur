@@ -1,8 +1,10 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom"; // ✅ import
+import { useNavigate } from "react-router-dom";
+import { motion, AnimatePresence } from "framer-motion";
+import axios from "axios";
 
 export default function AdmissionForm() {
-  const navigate = useNavigate(); // ✅ hook
+  const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
     name: "",
@@ -11,6 +13,9 @@ export default function AdmissionForm() {
     course: "",
     mode: "",
   });
+
+  const [popup, setPopup] = useState("");
+  const [popupType, setPopupType] = useState("success");
 
   const courses = [
     "AutoCAD",
@@ -42,17 +47,56 @@ export default function AdmissionForm() {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    alert("🎉 Admission Done Successfully!");
-    console.log(formData);
 
-    // ✅ Home redirect
-    navigate("/");
+    // ✅ Validation
+    if (!formData.name || !formData.email || !formData.phone || !formData.course || !formData.mode) {
+      setPopup("⚠️ Please fill all fields!");
+      setPopupType("error");
+      setTimeout(() => setPopup(""), 3000);
+      return;
+    }
+
+    try {
+      const res = await axios.post("http://localhost:5000/api/admission/admissionform", formData);
+
+      setPopup(res.data.message || "🎉 Admission Successful!");
+      setPopupType("success");
+
+      // Reset form
+      setFormData({ name: "", email: "", phone: "", course: "", mode: "" });
+
+      setTimeout(() => {
+        setPopup("");
+        navigate("/"); // ✅ redirect after success
+      }, 3000);
+    } catch (error) {
+      console.error(error);
+      setPopup("❌ Something went wrong!");
+      setPopupType("error");
+      setTimeout(() => setPopup(""), 3000);
+    }
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-black px-4">
+    <div className="min-h-screen flex items-center justify-center bg-black px-4 relative">
+      {/* ✅ Popup */}
+      <AnimatePresence>
+        {popup && (
+          <motion.div
+            initial={{ opacity: 0, y: -40 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -40 }}
+            transition={{ duration: 0.4 }}
+            className={`fixed top-5 right-5 px-6 py-3 rounded-lg shadow-lg z-50 
+              ${popupType === "success" ? "bg-green-600 text-white" : "bg-red-600 text-white"}`}
+          >
+            {popup}
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       <div className="bg-white rounded-2xl shadow-2xl w-full max-w-lg p-8">
         <h2 className="text-3xl font-bold text-center text-red-600 mb-6">
           Admission Form
@@ -60,16 +104,14 @@ export default function AdmissionForm() {
         <form onSubmit={handleSubmit} className="space-y-4">
           {/* Name */}
           <div>
-            <label className="block text-black font-semibold mb-1">
-              Full Name
-            </label>
+            <label className="block text-black font-semibold mb-1">Full Name</label>
             <input
               type="text"
               name="name"
               required
               value={formData.name}
               onChange={handleChange}
-              className="w-full border-2 border-red-600 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-red-600"
+              className="w-full border-2 border-red-600 rounded-lg px-3 py-2"
             />
           </div>
 
@@ -82,7 +124,7 @@ export default function AdmissionForm() {
               required
               value={formData.email}
               onChange={handleChange}
-              className="w-full border-2 border-red-600 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-red-600"
+              className="w-full border-2 border-red-600 rounded-lg px-3 py-2"
             />
           </div>
 
@@ -94,24 +136,21 @@ export default function AdmissionForm() {
               name="phone"
               required
               pattern="[0-9]{10}"
-              title="Enter 10 digit mobile number"
               value={formData.phone}
               onChange={handleChange}
-              className="w-full border-2 border-red-600 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-red-600"
+              className="w-full border-2 border-red-600 rounded-lg px-3 py-2"
             />
           </div>
 
           {/* Course Dropdown */}
           <div>
-            <label className="block text-black font-semibold mb-1">
-              Select Course
-            </label>
+            <label className="block text-black font-semibold mb-1">Select Course</label>
             <select
               name="course"
               required
               value={formData.course}
               onChange={handleChange}
-              className="w-full border-2 border-red-600 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-red-600"
+              className="w-full border-2 border-red-600 rounded-lg px-3 py-2"
             >
               <option value="">-- Select Course --</option>
               {courses.map((course, idx) => (
@@ -122,11 +161,9 @@ export default function AdmissionForm() {
             </select>
           </div>
 
-          {/* Online / Offline Selection */}
+          {/* Mode */}
           <div>
-            <label className="block text-black font-semibold mb-2">
-              Course Mode
-            </label>
+            <label className="block text-black font-semibold mb-2">Course Mode</label>
             <div className="flex space-x-4">
               <label className="flex items-center space-x-2">
                 <input
@@ -135,7 +172,6 @@ export default function AdmissionForm() {
                   value="Online"
                   checked={formData.mode === "Online"}
                   onChange={handleChange}
-                  className="text-red-600 focus:ring-red-600"
                   required
                 />
                 <span>Online</span>
@@ -148,7 +184,6 @@ export default function AdmissionForm() {
                   value="Offline"
                   checked={formData.mode === "Offline"}
                   onChange={handleChange}
-                  className="text-red-600 focus:ring-red-600"
                   required
                 />
                 <span>Offline</span>
@@ -156,7 +191,7 @@ export default function AdmissionForm() {
             </div>
           </div>
 
-          {/* Submit Button */}
+          {/* Submit */}
           <div className="text-center">
             <button
               type="submit"
