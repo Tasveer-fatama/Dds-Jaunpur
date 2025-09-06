@@ -14,7 +14,7 @@ export default function Dashboard() {
   useEffect(() => {
     const fetchCounts = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/api/admin/counts");
+        const res = await axios.get(" https://ddsgroup.onrender.com/api/admin/counts");
         setCounts(res.data); // { inquiry: x, admission: y, donation: z }
       } catch (err) {
         console.error("Error fetching counts:", err);
@@ -32,7 +32,7 @@ export default function Dashboard() {
       formData.append("roll", cert.roll);
       formData.append("file", cert.file);
 
-      await axios.post("http://localhost:5000/api/certificates/upload", formData, {
+      await axios.post("https://ddsgroup.onrender.com/api/certificates/upload", formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
 

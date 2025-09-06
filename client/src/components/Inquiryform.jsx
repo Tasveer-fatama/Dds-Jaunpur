@@ -32,7 +32,7 @@ export default function InquiryForm() {
     }
 
     try {
-      const res = await axios.post("http://localhost:5000/api/inquiry/inquiryform", formData);
+      const res = await axios.post("https://ddsgroup.onrender.com/api/inquiry/inquiryform", formData);
 
       // ✅ backend ke message ko directly use karo
       setPopup(res.data.message);

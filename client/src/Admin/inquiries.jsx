@@ -9,7 +9,7 @@ const InquiryTable = () => {
   useEffect(() => {
     const fetchInquiries = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/api/admin/inquiries"); // replace with your API URL
+        const response = await axios.get(" https://ddsgroup.onrender.com/api/admin/inquiries"); // replace with your API URL
         setInquiries(response.data);
       } catch (error) {
         console.error("Error fetching inquiries:", error);

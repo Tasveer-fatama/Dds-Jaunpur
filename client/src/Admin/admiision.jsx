@@ -8,7 +8,7 @@ const AdmissionTable = () => {
   useEffect(() => {
     const fetchAdmissions = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/api/admin/admissions"); // replace with your API URL
+        const response = await axios.get("https://ddsgroup.onrender.com/api/admin/admissions"); // replace with your API URL
         setAdmissions(response.data);
       } catch (error) {
         console.error("Error fetching admissions:", error);

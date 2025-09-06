@@ -59,7 +59,7 @@ export default function AdmissionForm() {
     }
 
     try {
-      const res = await axios.post("http://localhost:5000/api/admission/admissionform", formData);
+      const res = await axios.post("https://ddsgroup.onrender.com/api/admission/admissionform", formData);
 
       setPopup(res.data.message || "🎉 Admission Successful!");
       setPopupType("success");

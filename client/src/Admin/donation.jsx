@@ -9,7 +9,7 @@ const DonationTable = () => {
     const fetchDonations = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:5000/api/admin/donations" // Your backend API
+          "https://ddsgroup.onrender.com/api/admin/donations" // Your backend API
         );
         setDonations(response.data);
       } catch (error) {
@@ -32,7 +32,7 @@ const DonationTable = () => {
     }
 
     // Otherwise, assume it's a local path in /uploads
-    return `http://localhost:5000/${screenshot}`;
+    return ` https://ddsgroup.onrender.com/${screenshot}`;
   };
 
   return (
