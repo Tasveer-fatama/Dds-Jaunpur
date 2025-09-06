@@ -67,9 +67,9 @@ function App() {
           <Route path="/offlinecourses" element={<OffilneCourses />} />
           <Route path="/OnilneCourses" element={<OnlineCourses />} />
           <Route path="/admin" element={<Admin />} />
-          <Route path="//inquiries" element={<Inquiries/>} />
-          <Route path="/admission" element={<Admission />} />
-          <Route path="/donationdetails" element={<Donationdetails/>} />
+          <Route path="/admin/inquiries" element={<Inquiries/>} />
+          <Route path="/admin/admission" element={<Admission />} />
+          <Route path="/admin/donationdetails" element={<Donationdetails/>} />
         </Routes>
       </Layout>
     </Router>
