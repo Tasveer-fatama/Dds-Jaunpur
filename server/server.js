@@ -39,7 +39,7 @@ app.use("/api/admission", admissionRoutes);
 app.use("/api/admin", adminRoutes);
 
 // Server listen
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT ;
 app.listen(PORT, () => {
   console.log(`🚀 Server running in ${process.env.NODE_ENV} mode on port ${PORT}`);
 });
