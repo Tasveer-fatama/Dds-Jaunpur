@@ -76,7 +76,7 @@ export default function Dashboard() {
         </a>
 
         <a
-          href="/admin/admissions"
+          href="/admin/admission"
           className="bg-red-600 p-6 rounded-xl text-center cursor-pointer hover:bg-black transition block"
         >
           <h3 className="text-xl font-bold">Admission Details</h3>
@@ -84,7 +84,7 @@ export default function Dashboard() {
         </a>
 
         <a
-          href="/admin/donations"
+          href="/admin/donationdetails"
           className="bg-red-600 p-6 rounded-xl text-center cursor-pointer hover:bg-black transition block"
         >
           <h3 className="text-xl font-bold">Donation Details</h3>
