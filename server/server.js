@@ -25,7 +25,7 @@ connectDB();
 
 // Middlewares
 app.use(cors({
-  origin: "http://localhost:5173",
+  origin: "https://www.ddsgroupofinstitution.com" ,
   methods: ["GET", "POST"],
   credentials: true,
 }));
