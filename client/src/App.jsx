@@ -33,7 +33,7 @@ function Layout({ children }) {
 
    // Social buttons data
   const socialLinks = [
-    { icon: <FaWhatsapp />, url: "https://wa.me/9918850293", bg: "#25D366" },
+    { icon: <FaWhatsapp />, url: "https://wa.me/919918850293", bg: "#25D366" },
     { icon: <FaFacebookF />, url: "https://facebook.com/yourpage", bg: "#1877F2" },
     { icon: <FaInstagram />, url: "https://instagram.com/yourpage", bg: "#C13584" },
     { icon: <FaYoutube />, url: "https://youtube.com/yourchannel", bg: "#FF0000" },
