@@ -7,10 +7,10 @@ const Companies = () => {
         {/* Heading */}
         <div className="text-start border-l-8 border-red-600 pl-4">
           <h2 className="text-4xl font-bold text-black sm:text-5xl uppercase">
-            DDS The Group of Institutions
+            DDS The Group of Institution
           </h2>
           <p className="mt-4 text-lg text-gray-800 max-w-4xl">
-            DDS The Group of Institutions, Jaunpur – a trusted name for{" "}
+            DDS The Group of Institution, Jaunpur – a trusted name for{" "}
             <span className="font-semibold text-black">
               English Communication
             </span>{" "}
@@ -107,7 +107,7 @@ const Companies = () => {
           {/* Right Side Image */}
           <div className="mt-10 lg:mt-0 flex justify-center">
             <img
-              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRd-T-CoFmeOPgnWMdSWUHyGenfnFeY8-swGYOOiDJsa61PeTA8ZMBvNotssBUDSx5x2HQ&usqp=CAU" // public folder me image ka path
+              src="/about.png"// public folder me image ka path
               alt="DDS Group"
               className="rounded-xl shadow-xl border-4 border-red-600 w-full max-w-lg"
             />

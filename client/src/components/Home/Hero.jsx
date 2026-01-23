@@ -1,199 +1,198 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useRef, useState } from "react";
+import ddsLogo from "/ddslogo.png"; // 👈 path adjust 
 
 const HeroSection = () => {
+  const heroRef = useRef(null);
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
     setIsVisible(true);
-    
-    // Custom CSS dynamically added
-    const style = document.createElement('style');
-    style.textContent = `
-      @keyframes blob {
-        0% { transform: translate(0px, 0px) scale(1); }
-        33% { transform: translate(30px, -50px) scale(1.1); }
-        66% { transform: translate(-20px, 20px) scale(0.9); }
-        100% { transform: translate(0px, 0px) scale(1); }
+
+    const handleResize = () => {
+      if (window.innerWidth < 768 && heroRef.current) {
+        heroRef.current.style.paddingTop = "70px";
+      } else if (heroRef.current) {
+        heroRef.current.style.paddingTop = "0px";
       }
+    };
+
+    handleResize();
+    window.addEventListener("resize", handleResize);
+
+    const style = document.createElement("style");
+    style.innerHTML = `
       @keyframes float {
-        0% { transform: translateY(0px); }
-        50% { transform: translateY(-10px); }
-        100% { transform: translateY(0px); }
+        0%,100% { transform: translateY(0); }
+        50% { transform: translateY(-14px); }
       }
-      @keyframes pulse {
-        0% { transform: scale(1); opacity: 1; }
-        50% { transform: scale(1.05); opacity: 0.8; }
-        100% { transform: scale(1); opacity: 1; }
+      @keyframes gradientMove {
+        0% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+        100% { background-position: 0% 50%; }
       }
-      @keyframes shimmer {
-        0% { background-position: -1000px 0; }
-        100% { background-position: 1000px 0; }
+      .animate-float { animation: float 8s ease-in-out infinite; }
+      .animate-gradient {
+        background-size: 400% 400%;
+        animation: gradientMove 12s ease infinite;
       }
-      .animate-blob {
-        animation: blob 7s infinite;
+      .text-glow {
+        text-shadow: 0 0 22px rgba(239,68,68,.35);
       }
-      .animate-float {
-        animation: float 6s ease-in-out infinite;
-      }
-      .animate-pulse-slow {
-        animation: pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-      }
-      .animate-shimmer {
-        animation: shimmer 3s infinite linear;
-        background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.2) 50%, rgba(255,255,255,0) 100%);
-        background-size: 1000px 100%;
-      }
-      .animation-delay-2000 {
-        animation-delay: 2s;
-      }
-      .animation-delay-4000 {
-        animation-delay: 4s;
+      .glass-hover:hover {
+        box-shadow: 0 20px 45px rgba(239,68,68,.18);
+        backdrop-filter: blur(14px);
       }
     `;
     document.head.appendChild(style);
-    
+
     return () => {
       document.head.removeChild(style);
+      window.removeEventListener("resize", handleResize);
     };
   }, []);
 
   return (
-    <div className="relative flex items-center justify-center bg-gradient-to-b from-gray-900 to-black overflow-hidden pt-16 min-h-screen">
-      {/* Animated Background Elements */}
-      <div className="absolute inset-0 z-0">
-        <div className="absolute top-0 left-0 w-48 h-48 md:w-72 md:h-72 bg-red-600 rounded-full mix-blend-soft-light filter blur-3xl opacity-30 animate-blob"></div>
-        <div className="absolute top-0 right-0 w-48 h-48 md:w-72 md:h-72 bg-red-700 rounded-full mix-blend-soft-light filter blur-3xl opacity-30 animate-blob animation-delay-2000"></div>
-        <div className="absolute bottom-0 left-1/4 w-48 h-48 md:w-72 md:h-72 bg-red-800 rounded-full mix-blend-soft-light filter blur-3xl opacity-30 animate-blob animation-delay-4000"></div>
-      </div>
+    <section
+      ref={heroRef}
+      className="relative overflow-hidden bg-gradient-to-br from-white via-red-50 to-white"
+    >
+      {/* 🔴 DDS Watermark Background */}
+      <div
+        className="absolute inset-0 z-0 pointer-events-none opacity-[0.040]"
+        style={{
+          backgroundImage: `url(${ddsLogo})`,
+          backgroundRepeat: "repeat",
+          backgroundSize: "120px 120px",
+        }}
+      />
 
-      {/* Floating Particles */}
-      <div className="absolute inset-0 z-0">
-        {[...Array(15)].map((_, i) => (
-          <div
-            key={i}
-            className="absolute w-2 h-2 md:w-3 md:h-3 bg-red-400 rounded-full opacity-20"
-            style={{
-              top: `${Math.random() * 100}%`,
-              left: `${Math.random() * 100}%`,
-              animation: `float ${6 + Math.random() * 10}s ease-in-out infinite`,
-              animationDelay: `${Math.random() * 5}s`
-            }}
-          ></div>
-        ))}
-      </div>
+      {/* Decorative blobs */}
+      <div className="absolute top-0 right-0 w-72 h-72 bg-red-200/30 rounded-full blur-3xl" />
+      <div className="absolute bottom-0 left-0 w-96 h-96 bg-red-100/30 rounded-full blur-3xl" />
 
-      {/* 3D Floating Elements */}
-      <div className="hidden md:block absolute top-1/4 left-10 transform -translate-y-1/2 z-10">
-        <div className="w-12 h-12 md:w-16 md:h-16 bg-gradient-to-br from-red-500 to-red-700 rounded-lg transform rotate-12 transition-all duration-700 hover:rotate-45 hover:scale-125 shadow-2xl animate-float">
-          <div className="flex items-center justify-center h-full text-white font-bold text-xs md:text-sm">DDS</div>
-        </div>
-      </div>
+      <div className="relative z-10 max-w-7xl mx-auto px-4 py-10 md:py-20">
+        {/* HERO CONTENT */}
+        <div
+          className={`transition-all duration-1000 ${
+            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
+          }`}
+        >
+          <h1 className="font-extrabold leading-tight text-3xl sm:text-4xl md:text-6xl xl:text-7xl mb-6">
+            <span className="block text-gray-900">Master</span>
+            <span className="block bg-gradient-to-r from-red-500 to-red-700 bg-clip-text text-transparent text-glow">
+              English & Computer Skills
+            </span>
+          </h1>
 
-      <div className="hidden md:block absolute top-1/3 right-10 md:right-16 transform -translate-y-1/2 z-10">
-        <div className="w-14 h-14 md:w-20 md:h-20 bg-gradient-to-br from-white to-gray-300 rounded-full transform -rotate-12 transition-all duration-700 hover:rotate-12 hover:scale-125 shadow-2xl animate-float animation-delay-2000">
-          <div className="flex items-center justify-center h-full text-red-700 font-bold text-xs md:text-sm">EN</div>
-        </div>
-      </div>
+          <p className="max-w-3xl text-gray-700 text-sm sm:text-base md:text-xl mb-8 bg-white/70 backdrop-blur-md p-4 md:p-6 rounded-2xl border border-red-100 shadow-sm">
+            Transform your career with{" "}
+            <span className="font-bold text-red-700">
+              D.D.S. Institute, Jaunpur
+            </span>
+            . Industry-ready courses, expert faculty & placement assistance.
+          </p>
 
-      <div className="hidden md:block absolute bottom-1/4 left-1/3 transform translate-y-1/2 z-10">
-        <div className="w-10 h-10 md:w-14 md:h-14 bg-gradient-to-br from-red-700 to-red-900 rounded-md transform rotate-45 transition-all duration-700 hover:-rotate-45 hover:scale-125 shadow-2xl animate-float animation-delay-4000">
-          <div className="flex items-center justify-center h-full text-white font-bold text-xs">IT</div>
-        </div>
-      </div>
-
-      {/* Main Content */}
-      <div className="relative z-10 container mx-auto px-4 py-8 md:py-16 flex items-center justify-center">
-        <div className="flex flex-col md:flex-row items-center justify-between w-full max-w-6xl">
-          {/* Text Content */}
-          <div className="w-full md:w-1/2 text-center md:text-left mb-8 md:mb-0 md:pr-8">
-            <div className={`transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-              <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold mb-4 md:mb-6">
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-400 to-red-500">Learn English</span>
-                <span className="text-white block mt-2">& Computer Skills</span>
-              </h1>
-              
-              <p className="text-lg md:text-xl text-gray-300 mb-6 md:mb-8">
-                At <span className="font-semibold text-red-400">DDS Institute of Jaunpur</span>, we transform your career aspirations into reality with industry-relevant courses and expert guidance.
-              </p>
-              
-            <div className="flex flex-col sm:flex-row gap-3 md:gap-4 transition-all duration-1000 delay-300">
-  <a 
-    href="/OfflineCourses" 
-    className="px-6 py-3 md:px-8 md:py-4 bg-gradient-to-r from-red-600 to-red-700 text-white font-bold rounded-lg transform transition-all duration-300 hover:from-red-500 hover:to-red-600 hover:scale-105 hover:shadow-xl shadow-lg shadow-red-900/30 relative overflow-hidden group"
-  >
-    <span className="relative z-10">Explore Courses</span>
-    <div className="absolute inset-0 animate-shimmer"></div>
-  </a>
-
-  <a 
-    href="/InquiryForm" 
-    className="px-6 py-3 md:px-8 md:py-4 bg-transparent border-2 border-red-500 text-white font-bold rounded-lg transform transition-all duration-300 hover:bg-red-500/10 hover:scale-105 shadow-lg shadow-red-900/20"
-  >
-    Contact Us
-  </a>
-</div>
-
-
-              {/* Stats */}
-              <div className="flex flex-wrap justify-center md:justify-start gap-4 md:gap-6 mt-8 md:mt-12">
-                <div className="text-center">
-                  <div className="text-2xl md:text-3xl font-bold text-red-400"> 1 Lakh+</div>
-                  <div className="text-gray-400 text-sm">Students Trained</div>
-                </div>
-                <div className="text-center">
-                  <div className="text-2xl md:text-3xl font-bold text-red-400">95%</div>
-                  <div className="text-gray-400 text-sm">Placement Rate</div>
-                </div>
-                <div className="text-center">
-                  <div className="text-2xl md:text-3xl font-bold text-red-400">25+</div>
-                  <div className="text-gray-400 text-sm">Years Experience</div>
-                </div>
-              </div>
-            </div>
+          {/* CTA */}
+          <div className="flex flex-col sm:flex-row gap-4 mb-10">
+            <a
+              href="/OfflineCourses"
+              className="px-8 py-4 rounded-xl font-bold text-white bg-gradient-to-r from-red-600 to-red-700 hover:shadow-2xl hover:-translate-y-1 transition-all duration-300"
+            >
+              🚀 Explore Courses
+            </a>
+            <a
+              href="/InquiryForm"
+              className="px-8 py-4 rounded-xl font-bold border-2 border-red-600 text-red-600 hover:bg-red-600 hover:text-white hover:-translate-y-1 transition-all duration-300"
+            >
+              🎯 Free Consultation
+            </a>
           </div>
 
-          {/* Course Card */}
-          <div className="w-full md:w-1/2 transition-all duration-1000 delay-500">
-            <div className="relative mx-auto max-w-md">
-              <div className="absolute -inset-2 bg-gradient-to-r from-red-600 to-red-700 rounded-2xl transform rotate-3 blur-xl opacity-30 animate-pulse-slow"></div>
-              <div className="relative bg-gray-800 rounded-2xl p-6 transform transition-all duration-700 hover:rotate-0 shadow-2xl border border-gray-700 overflow-hidden">
-                <div className="absolute top-0 right-0 w-24 h-24 bg-red-900/30 rounded-bl-full"></div>
-                <div className="absolute bottom-0 left-0 w-16 h-16 bg-red-900/30 rounded-tr-full"></div>
-                
-                <div className="relative border border-red-500/30 rounded-xl p-5 bg-gradient-to-b from-gray-900 to-gray-800">
-                  <h3 className="text-xl font-bold text-white mb-4 text-center">Our Featured Courses</h3>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                    {[
-                      "English Speaking",
-                      "Web Development",
-                      "ADCA",
-                      "Graphic Design",
-                      "DCA",
-                      "‘O’ Level"
-                    ].map((course, index) => (
-                      <div key={index} className="flex items-center transition-all duration-300 hover:translate-x-1 group">
-                        <div className="w-5 h-5 bg-gradient-to-r from-red-600 to-red-700 rounded-full flex items-center justify-center mr-2 shadow-md flex-shrink-0">
-                          <svg className="w-2 h-2 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
-                          </svg>
-                        </div>
-                        <span className="text-gray-300 text-sm group-hover:text-white">{course}</span>
-                      </div>
-                    ))}
+          {/* STATS */}
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 max-w-4xl">
+            {[
+              { label: "Students", value: "1,00,000+", icon: "🎓" },
+              { label: "Placement", value: "95%", icon: "⭐" },
+              { label: "Years Experience", value: "15+", icon: "🏆" },
+            ].map((item, i) => (
+              <div
+                key={i}
+                className="glass-hover bg-white/80 backdrop-blur-md p-5 rounded-2xl border border-red-100 flex items-center gap-4 transition-all duration-300"
+              >
+                <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-red-600 to-red-800 text-white flex items-center justify-center text-2xl">
+                  {item.icon}
+                </div>
+                <div>
+                  <div className="text-2xl font-bold text-gray-900">
+                    {item.value}
                   </div>
-                  <div className="mt-5 bg-gradient-to-r from-red-900/50 to-red-800/50 p-3 rounded-lg border border-red-700/30">
-                    <p className="text-red-300 text-sm flex items-center justify-center">
-                      <span className="inline-block mr-2">🎯</span> 
-                      100% Job Placement Assistance
-                    </p>
+                  <div className="text-gray-600 text-sm">
+                    {item.label}
                   </div>
                 </div>
               </div>
+            ))}
+          </div>
+        </div>
+
+        {/* COURSES CARD */}
+        <div className="mt-16 grid lg:grid-cols-2 gap-10 items-start">
+          <div className="bg-white/90 backdrop-blur-md rounded-3xl p-6 border-2 border-red-200 shadow-xl">
+            <h3 className="text-2xl font-bold text-center mb-6">
+              Launch Your{" "}
+              <span className="text-red-600">Dream Career</span>
+            </h3>
+
+            <div className="grid sm:grid-cols-2 gap-3">
+              {[
+                "English Speaking",
+                "Web Development",
+                "Graphic Design",
+                "ADCA",
+                "Tally ERP",
+                "Digital Marketing",
+              ].map((c, i) => (
+                <div
+                  key={i}
+                  className="p-4 rounded-xl bg-red-50 border border-red-100 hover:shadow-md hover:-translate-y-1 transition-all duration-300"
+                >
+                  <div className="font-bold text-gray-800">{c}</div>
+                  <div className="text-xs text-gray-600">
+                    Industry Focused
+                  </div>
+                </div>
+              ))}
             </div>
+
+            <div className="mt-6 rounded-xl p-4 text-white text-center bg-gradient-to-r from-red-600 to-red-700 animate-gradient">
+              100% Placement Assistance • Industry Tie-ups
+            </div>
+          </div>
+
+          {/* TRUST */}
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
+            {[
+              "Govt Certified",
+              "ISO Certified",
+              "Expert Faculty",
+              "Modern Labs",
+              "Flexible Timing",
+              "Career Support",
+            ].map((t, i) => (
+              <div
+                key={i}
+                className="bg-white/80 backdrop-blur-md p-4 rounded-xl border border-red-100 text-center hover:-translate-y-1 transition-all duration-300"
+              >
+                <div className="text-red-600 font-bold mb-1">✔</div>
+                <div className="text-xs font-semibold text-gray-800">
+                  {t}
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </div>
-    </div>
+    </section>
   );
 };
 

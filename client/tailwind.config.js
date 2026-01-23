@@ -14,6 +14,9 @@ content: [
       }
     },
   },
+   animation: {
+    'fade-in-right': 'fade-in-right 0.6s ease-out',
+  },
   plugins: [],
 }
 
