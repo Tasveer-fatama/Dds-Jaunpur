@@ -50,7 +50,7 @@ function Layout({ children }) {
 
           {/* 🟢 Social floating buttons */}
        {/* 🟢 Social floating buttons on the right */}
-    // Simpler version without tooltips
+  
 {/* 🟢 Social floating buttons on the right - Enhanced */}
 {!isAdminPage && (
   <div className="fixed right-4 md:right-6 top-1/2 -translate-y-1/2 flex flex-col gap-4 z-50 animate-fade-in-right">
