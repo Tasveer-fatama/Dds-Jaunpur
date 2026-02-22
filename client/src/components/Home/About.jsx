@@ -7,10 +7,10 @@ const Companies = () => {
         {/* Heading */}
         <div className="text-start border-l-8 border-red-600 pl-4">
           <h2 className="text-4xl font-bold text-black sm:text-5xl uppercase">
-            DDS The Group of Institution
+            DDS Group of Institution
           </h2>
           <p className="mt-4 text-lg text-gray-800 max-w-4xl">
-            DDS The Group of Institution, Jaunpur – a trusted name for{" "}
+            DDS Group of Institution, Jaunpur – a trusted name for{" "}
             <span className="font-semibold text-black">
               English Communication
             </span>{" "}
@@ -19,7 +19,7 @@ const Companies = () => {
               Computer Education
             </span>
             . With{" "}
-            <span className="text-red-600 font-bold">15+ years of excellence</span>, 
+            <span className="text-red-600 font-bold">20+ years of excellence</span>, 
             we empower students with practical knowledge and career-focused skills.
           </p>
         </div>

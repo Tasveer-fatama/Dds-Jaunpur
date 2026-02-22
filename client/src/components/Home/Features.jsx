@@ -22,10 +22,10 @@ const features = [
       "Industry & Govt.-certified courses: O Level, ADCA, CCC, Tally, Java, Python & more.",
   },
   {
-    title: "15+ Years of Excellence",
+    title: "20+ Years of Excellence",
     icon: <FaGraduationCap className="w-10 h-10 text-red-600" />,
     description:
-      "DDS The Group of Institutions has been transforming students’ futures with quality education for over 15 years.",
+      "DDS Group of Institution has been transforming students’ futures with quality education for over 20 years.",
   },
   {
     title: "Career-Focused Training",
@@ -115,13 +115,13 @@ const DDSFeatures = () => {
         {/* CONTENT */}
         <div className="md:col-span-2 bg-white/90 backdrop-blur-lg rounded-3xl p-8 shadow-xl border border-red-100">
           <h2 className="text-3xl md:text-5xl font-extrabold text-red-600 mb-4">
-            DDS The Group of Institutions
+            DDS Group of Institution
           </h2>
 
           <p className="text-gray-700 text-lg leading-relaxed mb-10">
             At{" "}
             <span className="font-bold text-red-600">
-              DDS Group of Institutions
+              DDS Group of Institution
             </span>
             , we empower students with
             <span className="font-semibold text-red-600">
@@ -134,7 +134,7 @@ const DDSFeatures = () => {
               Computer Education
             </span>
             , and career-focused training. With{" "}
-            <strong>15+ years of excellence</strong>, DDS ensures global exposure
+            <strong>20+ years of excellence</strong>, DDS ensures global exposure
             and recognized certifications.
           </p>
 

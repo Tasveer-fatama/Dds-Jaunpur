@@ -10,9 +10,9 @@ const Footer = () => {
           
           {/* Institution Info */}
           <div className="space-y-4">
-            <h3 className="text-2xl font-bold text-red-600">DDS of Institutions</h3>
+            <h3 className="text-2xl font-bold text-red-600">DDS group of Institution</h3>
             <p className="text-gray-300 text-sm sm:text-base">
-              Providing quality education in English Communication and Computer Education for over 25 years.
+              Providing quality education in English Communication and Computer Education for over 20 years.
             </p>
             <div className="flex flex-wrap gap-3 text-lg">
               <a href="#" className="hover:text-red-600 transition-colors"><FaFacebook /></a>

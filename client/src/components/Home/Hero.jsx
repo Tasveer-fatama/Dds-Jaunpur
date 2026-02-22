@@ -77,19 +77,18 @@ const HeroSection = () => {
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
           }`}
         >
-          <h1 className="font-extrabold leading-tight text-3xl sm:text-4xl md:text-6xl xl:text-7xl mb-6">
-            <span className="block text-gray-900">Master</span>
-            <span className="block bg-gradient-to-r from-red-500 to-red-700 bg-clip-text text-transparent text-glow">
-              English & Computer Skills
-            </span>
-          </h1>
-
-          <p className="max-w-3xl text-gray-700 text-sm sm:text-base md:text-xl mb-8 bg-white/70 backdrop-blur-md p-4 md:p-6 rounded-2xl border border-red-100 shadow-sm">
+        <h1 className="font-extrabold leading-[1.25] text-3xl sm:text-4xl md:text-6xl xl:text-7xl mb-12">
+  <span className="block text-gray-900">Master of</span>
+  <span className="block bg-gradient-to-r from-red-500 to-red-700 bg-clip-text text-transparent pb-3">
+    English & Computer Skills
+  </span>
+</h1>
+ <p className="max-w-4xl text-gray-700 text-sm sm:text-base md:text-xl mb-8 bg-white/70 backdrop-blur-md p-4 md:p-6 rounded-2xl border border-red-100 shadow-sm">
             Transform your career with{" "}
             <span className="font-bold text-red-700">
-              D.D.S. Institute, Jaunpur
+              DDS Group of institution
             </span>
-            . Industry-ready courses, expert faculty & placement assistance.
+            <p>  Industry-ready courses, expert faculty & placement assistance.</p>
           </p>
 
           {/* CTA */}
@@ -113,7 +112,7 @@ const HeroSection = () => {
             {[
               { label: "Students", value: "1,00,000+", icon: "🎓" },
               { label: "Placement", value: "95%", icon: "⭐" },
-              { label: "Years Experience", value: "15+", icon: "🏆" },
+              { label: "Years Experience", value: "20+", icon: "🏆" },
             ].map((item, i) => (
               <div
                 key={i}
@@ -140,7 +139,7 @@ const HeroSection = () => {
           <div className="bg-white/90 backdrop-blur-md rounded-3xl p-6 border-2 border-red-200 shadow-xl">
             <h3 className="text-2xl font-bold text-center mb-6">
               Launch Your{" "}
-              <span className="text-red-600">Dream Career</span>
+              <span className="text-red-600">Dream's & Career</span>
             </h3>
 
             <div className="grid sm:grid-cols-2 gap-3">
@@ -149,7 +148,7 @@ const HeroSection = () => {
                 "Web Development",
                 "Graphic Design",
                 "ADCA",
-                "Tally ERP",
+                "Accounting",
                 "Digital Marketing",
               ].map((c, i) => (
                 <div
@@ -178,6 +177,9 @@ const HeroSection = () => {
               "Modern Labs",
               "Flexible Timing",
               "Career Support",
+              "campus selection",
+              "job consultency services",
+              ""
             ].map((t, i) => (
               <div
                 key={i}

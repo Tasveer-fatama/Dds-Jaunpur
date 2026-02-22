@@ -13,9 +13,9 @@ const Banner = () => {
     {
       title: "Message from the Director",
       name: "Mr. Rakesh Sharma",
-      role: "Director, DDS Institution",
-      img: "https://randomuser.me/api/portraits/men/32.jpg",
-      content: `At DDS Institution, we believe in empowering students with 
+      role: "Director, DDS Group of Institution",
+      img: "/Director.jpeg",
+      content: `At DDS Group of Institution, we believe in empowering students with 
       knowledge and practical skills that prepare them for the future. 
       Our mission is to provide quality education in English and Computer studies.`,
     },
@@ -120,7 +120,7 @@ const Banner = () => {
             <p className="mb-4 font-light">
               Established with a vision to transform education,{" "}
               <span className="font-semibold text-red-600">
-                DDS The Group of Institutions
+                DDS Group of Institution
               </span>{" "}
               has emerged as a trusted hub for academic excellence and
               innovation. With a commitment to nurturing talent and providing
