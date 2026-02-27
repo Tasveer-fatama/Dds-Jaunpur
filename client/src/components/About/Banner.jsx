@@ -82,12 +82,7 @@ const Banner = () => {
   image: "/nahid.jpeg",
   message: "Nahid Parveen is an important member of the coordination and staff team at DDS Group of Institution. Her responsible work approach and cooperation with colleagues help ensure that daily activities run smoothly and efficiently."
 },
-{
-  name: "Mahroba Parveen",
-  role: "Coordinator & Staff",
-  image: "/mahroba.jpeg",
-  message: "Mahroba Parveen contributes as a coordinator and staff member with dedication and sincerity. Her efforts support the management team in maintaining discipline, organization, and a supportive learning atmosphere for students at DDS Group of Institution."
-},
+
 {
   name: "Rubi Yadav",
   role: "Coordinator & Staff",
