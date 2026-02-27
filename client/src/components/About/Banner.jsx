@@ -9,36 +9,29 @@ const Banner = () => {
     AOS.init({ duration: 1000, once: true });
   }, []);
 
-  const messages = [
-    {
-      title: "Message from the Director",
-      name: "Mr. Rakesh Sharma",
-      role: "Director, DDS Group of Institution",
-      img: "/Director.jpeg",
-      content: `At DDS Group of Institution, we believe in empowering students with 
-      knowledge and practical skills that prepare them for the future. 
-      Our mission is to provide quality education in English and Computer studies.`,
-    },
-    {
-      title: "Message from the CEO",
-      name: "Ms. Priya Verma",
-      role: "CEO, DDS Institution",
-      img: "https://randomuser.me/api/portraits/women/44.jpg",
-      content: `Education is not just about academics, it is about building confidence, 
-      values, and lifelong learning habits. At DDS Institution, our vision is 
-      to create a platform where students gain the right balance of theory and practice.`,
-    },
-    {
-      title: "Message from the Manager",
-      name: "Mr. Anil Singh",
-      role: "Manager, DDS Institution",
-      img: "https://randomuser.me/api/portraits/men/65.jpg",
-      content: `We at DDS Institution focus on a student-centric approach. 
-      Every learner is unique, and our responsibility is to guide them with 
-      personalized attention, structured learning modules, and real-world exposure.`,
-    },
-  ];
- 
+  const leadership = [
+ {
+  name: "Mr. D. P. Singh",
+  role: "Director & Founder",
+  image: "/directorsir1.jpeg",
+  message: "At DDS Group of Institution, our aim is to provide quality education and build strong values among students. We encourage every student to learn, grow, and achieve their dreams with confidence. With dedicated teachers and a positive environment, we strive to prepare our students for a bright and successful future."
+},
+ {
+  name: "Mr. Gurupal Singh",
+  role: "CEO & Founder Member",
+  image: "/Ceo.jpeg",
+  message: "As the CEO and Founder Member of DDS Group of Institution, my vision is to provide quality education and a positive learning environment. We aim to inspire students to develop knowledge, confidence, and strong values so they can achieve their goals and contribute to a better future."
+},
+ {
+  name: "Arti Singh",
+  role: "Manager",
+  image: "/Artimam.jpeg",
+  message: "At DDS Group of Institution, we focus on creating a supportive and disciplined environment where students can learn and grow with confidence. Our goal is to guide every student toward success by encouraging dedication, teamwork, and continuous learning so they can build a bright and successful future."
+}
+];
+
+
+  const team = [...leadership, ];
 
  const [isVisible, setIsVisible] = useState(false);
   useEffect(() => {
@@ -92,17 +85,30 @@ const Banner = () => {
     <>
     <div>
         {/* Banner Section */}
-      <div
-        className="relative w-full h-[300px] md:h-[400px] flex items-center justify-center bg-cover bg-center text-white bg-black"
-      
-      >
-        <div className="absolute inset-0 bg-gradient-to-r from-black/70 to-black/50"></div>
-        <div className="relative z-10 max-w-4xl px-6 text-center">
-          <h1 className="text-3xl md:text-5xl font-bold">
-            <span className="border-l-4 border-red-500 pl-2">About DDS</span>
-          </h1>
-        </div>
-      </div>
+     <div className="relative w-full h-[300px] md:h-[400px] flex items-center justify-center text-white overflow-hidden">
+
+  {/* Background Video */}
+  <video
+    autoPlay
+    loop
+    muted
+    playsInline
+    className="absolute inset-0 w-full h-full object-cover"
+  >
+    <source src="/bgvideo.mp4" type="video/mp4" />
+  </video>
+
+  {/* Gradient Overlay */}
+  <div className="absolute inset-0 bg-gradient-to-r from-black/70 to-black/50"></div>
+
+  {/* Content */}
+  <div className="relative z-10 max-w-4xl px-6 text-center">
+    <h1 className="text-3xl md:text-5xl font-bold">
+      <span className="border-l-4 border-red-500 pl-2">About DDS</span>
+    </h1>
+  </div>
+
+</div>
     </div>
      <div>
    
@@ -124,7 +130,7 @@ const Banner = () => {
               </span>{" "}
               has emerged as a trusted hub for academic excellence and
               innovation. With a commitment to nurturing talent and providing
-              quality education, DDS has become a preferred destination for
+              quality education, DDS group of institution has become a preferred destination for
               students seeking holistic growth. Our programs are designed to
               blend knowledge with practical skills, preparing students for the
               challenges of the modern world.
@@ -157,7 +163,7 @@ const Banner = () => {
                 </h2>
                 <p className="font-normal text-xl leading-8 text-gray-600 max-lg:text-center max-w-2xl mx-auto">
                   To empower students with knowledge, creativity, and confidence
-                  by offering world-class academic programs. At DDS, we strive
+                  by offering world-class academic programs. At DDS group of institution, we strive
                   to create leaders who are not only professionally skilled but
                   also socially responsible, ethical, and compassionate human
                   beings.
@@ -196,54 +202,73 @@ const Banner = () => {
                 </p>
               </div>
             </div>
-            <div
-              className="img-box"
-              data-aos="fade-left"
-            >
-              <img
-                src="https://img.freepik.com/premium-photo/man-touching-mission-text-screen_218381-4228.jpg?semt=ais_hybrid&w=740&q=80"
-                alt="DDS Mission"
-                className="hidden lg:block object-cover rounded-lg"
-              />
-            </div>
+<div
+  className="img-box"
+  data-aos="fade-left"
+>
+  <video autoPlay loop muted playsInline>
+    <source src="/mission.mp4" type="video/mp4" />
+    Your browser does not support the video tag.
+  </video>
+</div>
           </div>
         </div>
       </section>
 
     </div>
-  <div className="bg-gray-100 py-10">
-      <div className="max-w-6xl mx-auto space-y-8 px-4">
-        {messages.map((msg, index) => (
+<div className="bg-gradient-to-b from-gray-50 to-gray-100 py-24 px-6">
+
+      {/* Heading */}
+      <div className="text-center mb-20">
+        <h2 className="text-4xl md:text-5xl font-bold text-gray-800">
+          About Our Team
+        </h2>
+        <p className="text-gray-500 mt-4 text-lg">
+          Meet the people who guide and inspire our organization
+        </p>
+      </div>
+
+      {/* Cards */}
+      <div className="grid lg:grid-cols-3 md:grid-cols-2 gap-12 max-w-7xl mx-auto">
+
+        {team.map((person, index) => (
           <div
             key={index}
-            className="bg-white shadow-lg rounded-lg p-6 flex flex-col md:flex-row items-center"
-            data-aos={index % 2 === 0 ? "fade-up" : "fade-in"}
+            className="group bg-white rounded-3xl overflow-hidden shadow-xl hover:shadow-2xl transition duration-500 hover:-translate-y-3"
           >
-            {/* Text Section */}
-            <div className="md:w-2/3">
-              <h2 className="text-xl font-bold text-gray-900">{msg.title}</h2>
-              <p className="text-gray-700 mt-4">{msg.content}</p>
-              <p className="text-gray-900 font-semibold mt-6">With warm regards,</p>
-              <p className="font-bold text-gray-900">{msg.name}</p>
-              <p className="font-semibold text-gray-700">{msg.role}</p>
+
+            {/* Image */}
+            <div className="h-80 overflow-hidden">
+              <img
+                src={person.image}
+                alt={person.name}
+                className="w-full h-full object-cover object-top group-hover:scale-110 transition duration-700"
+              />
             </div>
 
-            {/* Image Section */}
-            <div className="md:w-1/3 flex justify-center mt-6 md:mt-0">
-              <div className="text-center">
-                <img
-                  src={msg.img}
-                  alt={msg.name}
-                  className="rounded-full w-40 h-40 object-cover border-4 border-blue-500"
-                />
-                <p className="font-bold text-gray-900 mt-2">{msg.name}</p>
-              </div>
+            {/* Content */}
+            <div className="p-8 text-center">
+
+              <h3 className="text-2xl font-semibold text-gray-800">
+                {person.name}
+              </h3>
+
+              <span className="inline-block mt-3 mb-5 px-5 py-1.5 text-sm font-medium text-white bg-red-600 rounded-full">
+                {person.role}
+              </span>
+
+              <p className="text-gray-600 text-base leading-relaxed">
+                {person.message}
+              </p>
+
             </div>
+
           </div>
         ))}
+
       </div>
+
     </div>
-  
     </>
   )
 }

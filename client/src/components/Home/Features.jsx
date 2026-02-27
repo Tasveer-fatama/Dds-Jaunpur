@@ -48,9 +48,9 @@ const features = [
 ];
 
 const images = [
-  "https://scontent.fvns6-1.fna.fbcdn.net/v/t39.30808-6/514870300_10085353011571454_2746977730487872243_n.jpg?_nc_cat=106&ccb=1-7&_nc_sid=127cfc&_nc_ohc=G9XGN7mQPisQ7kNvwEQyJlk&_nc_oc=AdmFweXGd6glmpeVM0Jg8IL4Gg_y7ziulUit1uGXRyDj07XCIQt5snBGMWXX6ehuFQtHeFRhKI_C30jeVpMuGMgA&_nc_zt=23&_nc_ht=scontent.fvns6-1.fna&_nc_gid=GeWSuIL_ODHlVHALmvZNPw&oh=00_Afo5GKYsYqvJIZAqhp5b8Pw50abrnIxasn2XzHFggHPaaw&oe=69791269",
-  "https://scontent.fvns6-2.fna.fbcdn.net/v/t39.30808-6/514351514_10085192241587531_8262594962582342216_n.jpg?_nc_cat=110&ccb=1-7&_nc_sid=833d8c&_nc_ohc=CKvN9Ggzj20Q7kNvwGHBDyc&_nc_oc=AdnFb8LlMHdtfPNaDFszibTNHN98CD9MYLwbMk7norN_tlWeF3TE_o0tNKIswpVH7t_McteSVErCIo39IBmWK314&_nc_zt=23&_nc_ht=scontent.fvns6-2.fna&_nc_gid=yiiIW-SR_u0-YrIXrI2oxw&oh=00_AfpPKCW0stF_4xGPXiyKyEgvS7ZU4cg-v9q9iH_R0pE0Uw&oe=697916D7",
-  "https://scontent.fvns6-1.fna.fbcdn.net/v/t39.30808-6/490943449_9514857385287689_7149053228765739684_n.jpg?_nc_cat=108&ccb=1-7&_nc_sid=833d8c&_nc_ohc=jECyKZN8kdwQ7kNvwE7uC8j&_nc_oc=AdmIvpa-KfHjr445BWk551mGDTg3h-zaEHs_RJfoWjXbJsGZLgv5BvMzmv_s9fhEr2mQgO4nRl5wOUBbaaO-0C0c&_nc_zt=23&_nc_ht=scontent.fvns6-1.fna&_nc_gid=xp0ZcNi5nhwvZu0bFsrhbw&oh=00_AfosEh4GuxdIfn0_XHsasZ8c0NOr5R244_noUbVLedBgaQ&oe=6978F7BC",
+  "https://scontent.flko10-2.fna.fbcdn.net/v/t39.30808-6/607352070_25394629983550508_7908396149737586342_n.jpg?_nc_cat=104&ccb=1-7&_nc_sid=7b2446&_nc_ohc=htCblqB3jUsQ7kNvwG8yAO_&_nc_oc=AdncM0fFBY1QD6S3Yar81WXEtMGZuT-Tgz4fIgYK7oEp-uQLz5KeBMQ42WVXuyQxC7-_5Cs5POUSd_uR8OA3GvhR&_nc_zt=23&_nc_ht=scontent.flko10-2.fna&_nc_gid=mmcSu30dwZ6ZpZnjpptRww&oh=00_AfsUw_0ys_xV9GVgiz85Xg83029Bedwsb0whhklSYkYCyQ&oe=69A71939",
+  "https://scontent.flko10-2.fna.fbcdn.net/v/t39.30808-6/515303407_10085352871571468_4433373786707507191_n.jpg?_nc_cat=105&ccb=1-7&_nc_sid=13d280&_nc_ohc=6uaYtBFaiZ8Q7kNvwFHdc6y&_nc_oc=AdkakDoRZiKPd0teXWzBRNSW-Nt0EBlv7yL4rvWcWjydrGZkAAVU022KRnvadXyDLesRm58HN5kuLHj9FxiJFE5w&_nc_zt=23&_nc_ht=scontent.flko10-2.fna&_nc_gid=sUyk-qR-14k9SMph8_S6RQ&oh=00_Afvq0yr_ZlZjwE2znli8znttbyb1Eol9IvnCqrvYClA3hQ&oe=69A72185",
+  "https://scontent.flko10-2.fna.fbcdn.net/v/t39.30808-6/488253257_9420826248024137_3314766261188012809_n.jpg?_nc_cat=107&ccb=1-7&_nc_sid=7b2446&_nc_ohc=RVq61SVuBXoQ7kNvwGIKOep&_nc_oc=AdmmCWuq0iWb-8UIY0_0NR0J2McZV3u_fkxQav1Pa0oGJRY_O78Ccuho5_DeERpQexFario5O4o2UyeE-ttVV-pV&_nc_zt=23&_nc_ht=scontent.flko10-2.fna&_nc_gid=MsqRar57w4PFPCyUQJON1w&oh=00_AftOGdAObLBG-yVzwBjoB0EeuB6VwTYqF0um9lpHg9kxAA&oe=69A71A2C",
 ];
 
 const DDSFeatures = () => {
