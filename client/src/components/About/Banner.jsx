@@ -27,6 +27,72 @@ const Banner = () => {
   role: "Manager",
   image: "/Artimam.jpeg",
   message: "At DDS Group of Institution, we focus on creating a supportive and disciplined environment where students can learn and grow with confidence. Our goal is to guide every student toward success by encouraging dedication, teamwork, and continuous learning so they can build a bright and successful future."
+},
+ {
+  name: "Mrs. Suseela Singh",
+  role: "Internal Support & Inspiration",
+  image: "/suseela.jpeg",
+  message: "Mrs. Suseela Singh is a constant source of inspiration and motivation for DDS Group of Institution. Her support, dedication, and positive guidance encourage everyone to work with confidence and commitment. She plays an important role in creating a strong, supportive environment that inspires students and staff to achieve excellence."
+},
+ {
+  name: "Dilruba Parveen",
+  role: "Personal Manager",
+  image: "/dilruba.jpeg",
+  message: "Dilruba Parveen plays an important role as Personal Manager at DDS Group of Institution. She works with dedication and responsibility to support the management and ensure smooth coordination in daily activities. Her commitment and positive approach help maintain an organized and supportive environment for students and staff."
+},
+{
+  name: "Mrs. Sarthi Singh",
+  role: "Founder – IT & Management Team",
+  image: "/Sarthi.jpeg",
+  message: "Mrs. Sarthi Singh plays a key role in the IT and management development of DDS Group of Institution. Her vision and dedication help strengthen the institution’s digital and administrative systems. Through innovation and teamwork, she supports the growth of modern learning and efficient management."
+},
+{
+  name: "Mrs. Anjana Singh",
+  role: "Internal Affairs Advisor",
+  image: "/anjana.jpeg",
+  message: "Mrs. Anjana Singh serves as the Internal Affairs Advisor at DDS Group of Institution. With her guidance and experience, she helps maintain discipline, coordination, and a positive environment within the institution. Her dedication and supportive approach play an important role in strengthening internal management."
+},
+ {
+  name: "Babita Nishad",
+  role: "Coordinator & Staff",
+  image: "/babita.jpeg",
+  message: "Babita Nishad contributes with dedication and responsibility as a coordinator and staff member at DDS Group of Institutions. Her supportive nature and teamwork help maintain smooth academic activities and a positive learning environment for students and staff."
+},
+{
+  name: "Sneha Singh",
+  role: "Coordinator & Staff",
+  image: "/sneha.jpeg",
+  message: "Sneha Singh plays an active role in supporting the coordination and management of daily activities at DDS Group of Institutions. Her commitment, discipline, and positive attitude help create an organized environment that encourages students to learn and grow."
+},
+{
+  name: "Mahruba Parveen",
+  role: "Coordinator & Staff",
+  image: "/mahruba.jpeg",
+  message: "Mahruba Parveen works as a dedicated member of the coordination and staff team at DDS Group of Institution. Through her sincere efforts and supportive approach, she contributes to maintaining smooth communication and a cooperative atmosphere within the institution."
+},
+{
+  name: "Jagriti Prajapati",
+  role: "Coordinator & Staff",
+  image: "/jagriti.jpeg",
+  message: "Jagriti Prajapati serves as a coordinator and staff member who supports academic and administrative activities at DDS Group of Institution. Her dedication, teamwork, and positive energy help create a motivating environment for students and the institution."
+},
+{
+  name: "Nahid Parveen",
+  role: "Coordinator & Staff",
+  image: "/nahid.jpeg",
+  message: "Nahid Parveen is an important member of the coordination and staff team at DDS Group of Institution. Her responsible work approach and cooperation with colleagues help ensure that daily activities run smoothly and efficiently."
+},
+{
+  name: "Mahroba Parveen",
+  role: "Coordinator & Staff",
+  image: "/mahroba.jpeg",
+  message: "Mahroba Parveen contributes as a coordinator and staff member with dedication and sincerity. Her efforts support the management team in maintaining discipline, organization, and a supportive learning atmosphere for students at DDS Group of Institution."
+},
+{
+  name: "Rubi Yadav",
+  role: "Coordinator & Staff",
+  image: "/rubi.jpeg",
+  message: "Rubi Yadav is a dedicated member of the coordination and staff team at DDS Group of Institution. With her supportive attitude and responsible work approach, she helps maintain smooth academic activities and a positive environment that encourages students to learn and succeed."
 }
 ];
 
