@@ -1,10 +1,32 @@
 import express from "express";
-import { generatePDF } from "../controlers/certificatecontroller.js";
+
+import {
+ createCertificate,
+ getCertificate,
+ generatePDF
+} from "../controlers/certificatecontroller.js";
+
+import { upload } from "../middleware/upload.js";
 
 const router = express.Router();
 
-// route
-router.get("/pdf/:id", generatePDF);
+// create certificate
+router.post(
+ "/create",
+ upload.single("photo"),
+ createCertificate
+);
 
-// export default
+// search certificate
+router.get(
+ "/get",
+ getCertificate
+);
+
+// generate pdf
+router.get(
+ "/pdf/:id",
+ generatePDF
+);
+
 export default router;

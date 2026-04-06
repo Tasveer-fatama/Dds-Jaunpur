@@ -1,142 +1,340 @@
-import puppeteer from "puppeteer";
-import Certificate from "../model/Certificate.js";
-import path from "path";
-
-export const generatePDF = async (req, res) => {
+export const createCertificate = async (req, res) => {
   try {
+
+    // subjects string ko array me convert
+    let subjects = [];
+
+    if (req.body.subjects) {
+      subjects = JSON.parse(req.body.subjects);
+    }
+
+    const data = {
+      ...req.body,
+      subjects,
+      photo: req.file ? req.file.filename : ""
+    };
+
+    const cert = await Certificate.create(data);
+
+    res.status(201).json(cert);
+
+  } catch (err) {
+
+    res.status(500).json({
+      message: "create error",
+      error: err.message
+    });
+
+  }
+};
+
+
+
+// SEARCH CERTIFICATE
+export const getCertificate = async (req, res) => {
+
+  try {
+
+    const { rollNumber, name, dob } = req.query;
+
+    const cert = await Certificate.findOne({
+      rollNumber,
+      name,
+      dob
+    });
+
+    if (!cert) {
+
+      return res.status(404).json({
+        message: "not found"
+      });
+
+    }
+
+    res.json(cert);
+
+  } catch (err) {
+
+    res.status(500).json({
+      message: err.message
+    });
+
+  }
+
+};
+
+
+
+// GENERATE PDF (2 pages)
+export const generatePDF = async (req, res) => {
+
+  try {
+
     const cert = await Certificate.findById(req.params.id);
 
+    if (!cert) {
+
+      return res.status(404).json({
+        message: "Certificate not found"
+      });
+
+    }
+
+
+    // important for render deployment
+    const baseURL =
+      process.env.BASE_URL ||
+      "https://ddsgroup.onrender.com";
+
+
     const html = `
-    <html>
-    <head>
-    <style>
 
-    body{
-      font-family: Arial;
-      padding:40px;
-    }
+<html>
 
-    .page{
-      width:100%;
-      height:100vh;
-      page-break-after:always;
-      position:relative;
-    }
+<head>
 
-    .logo{
-      text-align:center;
-      font-size:40px;
-      font-weight:bold;
-      color:#b91c1c;
-    }
+<style>
 
-    .title{
-      text-align:center;
-      font-size:30px;
-      margin-top:20px;
-    }
+body{
+font-family: Arial;
+padding:40px;
+}
 
-    .photo{
-      position:absolute;
-      right:50px;
-      top:120px;
-      width:120px;
-    }
+.page{
+width:100%;
+height:100vh;
+page-break-after:always;
+position:relative;
+}
 
-    table{
-      width:100%;
-      border-collapse:collapse;
-      margin-top:40px;
-    }
+.logo{
+text-align:center;
+font-size:42px;
+font-weight:bold;
+color:#991b1b;
+}
 
-    td,th{
-      border:1px solid black;
-      padding:8px;
-    }
+.title{
+text-align:center;
+font-size:28px;
+margin-top:20px;
+}
 
-    </style>
-    </head>
+.photo{
+position:absolute;
+right:60px;
+top:140px;
+width:120px;
+height:140px;
+object-fit:cover;
+border:1px solid black;
+}
 
-    <body>
+.text{
+margin-top:40px;
+font-size:18px;
+line-height:30px;
+}
 
-    <!-- page 1 -->
-    <div class="page">
+table{
+width:100%;
+border-collapse:collapse;
+margin-top:30px;
+}
 
-    <div class="logo">DDS</div>
+td,th{
+border:1px solid black;
+padding:8px;
+text-align:center;
+}
 
-    <div class="title">
-    Certificate
-    </div>
+.heading{
+text-align:center;
+font-size:24px;
+margin-bottom:20px;
+}
 
-    <img src="http://localhost:5000/uploads/${cert.photo}" class="photo"/>
+</style>
 
-    <p>This certificate is awarded to</p>
+</head>
 
-    <h2>${cert.name} S/O ${cert.fatherName}</h2>
+<body>
 
-    <p>Course: ${cert.course}</p>
 
-    <p>Duration: ${cert.duration}</p>
+<!-- PAGE 1 CERTIFICATE -->
 
-    <p>From ${cert.startDate} to ${cert.endDate}</p>
+<div class="page">
 
-    <p>Grade: ${cert.grade}</p>
+<div class="logo">
+DDS GROUP
+</div>
 
-    </div>
+<div class="title">
+CERTIFICATE
+</div>
 
-    <!-- page 2 -->
-    <div class="page">
+<img
+src="${baseURL}/uploads/${cert.photo}"
+class="photo"
+/>
 
-    <h2>Statement of Marks</h2>
 
-    <table>
+<div class="text">
 
-    <tr>
-    <th>Subject</th>
-    <th>Theory</th>
-    <th>Practical</th>
-    <th>Total</th>
-    </tr>
+This is to certify that
 
-    ${cert.subjects.map(s=>`
-    <tr>
-    <td>${s.name}</td>
-    <td>${s.theory}</td>
-    <td>${s.practical}</td>
-    <td>${s.total}</td>
-    </tr>
-    `).join("")}
+<h2>${cert.name}</h2>
 
-    </table>
+S/O ${cert.fatherName}
 
-    <h3>Total Marks: ${cert.totalMarks}</h3>
+has successfully completed
 
-    </div>
+<b>${cert.course}</b>
 
-    </body>
-    </html>
-    `;
+Duration:
+${cert.duration}
 
-    const browser = await puppeteer.launch();
+From
+${cert.startDate}
+to
+${cert.endDate}
+
+Grade:
+<b>${cert.grade}</b>
+
+Issue Date:
+${cert.issueDate}
+
+</div>
+
+</div>
+
+
+
+<!-- PAGE 2 MARKSHEET -->
+
+<div class="page">
+
+<div class="heading">
+
+STATEMENT OF MARKS
+
+</div>
+
+
+<table>
+
+<tr>
+
+<th>Subject</th>
+
+<th>Theory</th>
+
+<th>Practical</th>
+
+<th>Total</th>
+
+</tr>
+
+
+${cert.subjects.map(s => `
+
+<tr>
+
+<td>${s.name}</td>
+
+<td>${s.theory}</td>
+
+<td>${s.practical}</td>
+
+<td>${s.total}</td>
+
+</tr>
+
+`).join("")}
+
+
+
+</table>
+
+
+
+<h3>
+
+Total Marks:
+${cert.totalMarks}
+
+</h3>
+
+
+<h3>
+
+Grade:
+${cert.grade}
+
+</h3>
+
+
+</div>
+
+
+</body>
+
+</html>
+
+`;
+
+
+    const browser = await puppeteer.launch({
+
+      args: ["--no-sandbox"]
+
+    });
+
 
     const page = await browser.newPage();
 
-    await page.setContent(html);
+    await page.setContent(html, {
+
+      waitUntil: "networkidle0"
+
+    });
+
 
     const pdf = await page.pdf({
-      format:"A4"
+
+      format: "A4",
+      printBackground: true
+
     });
+
 
     await browser.close();
 
+
     res.set({
-      "Content-Type":"application/pdf",
-      "Content-Disposition":"attachment; filename=certificate.pdf"
+
+      "Content-Type": "application/pdf",
+
+      "Content-Disposition":
+        "attachment; filename=certificate.pdf"
+
     });
+
 
     res.send(pdf);
 
-  } catch(err) {
-    res.status(500).json(err);
+
+  } catch (err) {
+
+    res.status(500).json({
+
+      message: "pdf error",
+
+      error: err.message
+
+    });
+
   }
+
 };
