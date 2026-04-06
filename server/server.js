@@ -38,7 +38,7 @@ app.use("/api", donationRoutes);
 app.use("/api/inquiry", inquiryroute);
 app.use("/api/admission", admissionRoutes);
 app.use("/api/admin", adminRoutes);
-app.use("/api/certificates",certificateRoutes)
+app.use("/api/certificate",certificateRoutes)
 // Server listen
 const PORT = process.env.PORT ;
 app.listen(PORT, () => {
