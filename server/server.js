@@ -5,6 +5,7 @@ import inquiryroute from "./router/Inquiryroute.js";
 import admissionRoutes from "./router/Inquiryroute.js";
 import donationRoutes from "./router/Inquiryroute.js";
 import adminRoutes from "./router/adminRoutes.js";
+import certificateRoutes from "./router/certificateRoutes.js"
 
 import path from "path";
 import { fileURLToPath } from "url";
@@ -37,7 +38,7 @@ app.use("/api", donationRoutes);
 app.use("/api/inquiry", inquiryroute);
 app.use("/api/admission", admissionRoutes);
 app.use("/api/admin", adminRoutes);
-
+app.use("/api/certificates",certificateRoutes)
 // Server listen
 const PORT = process.env.PORT ;
 app.listen(PORT, () => {

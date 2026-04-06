@@ -24,24 +24,63 @@ export default function Dashboard() {
   }, []);
 
   // ✅ Certificate Upload
-  const handleCertSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      const formData = new FormData();
-      formData.append("name", cert.name);
-      formData.append("roll", cert.roll);
-      formData.append("file", cert.file);
+ const [form,setForm]=useState({
+ name:"",
+ fatherName:"",
+ rollNumber:"",
+ dob:"",
+ course:"",
+ duration:"",
+ startDate:"",
+ endDate:"",
+ issueDate:"",
+ grade:"",
+ totalMarks:"",
+ subjects:[]
+});
 
-      await axios.post("https://ddsgroup.onrender.com/api/certificates/upload", formData, {
-        headers: { "Content-Type": "multipart/form-data" },
-      });
+const [photo,setPhoto]=useState(null);
 
-      alert("Certificate uploaded successfully ✅");
-      setCert({ name: "", roll: "", file: null });
-    } catch (err) {
-      alert(err.response?.data?.message || "Upload failed ❌");
-    }
-  };
+const addSubject=()=>{
+ setForm({
+  ...form,
+  subjects:[
+   ...form.subjects,
+   {name:"",theory:"",practical:"",total:""}
+  ]
+ });
+};
+
+const handleChange=(e)=>{
+ setForm({...form,[e.target.name]:e.target.value});
+};
+
+const handleSubject=(i,e)=>{
+ const newSub=[...form.subjects];
+ newSub[i][e.target.name]=e.target.value;
+ setForm({...form,subjects:newSub});
+};
+
+const submit=async()=>{
+ const fd=new FormData();
+
+ Object.keys(form).forEach(k=>{
+  fd.append(k, JSON.stringify(form[k]));
+ });
+
+ fd.append("photo",photo);
+
+ const res=await axios.post(
+ "https://ddsgroup.onrender.com/api/certificate/create",
+ fd
+ );
+
+ window.open(
+ `https://ddsgroup.onrender.com/api/certificate/pdf/${res.data._id}`
+ );
+
+};
+
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-black via-gray-900 to-red-800 text-white p-6">
@@ -93,41 +132,107 @@ export default function Dashboard() {
       </div>
 
       {/* Certificate Upload */}
-      <div className="bg-white text-black p-6 rounded-xl shadow-lg max-w-xl mx-auto">
-        <h2 className="text-2xl font-bold mb-4 text-center text-red-600">
-          Upload Student Certificate
-        </h2>
-        <form onSubmit={handleCertSubmit} className="space-y-4">
-          <input
-            type="text"
-            placeholder="Student Name"
-            value={cert.name}
-            onChange={(e) => setCert({ ...cert, name: e.target.value })}
-            className="w-full p-3 border rounded"
-            required
-          />
-          <input
-            type="text"
-            placeholder="Roll Number"
-            value={cert.roll}
-            onChange={(e) => setCert({ ...cert, roll: e.target.value })}
-            className="w-full p-3 border rounded"
-            required
-          />
-          <input
-            type="file"
-            onChange={(e) => setCert({ ...cert, file: e.target.files[0] })}
-            className="w-full p-3 border rounded"
-            required
-          />
-          <button
-            type="submit"
-            className="w-full bg-red-600 text-white py-2 px-4 rounded hover:bg-black transition"
-          >
-            Upload Certificate
-          </button>
-        </form>
-      </div>
+    <div className="p-10">
+
+<h1 className="text-2xl font-bold mb-6">
+Admin Panel
+</h1>
+
+<input
+placeholder="Name"
+name="name"
+onChange={handleChange}
+className="input"
+/>
+
+<input
+placeholder="Father Name"
+name="fatherName"
+onChange={handleChange}
+className="input"
+/>
+
+<input
+placeholder="Roll Number"
+name="rollNumber"
+onChange={handleChange}
+className="input"
+/>
+
+<input
+type="date"
+name="dob"
+onChange={handleChange}
+className="input"
+/>
+
+<input
+placeholder="Course"
+name="course"
+onChange={handleChange}
+className="input"
+/>
+
+<input
+placeholder="Duration"
+name="duration"
+onChange={handleChange}
+className="input"
+/>
+
+<input
+type="file"
+onChange={(e)=>setPhoto(e.target.files[0])}
+/>
+
+<button
+onClick={addSubject}
+className="bg-blue-500 text-white px-3 py-1"
+>
+Add Subject
+</button>
+
+{
+form.subjects.map((s,i)=>(
+<div key={i}>
+
+<input
+placeholder="Subject"
+name="name"
+onChange={(e)=>handleSubject(i,e)}
+/>
+
+<input
+placeholder="Theory"
+name="theory"
+onChange={(e)=>handleSubject(i,e)}
+/>
+
+<input
+placeholder="Practical"
+name="practical"
+onChange={(e)=>handleSubject(i,e)}
+/>
+
+<input
+placeholder="Total"
+name="total"
+onChange={(e)=>handleSubject(i,e)}
+/>
+
+</div>
+))
+}
+
+<button
+onClick={submit}
+className="bg-green-600 text-white px-4 py-2 mt-4"
+>
+Generate PDF
+</button>
+
+</div>
+
     </div>
   );
 }
