@@ -25,17 +25,11 @@ dotenv.config({ path: path.join(__dirname, ".env") });
 connectDB();
 
 // Middlewares
-app.use(
-  cors({
-    origin: [
-      "http://localhost:5173",
-      "https://www.ddsgroupofinstitution.com",
-      "https://ddsgroup.onrender.com"
-    ],
-    methods: ["GET", "POST"],
-    credentials: true,
-  })
-);
+app.use(cors({
+  origin: "https://www.ddsgroupofinstitution.com" ,
+  methods: ["GET", "POST"],
+  credentials: true,
+}));
 app.use(express.json());
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
