@@ -1,97 +1,150 @@
-import Certificate  from "../model/Certificate.js";
-import puppeteer from "puppeteer-core";
-import chromium from "@sparticuz/chromium";
+import Certificate from "../model/Certificate.js"
 
-export const createCertificate = async (req, res) => {
-  try {
+import puppeteer from "puppeteer-core"
 
-    // subjects string ko array me convert
-    let subjects = [];
+import chromium from "@sparticuz/chromium"
 
-    if (req.body.subjects) {
-      subjects = JSON.parse(req.body.subjects);
-    }
-
-    const data = {
-      ...req.body,
-      subjects,
-      photo: req.file ? req.file.filename : ""
-    };
-
-    const cert = await Certificate.create(data);
-
-    res.status(201).json(cert);
-
-  } catch (err) {
-
-    res.status(500).json({
-      message: "create error",
-      error: err.message
-    });
-
-  }
-};
+import path from "path"
 
 
 
-// SEARCH CERTIFICATE
-export const getCertificate = async (req, res) => {
+// CREATE DATA
 
-  try {
+export const createCertificate = async (req,res)=>{
 
-    const { rollNumber, name, dob } = req.query;
+try{
 
-    const cert = await Certificate.findOne({
-      rollNumber,
-      name,
-      dob
-    });
+let subjects = []
 
-    if (!cert) {
+if(req.body.subjects){
 
-      return res.status(404).json({
-        message: "not found"
-      });
+subjects =
+JSON.parse(req.body.subjects)
 
-    }
+}
 
-    res.json(cert);
+const cert =
+await Certificate.create({
 
-  } catch (err) {
+ ...req.body,
 
-    res.status(500).json({
-      message: err.message
-    });
+ subjects,
 
-  }
+ photo:
+ req.file
+ ? req.file.filename
+ : ""
 
-};
+})
 
+res.status(201).json(cert)
 
+}
 
-// GENERATE PDF (2 pages)
-export const generatePDF = async (req, res) => {
+catch(err){
 
-  try {
+res.status(500).json({
 
-    const cert = await Certificate.findById(req.params.id);
+message:"create error",
 
-    if (!cert) {
+error:err.message
 
-      return res.status(404).json({
-        message: "Certificate not found"
-      });
+})
 
-    }
+}
+
+}
 
 
-    // important for render deployment
-    const baseURL =
-      process.env.BASE_URL ||
-      "https://ddsgroup.onrender.com";
+
+// SEARCH BY ROLL + DOB
+
+export const getCertificate = async (req,res)=>{
+
+try{
+
+const {
+
+rollNumber,
+
+dob
+
+} = req.query
 
 
-    const html = `
+const cert =
+await Certificate.findOne({
+
+rollNumber,
+
+dob
+
+})
+
+
+if(!cert){
+
+return res.status(404).json({
+
+message:"not found"
+
+})
+
+}
+
+
+res.json(cert)
+
+}
+
+catch(err){
+
+res.status(500).json({
+
+message:err.message
+
+})
+
+}
+
+}
+
+
+
+// GENERATE PDF (2 page only)
+
+export const generatePDF = async (req,res)=>{
+
+try{
+
+const cert =
+await Certificate.findById(
+
+req.params.id
+
+)
+
+if(!cert){
+
+return res.status(404).json({
+
+message:"not found"
+
+})
+
+}
+
+
+const baseURL =
+process.env.BASE_URL
+||
+"https://ddsgroup.onrender.com"
+
+
+
+// HTML DESIGN
+
+const html = `
 
 <html>
 
@@ -99,134 +152,277 @@ export const generatePDF = async (req, res) => {
 
 <style>
 
+
 body{
-font-family: Arial;
-padding:40px;
+
+font-family:Arial;
+
+margin:0;
+
 }
+
+
+
+/* page */
 
 .page{
+
 width:100%;
+
 height:100vh;
+
+padding:40px;
+
+box-sizing:border-box;
+
 page-break-after:always;
+
 position:relative;
+
 }
 
-.logo{
+
+
+/* heading */
+
+.header{
+
 text-align:center;
-font-size:42px;
+
+font-size:40px;
+
 font-weight:bold;
+
 color:#991b1b;
+
 }
+
+
 
 .title{
+
 text-align:center;
+
 font-size:28px;
+
 margin-top:20px;
+
+color:#b91c1c;
+
 }
+
+
 
 .photo{
+
 position:absolute;
+
 right:60px;
-top:140px;
+
+top:150px;
+
 width:120px;
+
 height:140px;
+
 object-fit:cover;
+
 border:1px solid black;
+
 }
+
+
 
 .text{
+
 margin-top:40px;
+
 font-size:18px;
+
 line-height:30px;
+
 }
+
+
 
 table{
+
 width:100%;
+
 border-collapse:collapse;
+
 margin-top:30px;
+
 }
 
-td,th{
+
+
+th,td{
+
 border:1px solid black;
+
 padding:8px;
+
 text-align:center;
+
 }
 
-.heading{
+
+
+.footer{
+
+position:absolute;
+
+bottom:20px;
+
+left:0;
+
+width:100%;
+
 text-align:center;
-font-size:24px;
-margin-bottom:20px;
+
+font-size:14px;
+
 }
+
+
 
 </style>
 
 </head>
 
+
+
 <body>
 
 
-<!-- PAGE 1 CERTIFICATE -->
+
+<!-- PAGE 1 -->
+
 
 <div class="page">
 
-<div class="logo">
-DDS GROUP
+
+
+<div class="header">
+
+DDS
+
 </div>
+
+
 
 <div class="title">
-CERTIFICATE
+
+Certificate
+
 </div>
 
+
+
 <img
+
 src="${baseURL}/uploads/${cert.photo}"
+
 class="photo"
+
 />
+
 
 
 <div class="text">
 
-This is to certify that
 
-<h2>${cert.name}</h2>
+This Certificate is awarded to
 
-S/O ${cert.fatherName}
+
+<h2>
+
+${cert.name}
+
+</h2>
+
+
+S/O
+
+${cert.fatherName}
+
 
 has successfully completed
 
-<b>${cert.course}</b>
 
-Duration:
+<b>
+
+${cert.course}
+
+</b>
+
+
+Duration
+
 ${cert.duration}
 
+
 From
+
 ${cert.startDate}
-to
+
+To
+
 ${cert.endDate}
 
-Grade:
-<b>${cert.grade}</b>
 
-Issue Date:
+Grade
+
+<b>
+
+${cert.grade}
+
+</b>
+
+
+Issue Date
+
 ${cert.issueDate}
 
-</div>
 
 </div>
 
 
 
-<!-- PAGE 2 MARKSHEET -->
+<div class="footer">
+
+www.ddsgroupofinstitution.com
+
+</div>
+
+
+
+</div>
+
+
+
+
+
+
+<!-- PAGE 2 -->
+
 
 <div class="page">
 
-<div class="heading">
 
-STATEMENT OF MARKS
 
-</div>
+<h2 style="text-align:center">
+
+Statement of Marks
+
+</h2>
+
 
 
 <table>
+
+
 
 <tr>
 
@@ -241,7 +437,8 @@ STATEMENT OF MARKS
 </tr>
 
 
-${cert.subjects.map(s => `
+
+${cert.subjects.map(s=>`
 
 <tr>
 
@@ -265,80 +462,148 @@ ${cert.subjects.map(s => `
 
 <h3>
 
-Total Marks:
+Total Marks
+
 ${cert.totalMarks}
 
 </h3>
 
 
+
 <h3>
 
-Grade:
+Grade
+
 ${cert.grade}
 
 </h3>
 
 
+
+<div class="footer">
+
+www.ddsgroupofinstitution.com
+
 </div>
+
+
+
+</div>
+
+
 
 
 </body>
 
+
+
 </html>
 
-`;
+`
 
 
-   const browser = await puppeteer.launch({
-  args: chromium.args,
-  executablePath: await chromium.executablePath(),
-  headless: chromium.headless
-});
+
+// launch browser
+
+const browser =
+await puppeteer.launch({
+
+args:chromium.args,
+
+executablePath:
+await chromium.executablePath(),
+
+headless:chromium.headless
+
+})
 
 
-    const page = await browser.newPage();
 
-    await page.setContent(html, {
-
-      waitUntil: "networkidle0"
-
-    });
+const page =
+await browser.newPage()
 
 
-    const pdf = await page.pdf({
 
-      format: "A4",
-      printBackground: true
+await page.setContent(
 
-    });
+html,
 
+{
 
-    await browser.close();
+waitUntil:"networkidle0"
 
+}
 
-    res.set({
-
-      "Content-Type": "application/pdf",
-
-      "Content-Disposition":
-        "attachment; filename=certificate.pdf"
-
-    });
+)
 
 
-    res.send(pdf);
+
+// file name
+
+const fileName =
+`${cert.rollNumber}.pdf`
 
 
-  } catch (err) {
 
-    res.status(500).json({
+const filePath =
+path.join(
 
-      message: "pdf error",
+"uploads",
 
-      error: err.message
+fileName
 
-    });
+)
 
-  }
 
-};
+
+// save pdf
+
+await page.pdf({
+
+path:filePath,
+
+format:"A4",
+
+printBackground:true
+
+})
+
+
+
+await browser.close()
+
+
+
+// save pdf path
+
+cert.pdf = fileName
+
+await cert.save()
+
+
+
+res.json({
+
+message:"PDF generated",
+
+pdf:fileName
+
+})
+
+
+}
+
+
+catch(err){
+
+res.status(500).json({
+
+message:"pdf error",
+
+error:err.message
+
+})
+
+}
+
+}

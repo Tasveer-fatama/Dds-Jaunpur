@@ -1,32 +1,61 @@
 import express from "express";
 
 import {
+
  createCertificate,
+
  getCertificate,
+
  generatePDF
-} from "../controlers/certificatecontroller.js";
+
+}
+
+from "../controlers/certificatecontroller.js";
+
 
 import { upload } from "../middleware/upload.js";
 
+
 const router = express.Router();
 
-// create certificate
+
+
+// CREATE CERTIFICATE DATA
+
 router.post(
- "/create",
- upload.single("photo"),
- createCertificate
+
+"/create",
+
+upload.single("photo"),
+
+createCertificate
+
 );
 
-// search certificate
+
+
+// SEARCH BY ROLL NUMBER + DOB
+
 router.get(
- "/get",
- getCertificate
+
+"/search",
+
+getCertificate
+
 );
 
-// generate pdf
+
+
+// GENERATE PDF
+
 router.get(
- "/pdf/:id",
- generatePDF
+
+"/pdf/:id",
+
+generatePDF
+
 );
+
+
 
 export default router;
