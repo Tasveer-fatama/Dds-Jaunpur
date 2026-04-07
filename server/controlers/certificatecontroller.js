@@ -1,4 +1,5 @@
 import Certificate  from "../model/Certificate.js";
+import puppeteer from 'puppeteer';
 
 export const createCertificate = async (req, res) => {
   try {
