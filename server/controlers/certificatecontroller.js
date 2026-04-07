@@ -1,5 +1,6 @@
 import Certificate  from "../model/Certificate.js";
-import puppeteer from 'puppeteer';
+import puppeteer from "puppeteer-core";
+import chromium from "@sparticuz/chromium";
 
 export const createCertificate = async (req, res) => {
   try {
@@ -288,9 +289,10 @@ ${cert.grade}
 `;
 
 
-    const browser = await puppeteer.launch({
-  headless: "new",
-  args: ["--no-sandbox", "--disable-setuid-sandbox"]
+   const browser = await puppeteer.launch({
+  args: chromium.args,
+  executablePath: await chromium.executablePath(),
+  headless: chromium.headless
 });
 
 
