@@ -289,10 +289,9 @@ ${cert.grade}
 
 
     const browser = await puppeteer.launch({
-
-      args: ["--no-sandbox"]
-
-    });
+  headless: "new",
+  args: ["--no-sandbox", "--disable-setuid-sandbox"]
+});
 
 
     const page = await browser.newPage();
