@@ -1,3 +1,5 @@
+import Certificate  from "../model/Certificate.js";
+
 export const createCertificate = async (req, res) => {
   try {
 

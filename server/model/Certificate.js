@@ -24,4 +24,4 @@ const certificateSchema = new mongoose.Schema({
   ],
 });
 
-export default mongoose.model("Certificate", certificateSchema);
+export default mongoose.model("certificate", certificateSchema);
