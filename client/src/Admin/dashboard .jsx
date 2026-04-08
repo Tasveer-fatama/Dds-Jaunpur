@@ -174,151 +174,164 @@ export default function Dashboard() {
       </div>
 
       {/* Certificate Form */}
-      <div className="bg-white text-black p-6 rounded-xl">
-        <h2 className="text-xl font-bold mb-4">Create Certificate + Marksheet</h2>
+     {/* Certificate Form */}
+<div className="flex justify-center items-center mt-10">
+  <div className="w-full md:w-2/3 lg:w-1/2 bg-white text-black p-8 rounded-2xl shadow-2xl">
+    
+    <h2 className="text-2xl font-bold mb-6 text-center text-red-600">
+      Create Certificate + Marksheet
+    </h2>
 
+    {/* Grid Inputs */}
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <input
+        placeholder="Student Name"
+        name="name"
+        value={form.name}
+        onChange={handleChange}
+        className="input"
+      />
+
+      <input
+        placeholder="Father Name"
+        name="fatherName"
+        value={form.fatherName}
+        onChange={handleChange}
+        className="input"
+      />
+
+      <input
+        placeholder="Roll Number"
+        name="rollNumber"
+        value={form.rollNumber}
+        onChange={handleChange}
+        className="input"
+      />
+
+      <input
+        type="date"
+        name="dob"
+        value={form.dob}
+        onChange={handleChange}
+        className="input"
+      />
+
+      <input
+        placeholder="Course"
+        name="course"
+        value={form.course}
+        onChange={handleChange}
+        className="input"
+      />
+
+      <input
+        placeholder="Duration"
+        name="duration"
+        value={form.duration}
+        onChange={handleChange}
+        className="input"
+      />
+
+      <input
+        type="date"
+        name="startDate"
+        value={form.startDate}
+        onChange={handleChange}
+        className="input"
+      />
+
+      <input
+        type="date"
+        name="endDate"
+        value={form.endDate}
+        onChange={handleChange}
+        className="input"
+      />
+
+      <input
+        type="date"
+        name="issueDate"
+        value={form.issueDate}
+        onChange={handleChange}
+        className="input"
+      />
+
+      <input
+        placeholder="Grade"
+        name="grade"
+        value={form.grade}
+        onChange={handleChange}
+        className="input"
+      />
+
+      <input
+        placeholder="Total Marks"
+        name="totalMarks"
+        value={form.totalMarks}
+        onChange={handleChange}
+        className="input md:col-span-2"
+      />
+    </div>
+
+    {/* Subjects */}
+    <h3 className="font-bold mt-6 mb-3 text-lg">Subjects</h3>
+
+    {form.subjects.map((s, i) => (
+      <div key={i} className="grid grid-cols-2 md:grid-cols-4 gap-2 mb-3">
         <input
-          placeholder="Student Name"
+          placeholder="Subject"
           name="name"
-          value={form.name}
-          onChange={handleChange}
-          className="border p-2 w-full mb-2"
+          value={s.name}
+          onChange={(e) => handleSubject(i, e)}
+          className="input"
         />
-
         <input
-          placeholder="Father Name"
-          name="fatherName"
-          value={form.fatherName}
-          onChange={handleChange}
-          className="border p-2 w-full mb-2"
+          placeholder="Theory"
+          name="theory"
+          value={s.theory}
+          onChange={(e) => handleSubject(i, e)}
+          className="input"
         />
-
         <input
-          placeholder="Roll Number"
-          name="rollNumber"
-          value={form.rollNumber}
-          onChange={handleChange}
-          className="border p-2 w-full mb-2"
+          placeholder="Practical"
+          name="practical"
+          value={s.practical}
+          onChange={(e) => handleSubject(i, e)}
+          className="input"
         />
-
         <input
-          type="date"
-          name="dob"
-          value={form.dob}
-          onChange={handleChange}
-          className="border p-2 w-full mb-2"
+          placeholder="Total"
+          name="total"
+          value={s.total}
+          onChange={(e) => handleSubject(i, e)}
+          className="input"
         />
-
-        <input
-          placeholder="Course"
-          name="course"
-          value={form.course}
-          onChange={handleChange}
-          className="border p-2 w-full mb-2"
-        />
-
-        <input
-          placeholder="Duration"
-          name="duration"
-          value={form.duration}
-          onChange={handleChange}
-          className="border p-2 w-full mb-2"
-        />
-
-        <input
-          type="date"
-          name="startDate"
-          value={form.startDate}
-          onChange={handleChange}
-          className="border p-2 w-full mb-2"
-        />
-
-        <input
-          type="date"
-          name="endDate"
-          value={form.endDate}
-          onChange={handleChange}
-          className="border p-2 w-full mb-2"
-        />
-
-        <input
-          type="date"
-          name="issueDate"
-          value={form.issueDate}
-          onChange={handleChange}
-          className="border p-2 w-full mb-2"
-        />
-
-        <input
-          placeholder="Grade"
-          name="grade"
-          value={form.grade}
-          onChange={handleChange}
-          className="border p-2 w-full mb-2"
-        />
-
-        <input
-          placeholder="Total Marks"
-          name="totalMarks"
-          value={form.totalMarks}
-          onChange={handleChange}
-          className="border p-2 w-full mb-4"
-        />
-
-        <h3 className="font-bold mb-2">Subjects</h3>
-        {form.subjects.map((s, i) => (
-          <div key={i} className="grid grid-cols-4 gap-2 mb-2">
-            <input
-              placeholder="Subject"
-              name="name"
-              value={s.name}
-              onChange={(e) => handleSubject(i, e)}
-              className="border p-2"
-            />
-            <input
-              placeholder="Theory"
-              name="theory"
-              value={s.theory}
-              onChange={(e) => handleSubject(i, e)}
-              className="border p-2"
-            />
-            <input
-              placeholder="Practical"
-              name="practical"
-              value={s.practical}
-              onChange={(e) => handleSubject(i, e)}
-              className="border p-2"
-            />
-            <input
-              placeholder="Total"
-              name="total"
-              value={s.total}
-              onChange={(e) => handleSubject(i, e)}
-              className="border p-2"
-            />
-          </div>
-        ))}
-
-        <button
-          onClick={addSubject}
-          className="bg-blue-600 text-white px-3 py-1 mb-4"
-        >
-          Add Subject
-        </button>
-
-        <input
-          type="file"
-          onChange={(e) => setPhoto(e.target.files[0])}
-          className="mb-4"
-        />
-
-        <button
-          onClick={submit}
-          className="bg-green-600 text-white px-4 py-2"
-        >
-          Generate PDF
-        </button>
       </div>
+    ))}
+
+    <button
+      onClick={addSubject}
+      className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg mb-4 w-full"
+    >
+      + Add Subject
+    </button>
+
+    {/* Photo Upload */}
+    <input
+      type="file"
+      onChange={(e) => setPhoto(e.target.files[0])}
+      className="mb-4 w-full"
+    />
+
+    {/* Submit */}
+    <button
+      onClick={submit}
+      className="bg-green-600 hover:bg-green-700 text-white px-4 py-3 rounded-lg w-full text-lg font-semibold"
+    >
+      Generate PDF
+    </button>
+  </div>
+</div>
     </div>
   );
 }
