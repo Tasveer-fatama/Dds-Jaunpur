@@ -89,14 +89,19 @@ export default function Dashboard() {
   try {
     const fd = new FormData();
 
-    // ✅ Append all fields
-    Object.keys(form).forEach((key) => {
-      if (key === "subjects") {
-        fd.append("subjects", JSON.stringify(form.subjects));
-      } else {
-        fd.append(key, form[key]);
-      }
-    });
+    fd.append("name", form.name);
+    fd.append("fatherName", form.fatherName);
+    fd.append("rollNumber", form.rollNumber);
+    fd.append("dob", form.dob);
+    fd.append("course", form.course);
+    fd.append("duration", form.duration);
+    fd.append("startDate", form.startDate);
+    fd.append("endDate", form.endDate);
+    fd.append("issueDate", form.issueDate);
+    fd.append("grade", form.grade);
+    fd.append("totalMarks", form.totalMarks);
+
+    fd.append("subjects", JSON.stringify(form.subjects));
 
     if (photo) {
       fd.append("photo", photo);
@@ -104,44 +109,21 @@ export default function Dashboard() {
 
     const res = await axios.post(
       "https://ddsgroup.onrender.com/api/certificate/create",
-      fd,
-      {
-        headers: { "Content-Type": "multipart/form-data" },
-      }
+      fd
     );
 
-    // ✅ IMPORTANT: PDF URL store karo
-    const pdfUrl = `https://ddsgroup.onrender.com/api/certificate/pdf/${res.data._id}`;
+    // 🔥 generate pdf
+    const pdfRes = await axios.get(
+      `https://ddsgroup.onrender.com/api/certificate/generate/${res.data._id}`
+    );
 
-    // ✅ Open PDF
-    window.open(pdfUrl);
-
-    console.log("PDF Generated:", pdfUrl);
+    window.open(pdfRes.data.pdfUrl);
 
     alert("Certificate Generated ✅");
 
-    // ✅ OPTIONAL: Form reset
-    setForm({
-      name: "",
-      fatherName: "",
-      rollNumber: "",
-      dob: "",
-      course: "",
-      duration: "",
-      startDate: "",
-      endDate: "",
-      issueDate: "",
-      grade: "",
-      totalMarks: "",
-      subjects: [
-        { name: "", theory: "", practical: "", total: "" },
-      ],
-    });
-    setPhoto(null);
-
   } catch (err) {
     console.log(err.response?.data);
-    alert("Error aa gaya ❌ console check karo");
+    alert("Error aa gaya ❌");
   }
 };
   return (
