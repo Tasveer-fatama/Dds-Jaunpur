@@ -85,45 +85,65 @@ export default function Dashboard() {
   };
 
   // ✅ Submit form and generate PDF
-  const submit = async () => {
-    try {
-      const fd = new FormData();
-      fd.append("name", form.name);
-      fd.append("fatherName", form.fatherName);
-      fd.append("rollNumber", form.rollNumber);
-      fd.append("dob", form.dob);
-      fd.append("course", form.course);
-      fd.append("duration", form.duration);
-      fd.append("startDate", form.startDate);
-      fd.append("endDate", form.endDate);
-      fd.append("issueDate", form.issueDate);
-      fd.append("grade", form.grade);
-      fd.append("totalMarks", form.totalMarks);
-      fd.append("subjects", JSON.stringify(form.subjects));
-      if (photo) {
-        fd.append("photo", photo);
+ const submit = async () => {
+  try {
+    const fd = new FormData();
+
+    // ✅ Append all fields
+    Object.keys(form).forEach((key) => {
+      if (key === "subjects") {
+        fd.append("subjects", JSON.stringify(form.subjects));
+      } else {
+        fd.append(key, form[key]);
       }
+    });
 
-      const res = await axios.post(
-        "https://ddsgroup.onrender.com/api/certificate/create",
-        fd,
-        {
-          headers: { "Content-Type": "multipart/form-data" },
-        }
-      );
-
-      // Open generated PDF
-      window.open(
-        `https://ddsgroup.onrender.com/api/certificate/pdf/${res.data._id}`
-      );
-
-      alert("Certificate Generated ✅");
-    } catch (err) {
-      console.log(err.response?.data);
-      alert("Error aa gaya ❌ console check karo");
+    if (photo) {
+      fd.append("photo", photo);
     }
-  };
 
+    const res = await axios.post(
+      "https://ddsgroup.onrender.com/api/certificate/create",
+      fd,
+      {
+        headers: { "Content-Type": "multipart/form-data" },
+      }
+    );
+
+    // ✅ IMPORTANT: PDF URL store karo
+    const pdfUrl = `https://ddsgroup.onrender.com/api/certificate/pdf/${res.data._id}`;
+
+    // ✅ Open PDF
+    window.open(pdfUrl);
+
+    console.log("PDF Generated:", pdfUrl);
+
+    alert("Certificate Generated ✅");
+
+    // ✅ OPTIONAL: Form reset
+    setForm({
+      name: "",
+      fatherName: "",
+      rollNumber: "",
+      dob: "",
+      course: "",
+      duration: "",
+      startDate: "",
+      endDate: "",
+      issueDate: "",
+      grade: "",
+      totalMarks: "",
+      subjects: [
+        { name: "", theory: "", practical: "", total: "" },
+      ],
+    });
+    setPhoto(null);
+
+  } catch (err) {
+    console.log(err.response?.data);
+    alert("Error aa gaya ❌ console check karo");
+  }
+};
   return (
     <div className="min-h-screen bg-gradient-to-br from-black via-gray-900 to-red-800 text-white p-6">
       <h1 className="text-4xl font-bold mb-6 text-center">
@@ -190,6 +210,7 @@ export default function Dashboard() {
         value={form.name}
         onChange={handleChange}
         className="input"
+        required
       />
 
       <input
@@ -198,6 +219,7 @@ export default function Dashboard() {
         value={form.fatherName}
         onChange={handleChange}
         className="input"
+        required
       />
 
       <input
@@ -206,6 +228,7 @@ export default function Dashboard() {
         value={form.rollNumber}
         onChange={handleChange}
         className="input"
+        required
       />
 
       <input
@@ -214,6 +237,7 @@ export default function Dashboard() {
         value={form.dob}
         onChange={handleChange}
         className="input"
+        required
       />
 
       <input
@@ -222,6 +246,7 @@ export default function Dashboard() {
         value={form.course}
         onChange={handleChange}
         className="input"
+        required
       />
 
       <input
@@ -230,6 +255,7 @@ export default function Dashboard() {
         value={form.duration}
         onChange={handleChange}
         className="input"
+        required
       />
 
       <input
@@ -238,6 +264,7 @@ export default function Dashboard() {
         value={form.startDate}
         onChange={handleChange}
         className="input"
+        required
       />
 
       <input
@@ -246,6 +273,7 @@ export default function Dashboard() {
         value={form.endDate}
         onChange={handleChange}
         className="input"
+        required
       />
 
       <input
@@ -254,6 +282,7 @@ export default function Dashboard() {
         value={form.issueDate}
         onChange={handleChange}
         className="input"
+        required
       />
 
       <input
@@ -262,6 +291,7 @@ export default function Dashboard() {
         value={form.grade}
         onChange={handleChange}
         className="input"
+        required
       />
 
       <input
@@ -270,6 +300,7 @@ export default function Dashboard() {
         value={form.totalMarks}
         onChange={handleChange}
         className="input md:col-span-2"
+        required
       />
     </div>
 
@@ -284,6 +315,7 @@ export default function Dashboard() {
           value={s.name}
           onChange={(e) => handleSubject(i, e)}
           className="input"
+          required
         />
         <input
           placeholder="Theory"
@@ -291,6 +323,7 @@ export default function Dashboard() {
           value={s.theory}
           onChange={(e) => handleSubject(i, e)}
           className="input"
+          required
         />
         <input
           placeholder="Practical"
@@ -298,6 +331,7 @@ export default function Dashboard() {
           value={s.practical}
           onChange={(e) => handleSubject(i, e)}
           className="input"
+          required
         />
         <input
           placeholder="Total"
@@ -305,6 +339,7 @@ export default function Dashboard() {
           value={s.total}
           onChange={(e) => handleSubject(i, e)}
           className="input"
+          required
         />
       </div>
     ))}
