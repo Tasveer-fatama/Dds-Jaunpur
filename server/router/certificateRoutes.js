@@ -1,61 +1,30 @@
 import express from "express";
 
 import {
-
- createCertificate,
-
- getCertificate,
-
- generatePDF
-
-}
-
-from "../controlers/certificatecontroller.js";
-
+  createCertificate,
+  getCertificate,
+  generatePDF,
+  getPDF   // ✅ NEW
+} from "../controlers/certificatecontroller.js";
 
 import { upload } from "../middleware/upload.js";
 
-
 const router = express.Router();
 
-
-
-// CREATE CERTIFICATE DATA
-
+// ✅ CREATE DATA
 router.post(
-
-"/create",
-
-upload.single("photo"),
-
-createCertificate
-
+  "/create",
+  upload.single("photo"), 
+  createCertificate
 );
 
+// ✅ SEARCH (student side)
+router.get("/search", getCertificate);
 
+// ✅ GENERATE PDF (admin use only)
+router.get("/generate/:id", generatePDF);
 
-// SEARCH BY ROLL NUMBER + DOB
-
-router.get(
-
-"/search",
-
-getCertificate
-
-);
-
-
-
-// GENERATE PDF
-
-router.get(
-
-"/pdf/:id",
-
-generatePDF
-
-);
-
-
+// ✅ SERVE PDF (student download/view)
+router.get("/pdf/:file", getPDF);
 
 export default router;
