@@ -1,30 +1,40 @@
 import express from "express";
-
-import {
-  createCertificate,
-  getCertificate,
-  generatePDF,
-  getPDF   // ✅ NEW
-} from "../controlers/certificatecontroller.js";
-
-import { upload } from "../middleware/upload.js";
+import Student from "../model/Certificate.js";
+import generatePDF from "../utils/pdfGenerator.js";
 
 const router = express.Router();
 
-// ✅ CREATE DATA
-router.post(
-  "/create",
-  upload.single("photo"), 
-  createCertificate
-);
+// Create Student + PDF
+router.post("/create", async (req, res) => {
+  try {
+    const pdfPath = await generatePDF(req.body);
 
-// ✅ SEARCH (student side)
-router.get("/search", getCertificate);
+    const student = new Student({
+      ...req.body,
+      pdfUrl: pdfPath
+    });
 
-// ✅ GENERATE PDF (admin use only)
-router.get("/generate/:id", generatePDF);
+    await student.save();
 
-// ✅ SERVE PDF (student download/view)
-router.get("/pdf/:file", getPDF);
+    res.json(student);
+  } catch (error) {
+    res.status(500).json({ message: "create error", error: error.message });
+  }
+});
+
+// Search Student
+router.get("/search", async (req, res) => {
+  try {
+    const { name, regNo } = req.query;
+
+    const student = await Student.findOne({ name, regNo });
+
+    if (!student) return res.status(404).json({ message: "Not found" });
+
+    res.json(student);
+  } catch (error) {
+    res.status(500).json({ message: "search error", error: error.message });
+  }
+});
 
 export default router;

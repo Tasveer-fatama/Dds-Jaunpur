@@ -9,32 +9,8 @@ export default function Dashboard() {
     donation: 0,
   });
 
-  // ✅ Certificate form
-  const [form, setForm] = useState({
-    name: "",
-    fatherName: "",
-    rollNumber: "",
-    dob: "",
-    course: "",
-    duration: "",
-    startDate: "",
-    endDate: "",
-    issueDate: "",
-    grade: "",
-    totalMarks: "",
-    subjects: [
-      {
-        name: "",
-        theory: "",
-        practical: "",
-        total: "",
-      },
-    ],
-  });
 
-  // ✅ Photo upload
-  const [photo, setPhoto] = useState(null);
-
+ 
   // ✅ Fetch counts from backend
   useEffect(() => {
     const fetchCounts = async () => {
@@ -50,82 +26,52 @@ export default function Dashboard() {
     fetchCounts();
   }, []);
 
-  // ✅ Handle input change
-  const handleChange = (e) => {
-    setForm({
-      ...form,
-      [e.target.name]: e.target.value,
-    });
-  };
+  const [form, setForm] = useState({
+    name: "",
+    fatherName: "",
+    course: "",
+    duration: "",
+    regNo: "",
+    session: "",
+    subjects: []
+  });
 
-  // ✅ Handle subject change
-  const handleSubject = (i, e) => {
-    const newSub = [...form.subjects];
-    newSub[i][e.target.name] = e.target.value;
-    setForm({
-      ...form,
-      subjects: newSub,
-    });
-  };
-
-  // ✅ Add new subject
   const addSubject = () => {
     setForm({
       ...form,
-      subjects: [
-        ...form.subjects,
-        {
-          name: "",
-          theory: "",
-          practical: "",
-          total: "",
-        },
-      ],
+      subjects: [...form.subjects, { name: "", theory: "", practical: "" }]
     });
   };
 
-  // ✅ Submit form and generate PDF
- const submit = async () => {
-  try {
-    const fd = new FormData();
+  const handleSubjectChange = (i, field, value) => {
+    const updated = [...form.subjects];
+    updated[i][field] = value;
+    setForm({ ...form, subjects: updated });
+  };
 
-    fd.append("name", form.name);
-    fd.append("fatherName", form.fatherName);
-    fd.append("rollNumber", form.rollNumber);
-    fd.append("dob", form.dob);
-    fd.append("course", form.course);
-    fd.append("duration", form.duration);
-    fd.append("startDate", form.startDate);
-    fd.append("endDate", form.endDate);
-    fd.append("issueDate", form.issueDate);
-    fd.append("grade", form.grade);
-    fd.append("totalMarks", form.totalMarks);
-
-    fd.append("subjects", JSON.stringify(form.subjects));
-
-    if (photo) {
-      fd.append("photo", photo);
-    }
-
-    const res = await axios.post(
-      "https://ddsgroup.onrender.com/api/certificate/create",
-      fd
+  const handleSubmit = async () => {
+    const total = form.subjects.reduce(
+      (sum, s) => sum + Number(s.theory) + Number(s.practical),
+      0
     );
 
-    // 🔥 generate pdf
-    const pdfRes = await axios.get(
-      `https://ddsgroup.onrender.com/api/certificate/generate/${res.data._id}`
-    );
+    const data = { ...form, total, grade: "A" };
 
-    window.open(pdfRes.data.pdfUrl);
+    await axios.post("https://ddsgroup.onrender.com/api/create", data);
 
-    alert("Certificate Generated ✅");
+    alert("PDF Generated!");
 
-  } catch (err) {
-    console.log(err.response?.data);
-    alert("Error aa gaya ❌");
-  }
-};
+    // RESET
+    setForm({
+      name: "",
+      fatherName: "",
+      course: "",
+      duration: "",
+      regNo: "",
+      session: "",
+      subjects: []
+    });
+  };
   return (
     <div className="min-h-screen bg-gradient-to-br from-black via-gray-900 to-red-800 text-white p-6">
       <h1 className="text-4xl font-bold mb-6 text-center">
@@ -175,180 +121,26 @@ export default function Dashboard() {
         </a>
       </div>
 
-      {/* Certificate Form */}
-     {/* Certificate Form */}
-<div className="flex justify-center items-center mt-10">
-  <div className="w-full md:w-2/3 lg:w-1/2 bg-white text-black p-8 rounded-2xl shadow-2xl">
-    
-    <h2 className="text-2xl font-bold mb-6 text-center text-red-600">
-      Create Certificate + Marksheet
-    </h2>
+     /*certificate form */
+      <div className="p-6">
+      <input placeholder="Name" onChange={(e)=>setForm({...form,name:e.target.value})} />
+      <input placeholder="Father Name" onChange={(e)=>setForm({...form,fatherName:e.target.value})} />
+      <input placeholder="Course" onChange={(e)=>setForm({...form,course:e.target.value})} />
+      <input placeholder="Duration" onChange={(e)=>setForm({...form,duration:e.target.value})} />
+      <input placeholder="Reg No" onChange={(e)=>setForm({...form,regNo:e.target.value})} />
 
-    {/* Grid Inputs */}
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-      <input
-        placeholder="Student Name"
-        name="name"
-        value={form.name}
-        onChange={handleChange}
-        className="input"
-        required
-      />
+      <button onClick={addSubject}>Add Subject</button>
 
-      <input
-        placeholder="Father Name"
-        name="fatherName"
-        value={form.fatherName}
-        onChange={handleChange}
-        className="input"
-        required
-      />
+      {form.subjects.map((sub, i) => (
+        <div key={i}>
+          <input placeholder="Subject" onChange={(e)=>handleSubjectChange(i,"name",e.target.value)} />
+          <input placeholder="Theory" onChange={(e)=>handleSubjectChange(i,"theory",e.target.value)} />
+          <input placeholder="Practical" onChange={(e)=>handleSubjectChange(i,"practical",e.target.value)} />
+        </div>
+      ))}
 
-      <input
-        placeholder="Roll Number"
-        name="rollNumber"
-        value={form.rollNumber}
-        onChange={handleChange}
-        className="input"
-        required
-      />
-
-      <input
-        type="date"
-        name="dob"
-        value={form.dob}
-        onChange={handleChange}
-        className="input"
-        required
-      />
-
-      <input
-        placeholder="Course"
-        name="course"
-        value={form.course}
-        onChange={handleChange}
-        className="input"
-        required
-      />
-
-      <input
-        placeholder="Duration"
-        name="duration"
-        value={form.duration}
-        onChange={handleChange}
-        className="input"
-        required
-      />
-
-      <input
-        type="date"
-        name="startDate"
-        value={form.startDate}
-        onChange={handleChange}
-        className="input"
-        required
-      />
-
-      <input
-        type="date"
-        name="endDate"
-        value={form.endDate}
-        onChange={handleChange}
-        className="input"
-        required
-      />
-
-      <input
-        type="date"
-        name="issueDate"
-        value={form.issueDate}
-        onChange={handleChange}
-        className="input"
-        required
-      />
-
-      <input
-        placeholder="Grade"
-        name="grade"
-        value={form.grade}
-        onChange={handleChange}
-        className="input"
-        required
-      />
-
-      <input
-        placeholder="Total Marks"
-        name="totalMarks"
-        value={form.totalMarks}
-        onChange={handleChange}
-        className="input md:col-span-2"
-        required
-      />
+      <button onClick={handleSubmit}>Submit</button>
     </div>
-
-    {/* Subjects */}
-    <h3 className="font-bold mt-6 mb-3 text-lg">Subjects</h3>
-
-    {form.subjects.map((s, i) => (
-      <div key={i} className="grid grid-cols-2 md:grid-cols-4 gap-2 mb-3">
-        <input
-          placeholder="Subject"
-          name="name"
-          value={s.name}
-          onChange={(e) => handleSubject(i, e)}
-          className="input"
-          required
-        />
-        <input
-          placeholder="Theory"
-          name="theory"
-          value={s.theory}
-          onChange={(e) => handleSubject(i, e)}
-          className="input"
-          required
-        />
-        <input
-          placeholder="Practical"
-          name="practical"
-          value={s.practical}
-          onChange={(e) => handleSubject(i, e)}
-          className="input"
-          required
-        />
-        <input
-          placeholder="Total"
-          name="total"
-          value={s.total}
-          onChange={(e) => handleSubject(i, e)}
-          className="input"
-          required
-        />
-      </div>
-    ))}
-
-    <button
-      onClick={addSubject}
-      className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg mb-4 w-full"
-    >
-      + Add Subject
-    </button>
-
-    {/* Photo Upload */}
-    <input
-      type="file"
-      onChange={(e) => setPhoto(e.target.files[0])}
-      className="mb-4 w-full"
-    />
-
-    {/* Submit */}
-    <button
-      onClick={submit}
-      className="bg-green-600 hover:bg-green-700 text-white px-4 py-3 rounded-lg w-full text-lg font-semibold"
-    >
-      Generate PDF
-    </button>
-  </div>
-</div>
     </div>
   );
 }

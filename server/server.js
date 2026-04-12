@@ -39,6 +39,7 @@ app.use("/api/inquiry", inquiryroute);
 app.use("/api/admission", admissionRoutes);
 app.use("/api/admin", adminRoutes);
 app.use("/api/certificate",certificateRoutes)
+app.use("/pdfs",express.static("pdfs"))
 // Server listen
 const PORT = process.env.PORT ;
 app.listen(PORT, () => {
