@@ -57,7 +57,12 @@ export default function Dashboard() {
 
     const data = { ...form, total, grade: "A" };
 
-    await axios.post("https://ddsgroup.onrender.com/api/certificate/create", data);
+    axios.post("https://ddsgroup.onrender.com/api/certificate/create", data)
+  .then(res => console.log(res))
+  .catch(err => {
+    console.log("FULL ERROR:", err);
+    console.log("BACKEND ERROR:", err.response?.data);
+  });
 
     alert("PDF Generated!");
 
