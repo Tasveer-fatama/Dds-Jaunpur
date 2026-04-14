@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
+import StudentForm from "./admin/StudentForm.jsx";
 
 export default function Dashboard() {
   // ✅ Counts
@@ -76,7 +77,7 @@ export default function Dashboard() {
           <p>Click to view all donations</p>
         </a>
       </div>
- 
+ <StudentForm/>
     </div>
   );
 }

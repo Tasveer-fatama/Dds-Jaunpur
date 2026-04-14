@@ -74,7 +74,7 @@ const generateMarksheetHTML = (student, qrCodeDataUrl, serverUrl) => {
 // ------------------ MAIN PDF FUNCTION ------------------
 
 export const generatePDF = async (student) => {
-  const serverUrl = process.env.SERVER_URL || 'http://localhost:5000';
+  const serverUrl = process.env.SERVER_URL || 'https://ddsgroup.onrender.com';
 
   const qrCodeDataUrl = await generateQRCode(
     student.registrationNumber,

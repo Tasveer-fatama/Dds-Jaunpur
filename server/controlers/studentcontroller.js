@@ -33,7 +33,7 @@ export const createStudent = async (req, res) => {
       const pdfUrl = await generatePDF(student);
       student.pdfUrl = pdfUrl;
 
-      const serverUrl = process.env.SERVER_URL || 'http://localhost:5000';
+      const serverUrl = process.env.SERVER_URL || 'https://ddsgroup.onrender.com';
       student.qrCodeData = `${serverUrl}/verify/${student.registrationNumber}`;
 
       await student.save();
