@@ -5,8 +5,8 @@ import inquiryroute from "./router/Inquiryroute.js";
 import admissionRoutes from "./router/Inquiryroute.js";
 import donationRoutes from "./router/Inquiryroute.js";
 import adminRoutes from "./router/adminRoutes.js";
-import certificateRoutes from "./router/certificateRoutes.js"
-
+import studentRoutes from "./router/studentroutes.js"
+import verifyRoutes from "./router/verifyRoutes.js"
 import path from "path";
 import { fileURLToPath } from "url";
 import cors from "cors";
@@ -38,8 +38,8 @@ app.use("/api", donationRoutes);
 app.use("/api/inquiry", inquiryroute);
 app.use("/api/admission", admissionRoutes);
 app.use("/api/admin", adminRoutes);
-app.use("/api/certificate",certificateRoutes)
-app.use("/pdfs",express.static("pdfs"))
+app.use('/api/student', studentRoutes);
+app.use('/verify', verifyRoutes);
 // Server listen
 const PORT = process.env.PORT ;
 app.listen(PORT, () => {

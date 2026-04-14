@@ -26,57 +26,8 @@ export default function Dashboard() {
     fetchCounts();
   }, []);
 
-  const [form, setForm] = useState({
-    name: "",
-    fatherName: "",
-    course: "",
-    duration: "",
-    regNo: "",
-    session: "",
-    subjects: []
-  });
-
-  const addSubject = () => {
-    setForm({
-      ...form,
-      subjects: [...form.subjects, { name: "", theory: "", practical: "" }]
-    });
-  };
-
-  const handleSubjectChange = (i, field, value) => {
-    const updated = [...form.subjects];
-    updated[i][field] = value;
-    setForm({ ...form, subjects: updated });
-  };
-
-  const handleSubmit = async () => {
-    const total = form.subjects.reduce(
-      (sum, s) => sum + Number(s.theory) + Number(s.practical),
-      0
-    );
-
-    const data = { ...form, total, grade: "A" };
-
-    axios.post("https://ddsgroup.onrender.com/api/certificate/create", data)
-  .then(res => console.log(res))
-  .catch(err => {
-    console.log("FULL ERROR:", err);
-    console.log("BACKEND ERROR:", err.response?.data);
-  });
-
-    alert("PDF Generated!");
-
-    // RESET
-    setForm({
-      name: "",
-      fatherName: "",
-      course: "",
-      duration: "",
-      regNo: "",
-      session: "",
-      subjects: []
-    });
-  };
+ 
+  
   return (
     <div className="min-h-screen bg-gradient-to-br from-black via-gray-900 to-red-800 text-white p-6">
       <h1 className="text-4xl font-bold mb-6 text-center">
@@ -125,27 +76,7 @@ export default function Dashboard() {
           <p>Click to view all donations</p>
         </a>
       </div>
-
-     /*certificate form */
-      <div className="p-6">
-      <input placeholder="Name" onChange={(e)=>setForm({...form,name:e.target.value})} />
-      <input placeholder="Father Name" onChange={(e)=>setForm({...form,fatherName:e.target.value})} />
-      <input placeholder="Course" onChange={(e)=>setForm({...form,course:e.target.value})} />
-      <input placeholder="Duration" onChange={(e)=>setForm({...form,duration:e.target.value})} />
-      <input placeholder="Reg No" onChange={(e)=>setForm({...form,regNo:e.target.value})} />
-
-      <button onClick={addSubject}>Add Subject</button>
-
-      {form.subjects.map((sub, i) => (
-        <div key={i}>
-          <input placeholder="Subject" onChange={(e)=>handleSubjectChange(i,"name",e.target.value)} />
-          <input placeholder="Theory" onChange={(e)=>handleSubjectChange(i,"theory",e.target.value)} />
-          <input placeholder="Practical" onChange={(e)=>handleSubjectChange(i,"practical",e.target.value)} />
-        </div>
-      ))}
-
-      <button onClick={handleSubmit}>Submit</button>
-    </div>
+ 
     </div>
   );
 }
