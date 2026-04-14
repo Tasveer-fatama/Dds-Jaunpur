@@ -18,7 +18,7 @@ const EMPTY_FORM = {
 function SubjectRow({ subject, index, onChange }) {
   const total = (Number(subject.theoryMarks) || 0) + (Number(subject.practicalMarks) || 0);
   return (
-    <tr className="border-b border-gray-100">
+  <tr className="border-b border-gray-100">
       <td className="py-2 px-3 text-sm text-gray-500">{index + 1}</td>
       <td className="py-2 px-3">
         <input
@@ -154,14 +154,15 @@ export default function StudentForm({ initialData = null, studentId = null }) {
         <h3 className="font-bold text-gray-800 text-base mb-4 pb-2 border-b flex items-center gap-2">
           <span>👤</span> Student Information
         </h3>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          <Field label="Student Name" field="studentName" required />
-          <Field label="Father's / Husband's Name" field="fatherName" required />
-          <Field label="Mother's Name" field="motherName" required />
-          <Field label="Registration Number" field="registrationNumber" required />
-          <Field label="Roll Number" field="rollNumber" required />
-          <Field label="IIVET-VLCs Code" field="ivetVlcsCode" />
-          <Field label="Center of Examination" field="centerOfExamination" />
+        <div className="card">
+        <h3 className="font-bold mb-4">Student Info</h3>
+        <div className="grid grid-cols-3 gap-4">
+          <Field label="Student Name" field="studentName" />
+          <Field label="Father Name" field="fatherName" />
+          <Field label="Mother Name" field="motherName" />
+          <Field label="Registration Number" field="registrationNumber" />
+          <Field label="Roll Number" field="rollNumber" />
+        </div>
         </div>
       </div>
 
