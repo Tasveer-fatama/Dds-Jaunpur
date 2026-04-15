@@ -18,7 +18,7 @@ const EMPTY_FORM = {
 function SubjectRow({ subject, index, onChange }) {
   const total = (Number(subject.theoryMarks) || 0) + (Number(subject.practicalMarks) || 0);
   return (
-  <tr className="border-b border-gray-100">
+    <tr className="border-b border-gray-100">
       <td className="py-2 px-3 text-sm text-gray-500">{index + 1}</td>
       <td className="py-2 px-3">
         <input
@@ -53,15 +53,12 @@ function SubjectRow({ subject, index, onChange }) {
 
 export default function StudentForm({ initialData = null, studentId = null }) {
   const navigate = useNavigate();
-  
-  // ✅ FIXED STATE
   const [form, setForm] = useState(EMPTY_FORM);
-    useEffect(() => {
-    if (initialData) {
-      setForm({ ...EMPTY_FORM, ...initialData });
-    }
-  }, [initialData]);
-
+  useEffect(() => {
+  if (initialData) {
+    setForm({ ...EMPTY_FORM, ...initialData });
+  }
+}, [initialData]);
   const [photo, setPhoto] = useState(null);
   const [photoPreview, setPhotoPreview] = useState(initialData?.photoUrl ? `https://ddsgroup.onrender.com${initialData.photoUrl}` : null);
   const [errors, setErrors] = useState({});
@@ -107,46 +104,37 @@ export default function StudentForm({ initialData = null, studentId = null }) {
     setPhotoPreview(URL.createObjectURL(file));
   };
 
- const handleSubmit = async () => {
-  const validationErrors = validateStudentForm(form);
-  if (Object.keys(validationErrors).length > 0) {
-    setErrors(validationErrors);
-    toast.error('Fix errors');
-    return;
-  }
-
-  setLoading(true);
-  const toastId = toast.loading('Processing...');
-
-  try {
-    const fd = new FormData();
-    const studentData = { ...form, percentage, grade, result, totalObtained, totalMax };
-
-    fd.append('studentData', JSON.stringify(studentData));
-    if (photo) fd.append('photo', photo);
-
-    if (studentId) {
-      await studentAPI.update(studentId, fd);
-    } else {
-      await studentAPI.create(fd);
+  const handleSubmit = async () => {
+    const validationErrors = validateStudentForm(form);
+    if (Object.keys(validationErrors).length > 0) {
+      setErrors(validationErrors);
+      toast.error('Please fix form errors');
+      return;
     }
 
-    toast.success('Success!', { id: toastId });
+    setLoading(true);
+    const toastId = toast.loading(studentId ? 'Updating student...' : 'Creating student & generating PDF...');
 
-    // ✅ RESET FORM
-    setForm(EMPTY_FORM);
-    setPhoto(null);
-    setPhotoPreview(null);
+    try {
+      const fd = new FormData();
+      const studentData = { ...form, percentage, grade, result, totalObtained, totalMax };
+      fd.append('studentData', JSON.stringify(studentData));
+      if (photo) fd.append('photo', photo);
 
-    // ✅ OPTIONAL: agar same page pe rehna hai to navigate hata do
-    // navigate('/admin/students');
-
-  } catch (err) {
-    toast.error('Error saving data', { id: toastId });
-  } finally {
-    setLoading(false);
-  }
-};
+      if (studentId) {
+        await studentAPI.update(studentId, fd);
+        toast.success('Student updated successfully!', { id: toastId });
+      } else {
+        await studentAPI.create(fd);
+        toast.success('Student created & PDF generated!', { id: toastId });
+      }
+      navigate('/admin/students');
+    } catch (err) {
+      toast.error(err.message || 'Failed to save student', { id: toastId });
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const Field = ({ label, field, type = 'text', required, list }) => (
     <div>
