@@ -53,9 +53,17 @@ function SubjectRow({ subject, index, onChange }) {
 
 export default function StudentForm({ initialData = null, studentId = null }) {
   const navigate = useNavigate();
-  const [form, setForm] = useState(initialData || EMPTY_FORM);
+  
+  // ✅ FIXED STATE
+  const [form, setForm] = useState(EMPTY_FORM);
+    useEffect(() => {
+    if (initialData) {
+      setForm({ ...EMPTY_FORM, ...initialData });
+    }
+  }, [initialData]);
+
   const [photo, setPhoto] = useState(null);
-  const [photoPreview, setPhotoPreview] = useState(initialData?.photoUrl ? `http://localhost:5000${initialData.photoUrl}` : null);
+  const [photoPreview, setPhotoPreview] = useState(initialData?.photoUrl ? `https://ddsgroup.onrender.com${initialData.photoUrl}` : null);
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
   const [preview, setPreview] = useState(false);
@@ -99,37 +107,46 @@ export default function StudentForm({ initialData = null, studentId = null }) {
     setPhotoPreview(URL.createObjectURL(file));
   };
 
-  const handleSubmit = async () => {
-    const validationErrors = validateStudentForm(form);
-    if (Object.keys(validationErrors).length > 0) {
-      setErrors(validationErrors);
-      toast.error('Please fix form errors');
-      return;
+ const handleSubmit = async () => {
+  const validationErrors = validateStudentForm(form);
+  if (Object.keys(validationErrors).length > 0) {
+    setErrors(validationErrors);
+    toast.error('Fix errors');
+    return;
+  }
+
+  setLoading(true);
+  const toastId = toast.loading('Processing...');
+
+  try {
+    const fd = new FormData();
+    const studentData = { ...form, percentage, grade, result, totalObtained, totalMax };
+
+    fd.append('studentData', JSON.stringify(studentData));
+    if (photo) fd.append('photo', photo);
+
+    if (studentId) {
+      await studentAPI.update(studentId, fd);
+    } else {
+      await studentAPI.create(fd);
     }
 
-    setLoading(true);
-    const toastId = toast.loading(studentId ? 'Updating student...' : 'Creating student & generating PDF...');
+    toast.success('Success!', { id: toastId });
 
-    try {
-      const fd = new FormData();
-      const studentData = { ...form, percentage, grade, result, totalObtained, totalMax };
-      fd.append('studentData', JSON.stringify(studentData));
-      if (photo) fd.append('photo', photo);
+    // ✅ RESET FORM
+    setForm(EMPTY_FORM);
+    setPhoto(null);
+    setPhotoPreview(null);
 
-      if (studentId) {
-        await studentAPI.update(studentId, fd);
-        toast.success('Student updated successfully!', { id: toastId });
-      } else {
-        await studentAPI.create(fd);
-        toast.success('Student created & PDF generated!', { id: toastId });
-      }
-      navigate('/admin/students');
-    } catch (err) {
-      toast.error(err.message || 'Failed to save student', { id: toastId });
-    } finally {
-      setLoading(false);
-    }
-  };
+    // ✅ OPTIONAL: agar same page pe rehna hai to navigate hata do
+    // navigate('/admin/students');
+
+  } catch (err) {
+    toast.error('Error saving data', { id: toastId });
+  } finally {
+    setLoading(false);
+  }
+};
 
   const Field = ({ label, field, type = 'text', required, list }) => (
     <div>
@@ -154,15 +171,14 @@ export default function StudentForm({ initialData = null, studentId = null }) {
         <h3 className="font-bold text-gray-800 text-base mb-4 pb-2 border-b flex items-center gap-2">
           <span>👤</span> Student Information
         </h3>
-        <div className="card">
-        <h3 className="font-bold mb-4">Student Info</h3>
-        <div className="grid grid-cols-3 gap-4">
-          <Field label="Student Name" field="studentName" />
-          <Field label="Father Name" field="fatherName" />
-          <Field label="Mother Name" field="motherName" />
-          <Field label="Registration Number" field="registrationNumber" />
-          <Field label="Roll Number" field="rollNumber" />
-        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <Field label="Student Name" field="studentName" required />
+          <Field label="Father's / Husband's Name" field="fatherName" required />
+          <Field label="Mother's Name" field="motherName" required />
+          <Field label="Registration Number" field="registrationNumber" required />
+          <Field label="Roll Number" field="rollNumber" required />
+          <Field label="IIVET-VLCs Code" field="ivetVlcsCode" />
+          <Field label="Center of Examination" field="centerOfExamination" />
         </div>
       </div>
 
