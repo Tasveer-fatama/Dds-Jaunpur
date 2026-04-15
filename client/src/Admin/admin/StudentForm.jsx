@@ -53,35 +53,65 @@ function SubjectRow({ subject, index, onChange }) {
 
 export default function StudentForm({ initialData = null, studentId = null }) {
   const navigate = useNavigate();
-  const [form, setForm] = useState(EMPTY_FORM);
+  
+  // FIX: Initialize form correctly - use function to avoid re-computation
+  const [form, setForm] = useState(() => {
+    if (initialData) {
+      return { ...EMPTY_FORM, ...initialData };
+    }
+    return { ...EMPTY_FORM, subjects: DEFAULT_SUBJECTS.map(s => ({ ...s })) };
+  });
+
+  // FIX: Only run when initialData actually changes (for edit mode)
+  const initialDataLoaded = useRef(false);
   useEffect(() => {
-  if (initialData) {
-    setForm({ ...EMPTY_FORM, ...initialData });
-  }
-}, [initialData]);
+    if (initialData && !initialDataLoaded.current) {
+      setForm({ ...EMPTY_FORM, ...initialData });
+      initialDataLoaded.current = true;
+    }
+  }, [initialData]);
+
   const [photo, setPhoto] = useState(null);
-  const [photoPreview, setPhotoPreview] = useState(initialData?.photoUrl ? `https://ddsgroup.onrender.com${initialData.photoUrl}` : null);
+  const [photoPreview, setPhotoPreview] = useState(
+    initialData?.photoUrl ? `[ddsgroup.onrender.com${initialdata.photourl}](https://ddsgroup.onrender.com${initialData.photoUrl})` : null
+  );
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
-  const [preview, setPreview] = useState(false);
   const fileRef = useRef();
 
   // Derived calculations
-  const totalObtained = form.subjects.reduce((sum, s) => sum + (Number(s.theoryMarks) || 0) + (Number(s.practicalMarks) || 0), 0);
+  const totalObtained = form.subjects.reduce(
+    (sum, s) => sum + (Number(s.theoryMarks) || 0) + (Number(s.practicalMarks) || 0), 0
+  );
   const totalMax = form.subjects.reduce((sum, s) => sum + s.maxTheory + s.maxPractical, 0);
   const percentage = totalMax > 0 ? parseFloat(((totalObtained / totalMax) * 100).toFixed(2)) : 0;
   const grade = calculateGrade(percentage);
   const result = grade === 'F' ? 'FAIL' : 'PASS';
 
+  // FIX: Ensure handleChange properly updates the form
   const handleChange = (field, value) => {
-    setForm(prev => ({ ...prev, [field]: value }));
-    if (errors[field]) setErrors(prev => { const e = { ...prev }; delete e[field]; return e; });
+    setForm(prev => {
+      const updated = { ...prev, [field]: value };
+      return updated;
+    });
+    if (errors[field]) {
+      setErrors(prev => {
+        const e = { ...prev };
+        delete e[field];
+        return e;
+      });
+    }
   };
 
   const handleSubjectChange = (index, field, value) => {
-    const updated = [...form.subjects];
-    updated[index] = { ...updated[index], [field]: field.includes('Marks') ? Number(value) : value };
-    setForm(prev => ({ ...prev, subjects: updated }));
+    setForm(prev => {
+      const updated = [...prev.subjects];
+      updated[index] = { 
+        ...updated[index], 
+        [field]: field.includes('Marks') ? Number(value) : value 
+      };
+      return { ...prev, subjects: updated };
+    });
   };
 
   const addSubject = () => {
@@ -99,7 +129,10 @@ export default function StudentForm({ initialData = null, studentId = null }) {
   const handlePhotoChange = (e) => {
     const file = e.target.files[0];
     if (!file) return;
-    if (file.size > 5 * 1024 * 1024) { toast.error('Photo must be under 5MB'); return; }
+    if (file.size > 5 * 1024 * 1024) { 
+      toast.error('Photo must be under 5MB'); 
+      return; 
+    }
     setPhoto(file);
     setPhotoPreview(URL.createObjectURL(file));
   };
@@ -136,18 +169,25 @@ export default function StudentForm({ initialData = null, studentId = null }) {
     }
   };
 
+  // FIX: Field component with proper value handling
   const Field = ({ label, field, type = 'text', required, list }) => (
     <div>
-      <label className="form-label">{label}{required && <span className="text-red-500 ml-1">*</span>}</label>
+      <label className="form-label">
+        {label}{required && <span className="text-red-500 ml-1">*</span>}
+      </label>
       <input
         type={type}
         list={list}
         className={`form-input ${errors[field] ? 'border-red-400 ring-1 ring-red-400' : ''}`}
-        value={form[field] || ''}
+        value={form[field] ?? ''}
         onChange={e => handleChange(field, e.target.value)}
         placeholder={label}
       />
-      {list && <datalist id={list}>{COURSES.map(c => <option key={c} value={c} />)}</datalist>}
+      {list && (
+        <datalist id={list}>
+          {COURSES.map(c => <option key={c} value={c} />)}
+        </datalist>
+      )}
       {errors[field] && <p className="text-red-500 text-xs mt-1">{errors[field]}</p>}
     </div>
   );
@@ -199,7 +239,10 @@ export default function StudentForm({ initialData = null, studentId = null }) {
           >
             {photoPreview
               ? <img src={photoPreview} alt="Preview" className="w-full h-full object-cover" />
-              : <div className="text-center text-gray-400 text-xs p-2"><div className="text-2xl">📷</div><div>Click to upload</div></div>
+              : <div className="text-center text-gray-400 text-xs p-2">
+                  <div className="text-2xl">📷</div>
+                  <div>Click to upload</div>
+                </div>
             }
           </div>
           <div>
@@ -216,7 +259,9 @@ export default function StudentForm({ initialData = null, studentId = null }) {
       {/* Marks Table */}
       <div className="card">
         <div className="flex items-center justify-between mb-4 pb-2 border-b">
-          <h3 className="font-bold text-gray-800 text-base flex items-center gap-2"><span>📝</span> Marks Entry</h3>
+          <h3 className="font-bold text-gray-800 text-base flex items-center gap-2">
+            <span>📝</span> Marks Entry
+          </h3>
           <button type="button" onClick={addSubject} className="btn-secondary text-xs">+ Add Subject</button>
         </div>
         <div className="overflow-x-auto">
@@ -245,7 +290,9 @@ export default function StudentForm({ initialData = null, studentId = null }) {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
             <div>
               <div className="text-xs text-gray-500 font-medium mb-1">Total Obtained</div>
-              <div className="text-xl font-bold text-blue-700">{totalObtained}<span className="text-sm text-gray-400">/{totalMax}</span></div>
+              <div className="text-xl font-bold text-blue-700">
+                {totalObtained}<span className="text-sm text-gray-400">/{totalMax}</span>
+              </div>
             </div>
             <div>
               <div className="text-xs text-gray-500 font-medium mb-1">Percentage</div>
@@ -271,7 +318,10 @@ export default function StudentForm({ initialData = null, studentId = null }) {
           disabled={loading}
           className="btn-primary px-8 py-2.5"
         >
-          {loading ? <><span className="spinner w-4 h-4 inline-block mr-2" />Processing...</> : (studentId ? '💾 Update Student' : '🚀 Create & Generate PDF')}
+          {loading 
+            ? <><span className="spinner w-4 h-4 inline-block mr-2" />Processing...</> 
+            : (studentId ? '💾 Update Student' : '🚀 Create & Generate PDF')
+          }
         </button>
         <button type="button" onClick={() => navigate('/admin/students')} className="btn-secondary">
           Cancel
