@@ -51,14 +51,32 @@ function SubjectRow({ subject, index, onChange }) {
   );
 }
 
+function Field({ label, field, type = 'text', required, list, form, errors, onChange }) {
+  return (
+    <div>
+      <label className="form-label">{label}{required && <span className="text-red-500 ml-1">*</span>}</label>
+      <input
+        type={type}
+        list={list}
+        className={`form-input ${errors[field] ? 'border-red-400 ring-1 ring-red-400' : ''}`}
+        value={form[field] || ''}
+        onChange={e => onChange(field, e.target.value)}
+        placeholder={label}
+      />
+      {list && <datalist id={list}>{COURSES.map(c => <option key={c} value={c} />)}</datalist>}
+      {errors[field] && <p className="text-red-500 text-xs mt-1">{errors[field]}</p>}
+    </div>
+  );
+}
+
 export default function StudentForm({ initialData = null, studentId = null }) {
   const navigate = useNavigate();
   const [form, setForm] = useState(EMPTY_FORM);
   useEffect(() => {
-  if (initialData) {
-    setForm({ ...EMPTY_FORM, ...initialData });
-  }
-}, [initialData]);
+    if (initialData) {
+      setForm({ ...EMPTY_FORM, ...initialData });
+    }
+  }, [initialData]);
   const [photo, setPhoto] = useState(null);
   const [photoPreview, setPhotoPreview] = useState(initialData?.photoUrl ? `https://ddsgroup.onrender.com${initialData.photoUrl}` : null);
   const [errors, setErrors] = useState({});
@@ -66,7 +84,6 @@ export default function StudentForm({ initialData = null, studentId = null }) {
   const [preview, setPreview] = useState(false);
   const fileRef = useRef();
 
-  // Derived calculations
   const totalObtained = form.subjects.reduce((sum, s) => sum + (Number(s.theoryMarks) || 0) + (Number(s.practicalMarks) || 0), 0);
   const totalMax = form.subjects.reduce((sum, s) => sum + s.maxTheory + s.maxPractical, 0);
   const percentage = totalMax > 0 ? parseFloat(((totalObtained / totalMax) * 100).toFixed(2)) : 0;
@@ -136,22 +153,6 @@ export default function StudentForm({ initialData = null, studentId = null }) {
     }
   };
 
-  const Field = ({ label, field, type = 'text', required, list }) => (
-    <div>
-      <label className="form-label">{label}{required && <span className="text-red-500 ml-1">*</span>}</label>
-      <input
-        type={type}
-        list={list}
-        className={`form-input ${errors[field] ? 'border-red-400 ring-1 ring-red-400' : ''}`}
-        value={form[field] || ''}
-        onChange={e => handleChange(field, e.target.value)}
-        placeholder={label}
-      />
-      {list && <datalist id={list}>{COURSES.map(c => <option key={c} value={c} />)}</datalist>}
-      {errors[field] && <p className="text-red-500 text-xs mt-1">{errors[field]}</p>}
-    </div>
-  );
-
   return (
     <div className="space-y-6 animate-slide-up max-w-5xl">
       {/* Personal Info */}
@@ -160,13 +161,13 @@ export default function StudentForm({ initialData = null, studentId = null }) {
           <span>👤</span> Student Information
         </h3>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          <Field label="Student Name" field="studentName" required />
-          <Field label="Father's / Husband's Name" field="fatherName" required />
-          <Field label="Mother's Name" field="motherName" required />
-          <Field label="Registration Number" field="registrationNumber" required />
-          <Field label="Roll Number" field="rollNumber" required />
-          <Field label="IIVET-VLCs Code" field="ivetVlcsCode" />
-          <Field label="Center of Examination" field="centerOfExamination" />
+          <Field label="Student Name" field="studentName" required form={form} errors={errors} onChange={handleChange} />
+          <Field label="Father's / Husband's Name" field="fatherName" required form={form} errors={errors} onChange={handleChange} />
+          <Field label="Mother's Name" field="motherName" required form={form} errors={errors} onChange={handleChange} />
+          <Field label="Registration Number" field="registrationNumber" required form={form} errors={errors} onChange={handleChange} />
+          <Field label="Roll Number" field="rollNumber" required form={form} errors={errors} onChange={handleChange} />
+          <Field label="IIVET-VLCs Code" field="ivetVlcsCode" form={form} errors={errors} onChange={handleChange} />
+          <Field label="Center of Examination" field="centerOfExamination" form={form} errors={errors} onChange={handleChange} />
         </div>
       </div>
 
@@ -177,13 +178,13 @@ export default function StudentForm({ initialData = null, studentId = null }) {
         </h3>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           <div className="lg:col-span-2">
-            <Field label="Course Name" field="courseName" required list="courseList" />
+            <Field label="Course Name" field="courseName" required list="courseList" form={form} errors={errors} onChange={handleChange} />
           </div>
-          <Field label="Course Code (e.g. A.D.C.A.)" field="courseCode" />
-          <Field label="Session From" field="sessionFrom" required />
-          <Field label="Session To" field="sessionTo" required />
-          <Field label="Duration" field="duration" />
-          <Field label="Issue Date (DD.MON.YYYY)" field="issueDate" required />
+          <Field label="Course Code (e.g. A.D.C.A.)" field="courseCode" form={form} errors={errors} onChange={handleChange} />
+          <Field label="Session From" field="sessionFrom" required form={form} errors={errors} onChange={handleChange} />
+          <Field label="Session To" field="sessionTo" required form={form} errors={errors} onChange={handleChange} />
+          <Field label="Duration" field="duration" form={form} errors={errors} onChange={handleChange} />
+          <Field label="Issue Date (DD.MON.YYYY)" field="issueDate" required form={form} errors={errors} onChange={handleChange} />
         </div>
       </div>
 
