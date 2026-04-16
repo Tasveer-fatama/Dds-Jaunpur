@@ -1,5 +1,5 @@
 import Student from '../model/Certificate.js';
-import { generatePDF, generateQRCode } from '../middleware/pdfGenerator.js';
+import { generatePDF, generateQRCode } from '../middleware/pdfgenerator.js';
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
