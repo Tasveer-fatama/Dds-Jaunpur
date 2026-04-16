@@ -153,11 +153,11 @@ function App() {
           <Route path="/admin/inquiries" element={<Inquiries/>} />
           <Route path="/admin/admission" element={<Admission />} />
           <Route path="/admin/donationdetails" element={<Donationdetails/>} />
-           <Route path="dashboard" element={<Dashboard />} />
-          <Route path="students" element={<StudentList />} />
-          <Route path="students/add" element={<AddStudent />} />
-          <Route path="students/edit/:id" element={<EditStudent />} />
-          <Route path="students/:id" element={<StudentDetail />} />
+           <Route path="/admin/dashboard" element={<Dashboard />} />
+          <Route path="/admin/students" element={<StudentList />} />
+          <Route path="/admin/students/add" element={<AddStudent />} />
+          <Route path="/admin/students/edit/:id" element={<EditStudent />} />
+          <Route path="/admin/students/:id" element={<StudentDetail />} />
         </Routes>
       </Layout>
     </Router>
