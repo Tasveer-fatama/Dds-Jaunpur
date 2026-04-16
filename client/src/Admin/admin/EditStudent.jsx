@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { studentAPI } from '../../utils/api';
-import StudentForm from '../../components/admin/StudentForm';
+import StudentForm from '../../Admin/admin/StudentForm.jsx';
 import toast from 'react-hot-toast';
 
 export default function EditStudent() {

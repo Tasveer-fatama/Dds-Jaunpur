@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import StudentForm from '../../components/admin/StudentForm';
+import StudentForm from '../../Admin/admin/StudentForm.jsx';
 
 export default function AddStudent() {
   return (
