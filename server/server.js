@@ -26,8 +26,8 @@ connectDB();
 
 // Middlewares
 app.use(cors({
-  origin: "https://www.ddsgroupofinstitution.com" ,
-  methods: ["GET", "POST"],
+  origin: "https://www.ddsgroupofinstitution.com",
+  methods: ["GET", "POST", "PUT", "DELETE"],
   credentials: true,
 }));
 app.use(express.json());
