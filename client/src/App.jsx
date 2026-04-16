@@ -26,6 +26,11 @@ import Admin from "./Admin/admin.jsx";
 import Inquiries from "./Admin/inquiries.jsx";
 import Admission from "./Admin/admiision.jsx";
 import Donationdetails from "./Admin/donation.jsx";
+import Dashboard from './Admin/admin/Dashboard.jsx';
+import AddStudent from './Admin/admin/AddStudent.jsx';
+import EditStudent from './Admin/admin/EditStudent.jsx';
+import StudentList from './Admin/admin/StudentList.jsx';
+import StudentDetail from './Admin/admin/StudentDetail.jsx';
 // 🔴 Wrapper for Navbar/Footer condition
 function Layout({ children }) {
   const location = useLocation();
@@ -148,6 +153,11 @@ function App() {
           <Route path="/admin/inquiries" element={<Inquiries/>} />
           <Route path="/admin/admission" element={<Admission />} />
           <Route path="/admin/donationdetails" element={<Donationdetails/>} />
+           <Route path="dashboard" element={<Dashboard />} />
+          <Route path="students" element={<StudentList />} />
+          <Route path="students/add" element={<AddStudent />} />
+          <Route path="students/edit/:id" element={<EditStudent />} />
+          <Route path="students/:id" element={<StudentDetail />} />
         </Routes>
       </Layout>
     </Router>
