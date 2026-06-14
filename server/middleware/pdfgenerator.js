@@ -49,19 +49,21 @@ const generateCertificateHTML = (
     background-size:100% 100%;
     background-repeat:no-repeat;
     font-family:Arial, sans-serif;
+    overflow:hidden;
   ">
 
     <!-- Student Name -->
     <div style="
       position:absolute;
-      top:98mm;
-      left:105mm;
+      top:115mm;
+      left:50%;
       transform:translateX(-50%);
-      width:120mm;
+      width:130mm;
       text-align:center;
-      font-size:9mm;
+      font-size:8mm;
       font-weight:bold;
       text-transform:uppercase;
+      white-space:nowrap;
     ">
       ${student.studentName}
     </div>
@@ -69,10 +71,12 @@ const generateCertificateHTML = (
     <!-- Day -->
     <div style="
       position:absolute;
-      top:110mm;
-      left:62mm;
-      font-size:6mm;
+      top:127mm;
+      left:55mm;
+      font-size:5.5mm;
       font-weight:bold;
+      text-align:center;
+      width:15mm;
     ">
       ${student.day || ''}
     </div>
@@ -80,10 +84,12 @@ const generateCertificateHTML = (
     <!-- Month -->
     <div style="
       position:absolute;
-      top:110mm;
-      left:96mm;
-      font-size:6mm;
+      top:127mm;
+      left:95mm;
+      font-size:5.5mm;
       font-weight:bold;
+      text-align:center;
+      width:20mm;
     ">
       ${student.month || ''}
     </div>
@@ -91,10 +97,12 @@ const generateCertificateHTML = (
     <!-- Year -->
     <div style="
       position:absolute;
-      top:110mm;
-      left:154mm;
-      font-size:6mm;
+      top:127mm;
+      left:158mm;
+      font-size:5.5mm;
       font-weight:bold;
+      text-align:center;
+      width:18mm;
     ">
       ${student.year || ''}
     </div>
@@ -102,14 +110,15 @@ const generateCertificateHTML = (
     <!-- Course Name -->
     <div style="
       position:absolute;
-      top:129mm;
-      left:105mm;
+      top:148mm;
+      left:50%;
       transform:translateX(-50%);
-      width:180mm;
+      width:190mm;
       text-align:center;
-      font-size:7mm;
+      font-size:6.5mm;
       font-weight:bold;
       text-transform:uppercase;
+      white-space:nowrap;
     ">
       ${student.courseName}
     </div>
@@ -117,11 +126,13 @@ const generateCertificateHTML = (
     <!-- Session From -->
     <div style="
       position:absolute;
-      top:157mm;
-      left:83mm;
+      top:171mm;
+      left:62mm;
       transform:translateX(-50%);
-      font-size:6mm;
+      font-size:5.5mm;
       font-weight:bold;
+      text-align:center;
+      white-space:nowrap;
     ">
       ${student.sessionFrom}
     </div>
@@ -129,11 +140,13 @@ const generateCertificateHTML = (
     <!-- Session To -->
     <div style="
       position:absolute;
-      top:157mm;
-      left:138mm;
+      top:171mm;
+      left:148mm;
       transform:translateX(-50%);
-      font-size:6mm;
+      font-size:5.5mm;
       font-weight:bold;
+      text-align:center;
+      white-space:nowrap;
     ">
       ${student.sessionTo}
     </div>
@@ -141,24 +154,28 @@ const generateCertificateHTML = (
     <!-- Grade -->
     <div style="
       position:absolute;
-      top:194mm;
-      left:87mm;
+      top:203mm;
+      left:82mm;
       transform:translateX(-50%);
-      font-size:7mm;
+      font-size:6.5mm;
       font-weight:bold;
       color:#c62828;
+      text-align:center;
+      white-space:nowrap;
     ">
-      "${student.grade}"
+      &quot;${student.grade}&quot;
     </div>
 
     <!-- Duration -->
     <div style="
       position:absolute;
-      top:194mm;
-      left:145mm;
+      top:203mm;
+      left:152mm;
       transform:translateX(-50%);
-      font-size:7mm;
+      font-size:6.5mm;
       font-weight:bold;
+      text-align:center;
+      white-space:nowrap;
     ">
       ${student.duration}
     </div>
@@ -170,10 +187,10 @@ const generateCertificateHTML = (
         src="${photoBase64}"
         style="
           position:absolute;
-          top:47mm;
-          right:18mm;
-          width:24mm;
-          height:30mm;
+          top:46mm;
+          right:13mm;
+          width:26mm;
+          height:32mm;
           object-fit:cover;
           border:1px solid #555;
         "
@@ -202,7 +219,6 @@ const generateCertificateHTML = (
   </div>
   `;
 };
-
 const generateMarksheetHTML = (
   student,
   qrCodeDataUrl,
@@ -217,66 +233,168 @@ const generateMarksheetHTML = (
     background-size:100% 100%;
     background-repeat:no-repeat;
     font-family: Arial, Helvetica, sans-serif;
+    overflow:hidden;
   ">
 
-    <!-- LEFT SIDE -->
-    <div style="position:absolute;top:90mm;left:52mm;font-size:14px;font-weight:500;">
+    <!-- ===== LEFT SIDE INFO ===== -->
+
+    <!-- Student Name -->
+    <div style="
+      position:absolute;
+      top:93mm;
+      left:68mm;
+      font-size:13px;
+      font-weight:bold;
+      color:#c62828;
+      white-space:nowrap;
+    ">
       ${student.studentName}
     </div>
 
-    <div style="position:absolute;top:103mm;left:66mm;font-size:14px;">
+    <!-- Father Name -->
+    <div style="
+      position:absolute;
+      top:103mm;
+      left:68mm;
+      font-size:13px;
+      font-weight:bold;
+      white-space:nowrap;
+    ">
       ${student.fatherName}
     </div>
 
-    <div style="position:absolute;top:116mm;left:70mm;font-size:14px;">
+    <!-- Center of Examination -->
+    <div style="
+      position:absolute;
+      top:112mm;
+      left:68mm;
+      font-size:13px;
+      white-space:nowrap;
+    ">
       ${student.center || ''}
     </div>
 
-    <div style="position:absolute;top:129mm;left:60mm;font-size:14px;">
+    <!-- Center Line 2 (if long) -->
+    <div style="
+      position:absolute;
+      top:119mm;
+      left:68mm;
+      font-size:13px;
+      white-space:nowrap;
+    ">
+      ${student.centerLine2 || ''}
+    </div>
+
+    <!-- IVET-VLCs Code -->
+    <div style="
+      position:absolute;
+      top:132mm;
+      left:68mm;
+      font-size:13px;
+      font-weight:bold;
+      white-space:nowrap;
+    ">
       ${student.vlc || ''}
     </div>
 
-    <!-- RIGHT SIDE -->
-    <div style="position:absolute;top:90mm;left:150mm;font-size:14px;">
+    <!-- ===== RIGHT SIDE INFO ===== -->
+
+    <!-- Course -->
+    <div style="
+      position:absolute;
+      top:93mm;
+      left:126mm;
+      font-size:13px;
+      white-space:nowrap;
+    ">
       ${student.courseName}
     </div>
 
-    <div style="position:absolute;top:103mm;left:150mm;font-size:14px;">
+    <!-- Duration -->
+    <div style="
+      position:absolute;
+      top:103mm;
+      left:126mm;
+      font-size:13px;
+      white-space:nowrap;
+    ">
       ${student.duration}
     </div>
 
-    <div style="position:absolute;top:116mm;left:150mm;font-size:14px;">
+    <!-- Registration No -->
+    <div style="
+      position:absolute;
+      top:113mm;
+      left:126mm;
+      font-size:13px;
+      white-space:nowrap;
+    ">
       ${student.registrationNumber}
     </div>
 
-    <div style="position:absolute;top:129mm;left:150mm;font-size:14px;">
+    <!-- Session -->
+    <div style="
+      position:absolute;
+      top:123mm;
+      left:126mm;
+      font-size:13px;
+      white-space:nowrap;
+    ">
       ${student.sessionFrom} to ${student.sessionTo}
     </div>
 
-    <!-- SUBJECT TABLE -->
+    <!-- ===== SUBJECT ROWS ===== -->
     ${
       (student.subjects || [])
         .map((subject, index) => {
-          const top = 168 + index * 13;
+          // Row 1 starts at 177mm, each row = 10mm gap
+          const top = 177 + index * 10.2;
 
           return `
-          <!-- Subject Name -->
-          <div style="position:absolute;top:${top}mm;left:45mm;font-size:13px;width:70mm;">
+          <!-- Subject ${index + 1} Name -->
+          <div style="
+            position:absolute;
+            top:${top}mm;
+            left:42mm;
+            font-size:12px;
+            width:72mm;
+          ">
             ${subject.name}
           </div>
 
-          <!-- Theory -->
-          <div style="position:absolute;top:${top}mm;left:122mm;font-size:13px;text-align:center;width:15mm;">
+          <!-- Theory Marks -->
+          <div style="
+            position:absolute;
+            top:${top}mm;
+            left:118mm;
+            font-size:12px;
+            width:16mm;
+            text-align:center;
+          ">
             ${subject.theoryMarks}
           </div>
 
-          <!-- Practical -->
-          <div style="position:absolute;top:${top}mm;left:145mm;font-size:13px;text-align:center;width:15mm;">
+          <!-- Practical Marks -->
+          <div style="
+            position:absolute;
+            top:${top}mm;
+            left:147mm;
+            font-size:12px;
+            width:14mm;
+            text-align:center;
+          ">
             ${subject.practicalMarks}
           </div>
 
-          <!-- Total -->
-          <div style="position:absolute;top:${top}mm;left:175mm;font-size:13px;text-align:center;width:15mm;">
+          <!-- Total Marks -->
+          <div style="
+            position:absolute;
+            top:${top}mm;
+            left:175mm;
+            font-size:12px;
+            width:16mm;
+            text-align:center;
+          ">
             ${Number(subject.theoryMarks) + Number(subject.practicalMarks)}
           </div>
           `;
@@ -284,40 +402,41 @@ const generateMarksheetHTML = (
         .join("")
     }
 
-    <!-- PASS GRADE -->
+    <!-- ===== PASS IN GRADE ===== -->
     <div style="
       position:absolute;
-      top:220mm;
-      left:75mm;
-      font-size:16px;
+      top:221mm;
+      left:70mm;
+      font-size:15px;
       font-weight:bold;
-      color:#c62828;
+      color:#222;
     ">
-      "${student.grade}"
+      &quot;${student.grade}&quot;
     </div>
 
-    <!-- TOTAL MARKS -->
+    <!-- ===== TOTAL MARKS ===== -->
     <div style="
       position:absolute;
-      top:220mm;
-      left:170mm;
-      font-size:18px;
+      top:221mm;
+      left:147mm;
+      font-size:15px;
       font-weight:bold;
     ">
-      ${student.totalObtained}
+      ${student.totalObtained}/400
     </div>
 
-    <!-- DATE -->
+    <!-- ===== DATE OF ISSUE ===== -->
     <div style="
       position:absolute;
-      bottom:55mm;
-      left:35mm;
-      font-size:14px;
+      bottom:57mm;
+      left:33mm;
+      font-size:13px;
       font-weight:bold;
     ">
       ${student.issueDate}
     </div>
 
+    <!-- ===== QR CODE ===== -->
     ${
       qrCodeDataUrl
         ? `
@@ -325,8 +444,8 @@ const generateMarksheetHTML = (
           src="${qrCodeDataUrl}"
           style="
             position:absolute;
-            bottom:30mm;
-            right:20mm;
+            bottom:28mm;
+            right:18mm;
             width:22mm;
             height:22mm;
           "
