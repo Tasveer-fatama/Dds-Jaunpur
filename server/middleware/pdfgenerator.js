@@ -67,45 +67,21 @@ const generateCertificateHTML = (
       ${student.studentName}
     </div>
 
-    <!-- Day: neeche wali line ke upar, "on the" ke baad -->
+   <!-- ===== DATE OF ISSUE ===== -->
     <div style="
       position:absolute;
-      top:119mm;
-      left:52mm;
-      font-size:5.5mm;
+      bottom:57mm;
+      left:33mm;
+      font-size:13px;
       font-weight:bold;
-      text-align:center;
-      width:16mm;
     ">
-      ${student.day || ''}
+      ${student.issueDate}
     </div>
 
-    <!-- Month -->
-    <div style="
-      position:absolute;
-      top:119mm;
-      left:90mm;
-      font-size:5.5mm;
-      font-weight:bold;
-      text-align:center;
-      width:22mm;
-    ">
-      ${student.month || ''}
-    </div>
+   
 
-    <!-- Year -->
-    <div style="
-      position:absolute;
-      top:119mm;
-      left:153mm;
-      font-size:5.5mm;
-      font-weight:bold;
-      text-align:center;
-      width:20mm;
-    ">
-      ${student.year || ''}
-    </div>
-
+   
+     
     <!-- Course Name: "for successfully completion" ke neeche, line ke bilkul upar -->
     <div style="
       position:absolute;
