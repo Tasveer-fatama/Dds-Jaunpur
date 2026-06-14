@@ -51,7 +51,7 @@ const generateCertificateHTML = (
     overflow:hidden;
   ">
 
-    <!-- Student Name: upar wali line ke UPAR hona chahiye -->
+    <!-- Student Name -->
     <div style="
       position:absolute;
       top:105mm;
@@ -67,22 +67,21 @@ const generateCertificateHTML = (
       ${student.studentName}
     </div>
 
-   <!-- ===== DATE OF ISSUE ===== -->
+    <!-- Date of Issue: name ke neeche wali line pe -->
     <div style="
       position:absolute;
-      bottom:57mm;
-      left:33mm;
-      font-size:13px;
+      top:119mm;
+      left:50%;
+      transform:translateX(-50%);
+      width:150mm;
+      text-align:center;
+      font-size:5.5mm;
       font-weight:bold;
     ">
       ${student.issueDate}
     </div>
 
-   
-
-   
-     
-    <!-- Course Name: "for successfully completion" ke neeche, line ke bilkul upar -->
+    <!-- Course Name -->
     <div style="
       position:absolute;
       top:144mm;
