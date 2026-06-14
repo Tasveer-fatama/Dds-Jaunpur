@@ -62,6 +62,7 @@ function Field({ label, field, type = 'text', required, list, form, errors, onCh
         value={form[field] || ''}
         onChange={e => onChange(field, e.target.value)}
         placeholder={label}
+        
       />
       {list && <datalist id={list}>{COURSES.map(c => <option key={c} value={c} />)}</datalist>}
       {errors[field] && <p className="text-red-500 text-xs mt-1">{errors[field]}</p>}

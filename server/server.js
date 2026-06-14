@@ -25,11 +25,24 @@ dotenv.config({ path: path.join(__dirname, ".env") });
 connectDB();
 
 // Middlewares
-app.use(cors({
-  origin: "https://www.ddsgroupofinstitution.com",
-  methods: ["GET", "POST", "PUT", "DELETE"],
-  credentials: true,
-}));
+const allowedOrigins = [
+  "http://localhost:5173",
+  "https://www.ddsgroupofinstitution.com",
+];
+
+app.use(
+  cors({
+    origin: function (origin, callback) {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true,
+  })
+);
 app.use(express.json());
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
