@@ -67,10 +67,10 @@ const generateCertificateHTML = (
       ${student.studentName}
     </div>
 
-    <!-- Date of Issue: name ke neeche wali line pe -->
+   <!-- Date of Issue: name ke neeche wali line pe -->
     <div style="
       position:absolute;
-      top:119mm;
+      top:122mm;
       left:50%;
       transform:translateX(-50%);
       width:150mm;
