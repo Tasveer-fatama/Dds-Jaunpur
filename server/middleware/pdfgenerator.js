@@ -40,212 +40,303 @@ const generateCertificateHTML = (
   photoBase64,
   certificateBg
 ) => {
+  return `
+  <div style="
+    width:210mm;
+    height:297mm;
+    position:relative;
+    background-image:url('${certificateBg}');
+    background-size:100% 100%;
+    background-repeat:no-repeat;
+    font-family:Arial, sans-serif;
+  ">
 
-return `
-<div style="
-width:210mm;
-height:297mm;
-position:relative;
-background-image:url('${certificateBg}');
-background-size:100% 100%;
-background-repeat:no-repeat;
-page-break-after:always;
-">
+    <!-- Student Name -->
+    <div style="
+      position:absolute;
+      top:98mm;
+      left:105mm;
+      transform:translateX(-50%);
+      width:120mm;
+      text-align:center;
+      font-size:9mm;
+      font-weight:bold;
+      text-transform:uppercase;
+    ">
+      ${student.studentName}
+    </div>
 
-<div style="
-position:absolute;
-top:110mm;
-left:25mm;
-width:160mm;
-text-align:center;
-font-size:24px;
-font-weight:bold;
-">
-${student.studentName}
-</div>
+    <!-- Day -->
+    <div style="
+      position:absolute;
+      top:110mm;
+      left:62mm;
+      font-size:6mm;
+      font-weight:bold;
+    ">
+      ${student.day || ''}
+    </div>
 
-<div style="
-position:absolute;
-top:145mm;
-left:25mm;
-width:160mm;
-text-align:center;
-font-size:18px;
-font-weight:bold;
-">
-${student.courseName}
-</div>
+    <!-- Month -->
+    <div style="
+      position:absolute;
+      top:110mm;
+      left:96mm;
+      font-size:6mm;
+      font-weight:bold;
+    ">
+      ${student.month || ''}
+    </div>
 
-<div style="
-position:absolute;
-top:192mm;
-left:60mm;
-font-size:16px;
-">
-${student.sessionFrom}
-</div>
+    <!-- Year -->
+    <div style="
+      position:absolute;
+      top:110mm;
+      left:154mm;
+      font-size:6mm;
+      font-weight:bold;
+    ">
+      ${student.year || ''}
+    </div>
 
-<div style="
-position:absolute;
-top:192mm;
-left:120mm;
-font-size:16px;
-">
-${student.sessionTo}
-</div>
+    <!-- Course Name -->
+    <div style="
+      position:absolute;
+      top:129mm;
+      left:105mm;
+      transform:translateX(-50%);
+      width:180mm;
+      text-align:center;
+      font-size:7mm;
+      font-weight:bold;
+      text-transform:uppercase;
+    ">
+      ${student.courseName}
+    </div>
 
-<div style="
-position:absolute;
-top:228mm;
-left:72mm;
-font-size:18px;
-font-weight:bold;
-">
-${student.grade}
-</div>
+    <!-- Session From -->
+    <div style="
+      position:absolute;
+      top:157mm;
+      left:83mm;
+      transform:translateX(-50%);
+      font-size:6mm;
+      font-weight:bold;
+    ">
+      ${student.sessionFrom}
+    </div>
 
-<div style="
-position:absolute;
-top:228mm;
-left:120mm;
-font-size:18px;
-">
-${student.duration}
-</div>
+    <!-- Session To -->
+    <div style="
+      position:absolute;
+      top:157mm;
+      left:138mm;
+      transform:translateX(-50%);
+      font-size:6mm;
+      font-weight:bold;
+    ">
+      ${student.sessionTo}
+    </div>
 
-${
-photoBase64
-?
-`<img
-src="${photoBase64}"
-style="
-position:absolute;
-top:75mm;
-right:20mm;
-width:30mm;
-height:35mm;
-object-fit:cover;
-border:1px solid #000;
-"
-/>`
-:
-''
-}
+    <!-- Grade -->
+    <div style="
+      position:absolute;
+      top:194mm;
+      left:87mm;
+      transform:translateX(-50%);
+      font-size:7mm;
+      font-weight:bold;
+      color:#c62828;
+    ">
+      "${student.grade}"
+    </div>
 
-${
-qrCodeDataUrl
-?
-`<img
-src="${qrCodeDataUrl}"
-style="
-position:absolute;
-bottom:25mm;
-right:20mm;
-width:20mm;
-height:20mm;
-"
-/>`
-:
-''
-}
+    <!-- Duration -->
+    <div style="
+      position:absolute;
+      top:194mm;
+      left:145mm;
+      transform:translateX(-50%);
+      font-size:7mm;
+      font-weight:bold;
+    ">
+      ${student.duration}
+    </div>
 
-</div>
-`;
+    ${
+      photoBase64
+        ? `
+      <img
+        src="${photoBase64}"
+        style="
+          position:absolute;
+          top:47mm;
+          right:18mm;
+          width:24mm;
+          height:30mm;
+          object-fit:cover;
+          border:1px solid #555;
+        "
+      />
+    `
+        : ''
+    }
+
+    ${
+      qrCodeDataUrl
+        ? `
+      <img
+        src="${qrCodeDataUrl}"
+        style="
+          position:absolute;
+          bottom:8mm;
+          right:18mm;
+          width:22mm;
+          height:22mm;
+        "
+      />
+    `
+        : ''
+    }
+
+  </div>
+  `;
 };
 
 const generateMarksheetHTML = (
-student,
-qrCodeDataUrl,
-marksheetBg
+  student,
+  qrCodeDataUrl,
+  marksheetBg
 ) => {
+  return `
+  <div style="
+    width:210mm;
+    height:297mm;
+    position:relative;
+    background-image:url('${marksheetBg}');
+    background-size:100% 100%;
+    background-repeat:no-repeat;
+    font-family: Arial, Helvetica, sans-serif;
+  ">
 
-return `
-<div style="
-width:210mm;
-height:297mm;
-position:relative;
-background-image:url('${marksheetBg}');
-background-size:100% 100%;
-background-repeat:no-repeat;
-">
+    <!-- LEFT SIDE -->
+    <div style="position:absolute;top:90mm;left:52mm;font-size:14px;font-weight:500;">
+      ${student.studentName}
+    </div>
 
-<div style="position:absolute;top:88mm;left:48mm;font-size:14px;">
-${student.studentName}
-</div>
+    <div style="position:absolute;top:103mm;left:66mm;font-size:14px;">
+      ${student.fatherName}
+    </div>
 
-<div style="position:absolute;top:101mm;left:60mm;font-size:14px;">
-${student.fatherName}
-</div>
+    <div style="position:absolute;top:116mm;left:70mm;font-size:14px;">
+      ${student.center || ''}
+    </div>
 
-<div style="position:absolute;top:88mm;left:145mm;font-size:14px;">
-${student.courseName}
-</div>
+    <div style="position:absolute;top:129mm;left:60mm;font-size:14px;">
+      ${student.vlc || ''}
+    </div>
 
-<div style="position:absolute;top:101mm;left:150mm;font-size:14px;">
-${student.duration}
-</div>
+    <!-- RIGHT SIDE -->
+    <div style="position:absolute;top:90mm;left:150mm;font-size:14px;">
+      ${student.courseName}
+    </div>
 
-<div style="position:absolute;top:114mm;left:150mm;font-size:14px;">
-${student.registrationNumber}
-</div>
+    <div style="position:absolute;top:103mm;left:150mm;font-size:14px;">
+      ${student.duration}
+    </div>
 
-<div style="position:absolute;top:127mm;left:150mm;font-size:14px;">
-${student.sessionFrom}-${student.sessionTo}
-</div>
+    <div style="position:absolute;top:116mm;left:150mm;font-size:14px;">
+      ${student.registrationNumber}
+    </div>
 
-${
-(student.subjects || [])
-.map(
-(subject, index) => `
-<div style="position:absolute;top:${162 + index*15}mm;left:38mm;font-size:13px;">
-${subject.name}
-</div>
+    <div style="position:absolute;top:129mm;left:150mm;font-size:14px;">
+      ${student.sessionFrom} to ${student.sessionTo}
+    </div>
 
-<div style="position:absolute;top:${162 + index*15}mm;left:122mm;font-size:13px;">
-${subject.theoryMarks}
-</div>
+    <!-- SUBJECT TABLE -->
+    ${
+      (student.subjects || [])
+        .map((subject, index) => {
+          const top = 168 + index * 13;
 
-<div style="position:absolute;top:${162 + index*15}mm;left:145mm;font-size:13px;">
-${subject.practicalMarks}
-</div>
+          return `
+          <!-- Subject Name -->
+          <div style="position:absolute;top:${top}mm;left:45mm;font-size:13px;width:70mm;">
+            ${subject.name}
+          </div>
 
-<div style="position:absolute;top:${162 + index*15}mm;left:175mm;font-size:13px;">
-${Number(subject.theoryMarks)+Number(subject.practicalMarks)}
-</div>
-`
-)
-.join("")
-}
+          <!-- Theory -->
+          <div style="position:absolute;top:${top}mm;left:122mm;font-size:13px;text-align:center;width:15mm;">
+            ${subject.theoryMarks}
+          </div>
 
-<div style="
-position:absolute;
-top:236mm;
-left:170mm;
-font-size:18px;
-font-weight:bold;
-">
-${student.totalObtained}
-</div>
+          <!-- Practical -->
+          <div style="position:absolute;top:${top}mm;left:145mm;font-size:13px;text-align:center;width:15mm;">
+            ${subject.practicalMarks}
+          </div>
 
-${
-qrCodeDataUrl
-?
-`<img
-src="${qrCodeDataUrl}"
-style="
-position:absolute;
-bottom:25mm;
-right:20mm;
-width:20mm;
-height:20mm;
-"
-/>`
-:
-''
-}
+          <!-- Total -->
+          <div style="position:absolute;top:${top}mm;left:175mm;font-size:13px;text-align:center;width:15mm;">
+            ${Number(subject.theoryMarks) + Number(subject.practicalMarks)}
+          </div>
+          `;
+        })
+        .join("")
+    }
 
-</div>
-`;
+    <!-- PASS GRADE -->
+    <div style="
+      position:absolute;
+      top:220mm;
+      left:75mm;
+      font-size:16px;
+      font-weight:bold;
+      color:#c62828;
+    ">
+      "${student.grade}"
+    </div>
+
+    <!-- TOTAL MARKS -->
+    <div style="
+      position:absolute;
+      top:220mm;
+      left:170mm;
+      font-size:18px;
+      font-weight:bold;
+    ">
+      ${student.totalObtained}
+    </div>
+
+    <!-- DATE -->
+    <div style="
+      position:absolute;
+      bottom:55mm;
+      left:35mm;
+      font-size:14px;
+      font-weight:bold;
+    ">
+      ${student.issueDate}
+    </div>
+
+    ${
+      qrCodeDataUrl
+        ? `
+        <img
+          src="${qrCodeDataUrl}"
+          style="
+            position:absolute;
+            bottom:30mm;
+            right:20mm;
+            width:22mm;
+            height:22mm;
+          "
+        />
+      `
+        : ''
+    }
+
+  </div>
+  `;
 };
 
 export const generatePDF = async (student) => {
