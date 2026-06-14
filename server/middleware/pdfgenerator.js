@@ -51,10 +51,10 @@ const generateCertificateHTML = (
     overflow:hidden;
   ">
 
-    <!-- Student Name -->
+    <!-- Student Name: upar wali line ke UPAR hona chahiye -->
     <div style="
       position:absolute;
-      top:112mm;
+      top:105mm;
       left:50%;
       transform:translateX(-50%);
       width:150mm;
@@ -67,15 +67,15 @@ const generateCertificateHTML = (
       ${student.studentName}
     </div>
 
-    <!-- Day -->
+    <!-- Day: neeche wali line ke upar, "on the" ke baad -->
     <div style="
       position:absolute;
-      top:124mm;
-      left:55mm;
+      top:119mm;
+      left:52mm;
       font-size:5.5mm;
       font-weight:bold;
       text-align:center;
-      width:15mm;
+      width:16mm;
     ">
       ${student.day || ''}
     </div>
@@ -83,12 +83,12 @@ const generateCertificateHTML = (
     <!-- Month -->
     <div style="
       position:absolute;
-      top:124mm;
-      left:93mm;
+      top:119mm;
+      left:90mm;
       font-size:5.5mm;
       font-weight:bold;
       text-align:center;
-      width:20mm;
+      width:22mm;
     ">
       ${student.month || ''}
     </div>
@@ -96,21 +96,20 @@ const generateCertificateHTML = (
     <!-- Year -->
     <div style="
       position:absolute;
-      top:124mm;
-      left:155mm;
+      top:119mm;
+      left:153mm;
       font-size:5.5mm;
       font-weight:bold;
       text-align:center;
-      width:18mm;
+      width:20mm;
     ">
       ${student.year || ''}
     </div>
 
-    <!-- Course Name -->
-    <!-- LINE ke upar aane ke liye top thoda kam -->
+    <!-- Course Name: "for successfully completion" ke neeche, line ke bilkul upar -->
     <div style="
       position:absolute;
-      top:140mm;
+      top:144mm;
       left:50%;
       transform:translateX(-50%);
       width:190mm;
@@ -124,7 +123,6 @@ const generateCertificateHTML = (
     </div>
 
     <!-- Session From -->
-    <!-- "from___to___" line ke UPAR text aana chahiye -->
     <div style="
       position:absolute;
       top:162mm;
@@ -153,7 +151,6 @@ const generateCertificateHTML = (
     </div>
 
     <!-- Grade -->
-    <!-- "with Grade______" blank ke ANDAR aana chahiye -->
     <div style="
       position:absolute;
       top:192mm;
@@ -169,7 +166,6 @@ const generateCertificateHTML = (
     </div>
 
     <!-- Duration -->
-    <!-- "Duration___ Year" ke blank ke ANDAR -->
     <div style="
       position:absolute;
       top:192mm;
