@@ -33,7 +33,6 @@ const getImageBase64 = (filePath) => {
     return `data:image/${mimeType};base64,${data.toString('base64')}`;
   } catch { return null; }
 };
-
 const generateCertificateHTML = (
   student,
   qrCodeDataUrl,
@@ -55,10 +54,10 @@ const generateCertificateHTML = (
     <!-- Student Name -->
     <div style="
       position:absolute;
-      top:115mm;
+      top:112mm;
       left:50%;
       transform:translateX(-50%);
-      width:130mm;
+      width:150mm;
       text-align:center;
       font-size:8mm;
       font-weight:bold;
@@ -71,7 +70,7 @@ const generateCertificateHTML = (
     <!-- Day -->
     <div style="
       position:absolute;
-      top:127mm;
+      top:124mm;
       left:55mm;
       font-size:5.5mm;
       font-weight:bold;
@@ -84,8 +83,8 @@ const generateCertificateHTML = (
     <!-- Month -->
     <div style="
       position:absolute;
-      top:127mm;
-      left:95mm;
+      top:124mm;
+      left:93mm;
       font-size:5.5mm;
       font-weight:bold;
       text-align:center;
@@ -97,8 +96,8 @@ const generateCertificateHTML = (
     <!-- Year -->
     <div style="
       position:absolute;
-      top:127mm;
-      left:158mm;
+      top:124mm;
+      left:155mm;
       font-size:5.5mm;
       font-weight:bold;
       text-align:center;
@@ -108,9 +107,10 @@ const generateCertificateHTML = (
     </div>
 
     <!-- Course Name -->
+    <!-- LINE ke upar aane ke liye top thoda kam -->
     <div style="
       position:absolute;
-      top:148mm;
+      top:140mm;
       left:50%;
       transform:translateX(-50%);
       width:190mm;
@@ -124,9 +124,10 @@ const generateCertificateHTML = (
     </div>
 
     <!-- Session From -->
+    <!-- "from___to___" line ke UPAR text aana chahiye -->
     <div style="
       position:absolute;
-      top:171mm;
+      top:162mm;
       left:62mm;
       transform:translateX(-50%);
       font-size:5.5mm;
@@ -140,7 +141,7 @@ const generateCertificateHTML = (
     <!-- Session To -->
     <div style="
       position:absolute;
-      top:171mm;
+      top:162mm;
       left:148mm;
       transform:translateX(-50%);
       font-size:5.5mm;
@@ -152,9 +153,10 @@ const generateCertificateHTML = (
     </div>
 
     <!-- Grade -->
+    <!-- "with Grade______" blank ke ANDAR aana chahiye -->
     <div style="
       position:absolute;
-      top:203mm;
+      top:192mm;
       left:82mm;
       transform:translateX(-50%);
       font-size:6.5mm;
@@ -167,9 +169,10 @@ const generateCertificateHTML = (
     </div>
 
     <!-- Duration -->
+    <!-- "Duration___ Year" ke blank ke ANDAR -->
     <div style="
       position:absolute;
-      top:203mm;
+      top:192mm;
       left:152mm;
       transform:translateX(-50%);
       font-size:6.5mm;
@@ -180,6 +183,7 @@ const generateCertificateHTML = (
       ${student.duration}
     </div>
 
+    <!-- Photo -->
     ${
       photoBase64
         ? `
@@ -187,10 +191,10 @@ const generateCertificateHTML = (
         src="${photoBase64}"
         style="
           position:absolute;
-          top:46mm;
-          right:13mm;
-          width:26mm;
-          height:32mm;
+          top:43mm;
+          right:12mm;
+          width:25mm;
+          height:31mm;
           object-fit:cover;
           border:1px solid #555;
         "
@@ -199,6 +203,7 @@ const generateCertificateHTML = (
         : ''
     }
 
+    <!-- QR Code -->
     ${
       qrCodeDataUrl
         ? `
@@ -207,7 +212,7 @@ const generateCertificateHTML = (
         style="
           position:absolute;
           bottom:8mm;
-          right:18mm;
+          right:16mm;
           width:22mm;
           height:22mm;
         "
