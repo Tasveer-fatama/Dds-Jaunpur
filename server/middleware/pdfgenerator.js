@@ -217,7 +217,7 @@ const generateMarksheetHTML = (
     <!-- Student Name -->
     <div style="
       position:absolute;
-      top:93mm;
+      top:88mm;
       left:68mm;
       font-size:13px;
       font-weight:bold;
@@ -230,7 +230,7 @@ const generateMarksheetHTML = (
     <!-- Father Name -->
     <div style="
       position:absolute;
-      top:103mm;
+      top:97mm;
       left:68mm;
       font-size:13px;
       font-weight:bold;
@@ -239,32 +239,22 @@ const generateMarksheetHTML = (
       ${student.fatherName}
     </div>
 
-    <!-- Center of Examination -->
+    <!-- Center of Examination (supports 2 lines via inline) -->
     <div style="
       position:absolute;
-      top:112mm;
+      top:106mm;
       left:68mm;
       font-size:13px;
       white-space:nowrap;
+      line-height:1.6;
     ">
-      ${student.center || ''}
-    </div>
-
-    <!-- Center Line 2 (if long) -->
-    <div style="
-      position:absolute;
-      top:119mm;
-      left:68mm;
-      font-size:13px;
-      white-space:nowrap;
-    ">
-      ${student.centerLine2 || ''}
+      ${student.center || ''}${student.centerLine2 ? '<br/>' + student.centerLine2 : ''}
     </div>
 
     <!-- IVET-VLCs Code -->
     <div style="
       position:absolute;
-      top:132mm;
+      top:124mm;
       left:68mm;
       font-size:13px;
       font-weight:bold;
@@ -278,7 +268,7 @@ const generateMarksheetHTML = (
     <!-- Course -->
     <div style="
       position:absolute;
-      top:93mm;
+      top:88mm;
       left:126mm;
       font-size:13px;
       white-space:nowrap;
@@ -289,7 +279,7 @@ const generateMarksheetHTML = (
     <!-- Duration -->
     <div style="
       position:absolute;
-      top:103mm;
+      top:97mm;
       left:126mm;
       font-size:13px;
       white-space:nowrap;
@@ -300,7 +290,7 @@ const generateMarksheetHTML = (
     <!-- Registration No -->
     <div style="
       position:absolute;
-      top:113mm;
+      top:106mm;
       left:126mm;
       font-size:13px;
       white-space:nowrap;
@@ -311,7 +301,7 @@ const generateMarksheetHTML = (
     <!-- Session -->
     <div style="
       position:absolute;
-      top:123mm;
+      top:115mm;
       left:126mm;
       font-size:13px;
       white-space:nowrap;
@@ -323,8 +313,8 @@ const generateMarksheetHTML = (
     ${
       (student.subjects || [])
         .map((subject, index) => {
-          // Row 1 starts at 177mm, each row = 10mm gap
-          const top = 177 + index * 10.2;
+          // Row 1 starts at 163mm (measured from filled image), each row ~10.5mm
+          const top = 163 + index * 10.5;
 
           return `
           <!-- Subject ${index + 1} Name -->
@@ -381,7 +371,7 @@ const generateMarksheetHTML = (
     <!-- ===== PASS IN GRADE ===== -->
     <div style="
       position:absolute;
-      top:221mm;
+      top:210mm;
       left:70mm;
       font-size:15px;
       font-weight:bold;
@@ -393,7 +383,7 @@ const generateMarksheetHTML = (
     <!-- ===== TOTAL MARKS ===== -->
     <div style="
       position:absolute;
-      top:221mm;
+      top:210mm;
       left:147mm;
       font-size:15px;
       font-weight:bold;
@@ -404,7 +394,7 @@ const generateMarksheetHTML = (
     <!-- ===== DATE OF ISSUE ===== -->
     <div style="
       position:absolute;
-      bottom:57mm;
+      bottom:62mm;
       left:33mm;
       font-size:13px;
       font-weight:bold;
