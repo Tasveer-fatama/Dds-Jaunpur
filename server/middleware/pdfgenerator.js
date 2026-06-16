@@ -434,7 +434,7 @@ const generateMarksheetHTML = (
   `;
 };
 
-module.exports = { generateMarksheetHTML };
+
 
 export const generatePDF = async (student) => {
   const serverUrl =
