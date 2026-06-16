@@ -206,112 +206,113 @@ const generateMarksheetHTML = (student, qrCodeDataUrl, marksheetBg) => {
     font-family:'Times New Roman', serif;
   ">
 
-    <!-- LEFT SIDE -->
-    <div style="position:absolute; top:210px; left:205px; font-size:13px; font-weight:bold;">
+    <!-- ===== LEFT SIDE FIELDS ===== -->
+
+    <!-- Student Name -->
+    <div style="position:absolute; top:224px; left:243px; font-size:13px; font-weight:bold;">
       ${student.studentName}
     </div>
 
-    <div style="position:absolute; top:245px; left:205px; font-size:13px;">
+    <!-- Father's/Husband's Name -->
+    <div style="position:absolute; top:254px; left:243px; font-size:13px;">
       ${student.fatherName}
     </div>
 
-    <div style="position:absolute; top:280px; left:205px; font-size:13px;">
+    <!-- Center of Examination - Line 1 -->
+    <div style="position:absolute; top:284px; left:243px; font-size:13px;">
       ${student.center || ''}
     </div>
 
-    <div style="position:absolute; top:315px; left:205px; font-size:13px;">
+    <!-- Center of Examination - Line 2 (e.g. Jaunpur U.P.) -->
+    <div style="position:absolute; top:312px; left:243px; font-size:13px;">
       ${student.centerLine2 || ''}
     </div>
 
-    <div style="position:absolute; top:348px; left:205px; font-size:13px;">
+    <!-- IIVET-VLCs Code -->
+    <div style="position:absolute; top:341px; left:243px; font-size:13px;">
       ${student.vlc || ''}
     </div>
 
 
-    <!-- RIGHT SIDE -->
-    <div style="position:absolute; top:210px; left:548px; font-size:13px;">
+    <!-- ===== RIGHT SIDE FIELDS ===== -->
+
+    <!-- Course -->
+    <div style="position:absolute; top:224px; left:513px; font-size:13px;">
       ${student.courseName}
     </div>
 
-    <div style="position:absolute; top:245px; left:548px; font-size:13px;">
+    <!-- Duration -->
+    <div style="position:absolute; top:254px; left:513px; font-size:13px;">
       ${student.duration}
     </div>
 
-    <div style="position:absolute; top:280px; left:548px; font-size:13px;">
+    <!-- Registration No -->
+    <div style="position:absolute; top:284px; left:513px; font-size:13px;">
       ${student.registrationNumber}
     </div>
 
-    <div style="position:absolute; top:315px; left:548px; font-size:13px;">
+    <!-- Session -->
+    <div style="position:absolute; top:315px; left:513px; font-size:13px;">
       ${student.sessionFrom} to ${student.sessionTo}
     </div>
 
 
-    <!-- SUBJECT TABLE -->
-    <!-- Row headers (PageMaker/Tally Prime/Internet labels) sit around top 390–425px -->
+    <!-- ===== SUBJECT TABLE ===== -->
+    <!-- Row spacing: 33px between rows, starting at top:472px -->
     ${
       (student.subjects || []).map((sub, i) => {
-        const top = 440 + i * 33;
-
+        const top = 472 + i * 33;
+        const total = Number(sub.theoryMarks) + Number(sub.practicalMarks);
         return `
-        <div style="position:absolute; top:${top}px; left:118px; font-size:12px; width:255px;">
-          ${sub.name}
-        </div>
+          <!-- Subject ${i+1} Name -->
+          <div style="position:absolute; top:${top}px; left:145px; font-size:12px; width:250px;">
+            ${sub.name}
+          </div>
 
-        <!-- Theory Min -->
-        <div style="position:absolute; top:${top}px; left:400px; width:38px; text-align:center; font-size:12px;">
-          ${sub.theoryMin ?? ''}
-        </div>
+          <!-- Theory Marks -->
+          <div style="position:absolute; top:${top}px; left:410px; width:45px; text-align:center; font-size:12px;">
+            ${sub.theoryMarks}
+          </div>
 
-        <!-- Theory Max / Obtained -->
-        <div style="position:absolute; top:${top}px; left:440px; width:40px; text-align:center; font-size:12px;">
-          ${sub.theoryMarks}
-        </div>
+          <!-- Practical Marks -->
+          <div style="position:absolute; top:${top}px; left:533px; width:45px; text-align:center; font-size:12px;">
+            ${sub.practicalMarks}
+          </div>
 
-        <!-- Practical Min -->
-        <div style="position:absolute; top:${top}px; left:555px; width:38px; text-align:center; font-size:12px;">
-          ${sub.practicalMin ?? ''}
-        </div>
-
-        <!-- Practical Max / Obtained -->
-        <div style="position:absolute; top:${top}px; left:600px; width:40px; text-align:center; font-size:12px;">
-          ${sub.practicalMarks}
-        </div>
-
-        <!-- Total Marks -->
-        <div style="position:absolute; top:${top}px; left:700px; width:50px; text-align:center; font-size:12px;">
-          ${Number(sub.theoryMarks) + Number(sub.practicalMarks)}
-        </div>
+          <!-- Total Marks -->
+          <div style="position:absolute; top:${top}px; left:640px; width:50px; text-align:center; font-size:12px;">
+            ${total}
+          </div>
         `;
       }).join('')
     }
 
 
-    <!-- GRADE -->
-    <div style="position:absolute; top:752px; left:255px; font-size:14px; font-weight:bold; text-align:center; width:60px;">
+    <!-- ===== GRADE ===== -->
+    <div style="position:absolute; top:617px; left:237px; font-size:14px; font-weight:bold; text-align:center; width:60px;">
       ${student.grade}
     </div>
 
-    <!-- TOTAL MARKS -->
-    <div style="position:absolute; top:752px; left:660px; font-size:14px; font-weight:bold; text-align:center; width:60px;">
+    <!-- ===== TOTAL MARKS ===== -->
+    <div style="position:absolute; top:617px; left:618px; font-size:14px; font-weight:bold; text-align:center; width:65px;">
       ${student.totalObtained}
     </div>
 
-    <!-- DATE OF ISSUE -->
-    <div style="position:absolute; top:855px; left:92px; font-size:12px;">
+    <!-- ===== DATE OF ISSUE ===== -->
+    <div style="position:absolute; top:835px; left:110px; font-size:13px; font-weight:bold;">
       ${student.issueDate}
     </div>
 
-    <!-- QR CODE -->
+    <!-- ===== QR CODE ===== -->
     ${
       qrCodeDataUrl
-        ? `<img src="${qrCodeDataUrl}" style="position:absolute; bottom:88px; right:60px; width:110px;" />`
+        ? `<img src="${qrCodeDataUrl}" style="position:absolute; top:830px; right:55px; width:110px;" />`
         : ''
     }
 
   </div>
   `;
 };
-
 
 export const generatePDF = async (student) => {
   const serverUrl =
