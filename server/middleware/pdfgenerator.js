@@ -214,11 +214,11 @@ const generateMarksheetHTML = (
 
     <!-- ===== LEFT SIDE INFO ===== -->
 
-    <!-- Student Name -->
+    <!-- Student Name (right after "Student's Name :") -->
     <div style="
       position:absolute;
-      top:88mm;
-      left:68mm;
+      top:21.5%;
+      left:24%;
       font-size:13px;
       font-weight:bold;
       color:#c62828;
@@ -227,11 +227,11 @@ const generateMarksheetHTML = (
       ${student.studentName}
     </div>
 
-    <!-- Father Name -->
+    <!-- Father Name (right after "Father's/Husband's Name :") -->
     <div style="
       position:absolute;
-      top:97mm;
-      left:68mm;
+      top:24.7%;
+      left:24%;
       font-size:13px;
       font-weight:bold;
       white-space:nowrap;
@@ -239,23 +239,33 @@ const generateMarksheetHTML = (
       ${student.fatherName}
     </div>
 
-    <!-- Center of Examination (supports 2 lines via inline) -->
+    <!-- Center of Examination Line 1 (right after "Center of Examination :") -->
     <div style="
       position:absolute;
-      top:106mm;
-      left:68mm;
+      top:27.9%;
+      left:24%;
       font-size:13px;
       white-space:nowrap;
-      line-height:1.6;
     ">
-      ${student.center || ''}${student.centerLine2 ? '<br/>' + student.centerLine2 : ''}
+      ${student.center || ''}
     </div>
 
-    <!-- IVET-VLCs Code -->
+    <!-- Center of Examination Line 2 (second line, indented like "Jaunpur (U.P.)") -->
     <div style="
       position:absolute;
-      top:124mm;
-      left:68mm;
+      top:30.8%;
+      left:13%;
+      font-size:13px;
+      white-space:nowrap;
+    ">
+      ${student.centerLine2 || ''}
+    </div>
+
+    <!-- IVET-VLCs Code (right after "IIVET-VLCs Code :") -->
+    <div style="
+      position:absolute;
+      top:34.5%;
+      left:14%;
       font-size:13px;
       font-weight:bold;
       white-space:nowrap;
@@ -265,44 +275,44 @@ const generateMarksheetHTML = (
 
     <!-- ===== RIGHT SIDE INFO ===== -->
 
-    <!-- Course -->
+    <!-- Course (right after "Course :") -->
     <div style="
       position:absolute;
-      top:88mm;
-      left:126mm;
+      top:21.5%;
+      left:63%;
       font-size:13px;
       white-space:nowrap;
     ">
       ${student.courseName}
     </div>
 
-    <!-- Duration -->
+    <!-- Duration (right after "Duration :") -->
     <div style="
       position:absolute;
-      top:97mm;
-      left:126mm;
+      top:24.7%;
+      left:63%;
       font-size:13px;
       white-space:nowrap;
     ">
       ${student.duration}
     </div>
 
-    <!-- Registration No -->
+    <!-- Registration No (right after "Registration No :") -->
     <div style="
       position:absolute;
-      top:106mm;
-      left:126mm;
+      top:27.9%;
+      left:69%;
       font-size:13px;
       white-space:nowrap;
     ">
       ${student.registrationNumber}
     </div>
 
-    <!-- Session -->
+    <!-- Session (right after "Session :") -->
     <div style="
       position:absolute;
-      top:115mm;
-      left:126mm;
+      top:31%;
+      left:63%;
       font-size:13px;
       white-space:nowrap;
     ">
@@ -313,17 +323,17 @@ const generateMarksheetHTML = (
     ${
       (student.subjects || [])
         .map((subject, index) => {
-          // Row 1 starts at 163mm (measured from filled image), each row ~10.5mm
-          const top = 163 + index * 10.5;
+          // Row 1 starts at ~46.5%, each row gap ~2.8% (matches the 4-row table in the bg image)
+          const top = 46.5 + index * 2.8;
 
           return `
           <!-- Subject ${index + 1} Name -->
           <div style="
             position:absolute;
-            top:${top}mm;
-            left:42mm;
+            top:${top}%;
+            left:14%;
             font-size:12px;
-            width:72mm;
+            width:38%;
           ">
             ${subject.name}
           </div>
@@ -331,10 +341,10 @@ const generateMarksheetHTML = (
           <!-- Theory Marks -->
           <div style="
             position:absolute;
-            top:${top}mm;
-            left:118mm;
+            top:${top}%;
+            left:55%;
             font-size:12px;
-            width:16mm;
+            width:8%;
             text-align:center;
           ">
             ${subject.theoryMarks}
@@ -343,22 +353,22 @@ const generateMarksheetHTML = (
           <!-- Practical Marks -->
           <div style="
             position:absolute;
-            top:${top}mm;
-            left:147mm;
+            top:${top}%;
+            left:69%;
             font-size:12px;
-            width:14mm;
+            width:7%;
             text-align:center;
           ">
             ${subject.practicalMarks}
           </div>
 
-          <!-- Total Marks -->
+          <!-- Total Marks per subject -->
           <div style="
             position:absolute;
-            top:${top}mm;
-            left:175mm;
+            top:${top}%;
+            left:84%;
             font-size:12px;
-            width:16mm;
+            width:8%;
             text-align:center;
           ">
             ${Number(subject.theoryMarks) + Number(subject.practicalMarks)}
@@ -371,8 +381,8 @@ const generateMarksheetHTML = (
     <!-- ===== PASS IN GRADE ===== -->
     <div style="
       position:absolute;
-      top:210mm;
-      left:70mm;
+      top:62%;
+      left:18%;
       font-size:15px;
       font-weight:bold;
       color:#222;
@@ -383,8 +393,8 @@ const generateMarksheetHTML = (
     <!-- ===== TOTAL MARKS ===== -->
     <div style="
       position:absolute;
-      top:210mm;
-      left:147mm;
+      top:62%;
+      left:73%;
       font-size:15px;
       font-weight:bold;
     ">
@@ -394,8 +404,8 @@ const generateMarksheetHTML = (
     <!-- ===== DATE OF ISSUE ===== -->
     <div style="
       position:absolute;
-      bottom:62mm;
-      left:33mm;
+      top:75%;
+      left:4%;
       font-size:13px;
       font-weight:bold;
     ">
@@ -410,10 +420,10 @@ const generateMarksheetHTML = (
           src="${qrCodeDataUrl}"
           style="
             position:absolute;
-            bottom:28mm;
-            right:18mm;
-            width:22mm;
-            height:22mm;
+            bottom:9%;
+            right:6%;
+            width:11%;
+            height:auto;
           "
         />
       `
@@ -423,6 +433,8 @@ const generateMarksheetHTML = (
   </div>
   `;
 };
+
+module.exports = { generateMarksheetHTML };
 
 export const generatePDF = async (student) => {
   const serverUrl =
