@@ -214,11 +214,11 @@ const generateMarksheetHTML = (
 
     <!-- ===== LEFT SIDE INFO ===== -->
 
-    <!-- Student Name (right after "Student's Name :") -->
+    <!-- Student Name -->
     <div style="
       position:absolute;
-      top:21.5%;
-      left:24%;
+      top:27.0%;
+      left:24.5%;
       font-size:13px;
       font-weight:bold;
       color:#c62828;
@@ -227,11 +227,11 @@ const generateMarksheetHTML = (
       ${student.studentName}
     </div>
 
-    <!-- Father Name (right after "Father's/Husband's Name :") -->
+    <!-- Father Name -->
     <div style="
       position:absolute;
-      top:24.7%;
-      left:24%;
+      top:30.8%;
+      left:24.5%;
       font-size:13px;
       font-weight:bold;
       white-space:nowrap;
@@ -239,33 +239,33 @@ const generateMarksheetHTML = (
       ${student.fatherName}
     </div>
 
-    <!-- Center of Examination Line 1 (right after "Center of Examination :") -->
+    <!-- Center of Examination Line 1 -->
     <div style="
       position:absolute;
-      top:27.9%;
-      left:24%;
+      top:34.6%;
+      left:24.5%;
       font-size:13px;
       white-space:nowrap;
     ">
       ${student.center || ''}
     </div>
 
-    <!-- Center of Examination Line 2 (second line, indented like "Jaunpur (U.P.)") -->
+    <!-- Center of Examination Line 2 (second indented line, e.g. "Jaunpur (U.P.)") -->
     <div style="
       position:absolute;
-      top:30.8%;
-      left:13%;
+      top:37.4%;
+      left:24.5%;
       font-size:13px;
       white-space:nowrap;
     ">
       ${student.centerLine2 || ''}
     </div>
 
-    <!-- IVET-VLCs Code (right after "IIVET-VLCs Code :") -->
+    <!-- IVET-VLCs Code -->
     <div style="
       position:absolute;
-      top:34.5%;
-      left:14%;
+      top:41.3%;
+      left:24.5%;
       font-size:13px;
       font-weight:bold;
       white-space:nowrap;
@@ -275,44 +275,44 @@ const generateMarksheetHTML = (
 
     <!-- ===== RIGHT SIDE INFO ===== -->
 
-    <!-- Course (right after "Course :") -->
+    <!-- Course -->
     <div style="
       position:absolute;
-      top:21.5%;
-      left:63%;
+      top:27.0%;
+      left:68.5%;
       font-size:13px;
       white-space:nowrap;
     ">
       ${student.courseName}
     </div>
 
-    <!-- Duration (right after "Duration :") -->
+    <!-- Duration -->
     <div style="
       position:absolute;
-      top:24.7%;
-      left:63%;
+      top:30.8%;
+      left:68.5%;
       font-size:13px;
       white-space:nowrap;
     ">
       ${student.duration}
     </div>
 
-    <!-- Registration No (right after "Registration No :") -->
+    <!-- Registration No -->
     <div style="
       position:absolute;
-      top:27.9%;
-      left:69%;
+      top:34.6%;
+      left:68.5%;
       font-size:13px;
       white-space:nowrap;
     ">
       ${student.registrationNumber}
     </div>
 
-    <!-- Session (right after "Session :") -->
+    <!-- Session -->
     <div style="
       position:absolute;
-      top:31%;
-      left:63%;
+      top:39.4%;
+      left:68.5%;
       font-size:13px;
       white-space:nowrap;
     ">
@@ -320,29 +320,30 @@ const generateMarksheetHTML = (
     </div>
 
     <!-- ===== SUBJECT ROWS ===== -->
+    <!-- Header row "Sr.No/Subjects/Theory/Practical/Marks" ~44.5%, Min/Max sub-header ~47.3% -->
+    <!-- Data rows start ~50.8%, spaced ~2.55% apart -->
     ${
       (student.subjects || [])
         .map((subject, index) => {
-          // Row 1 starts at ~46.5%, each row gap ~2.8% (matches the 4-row table in the bg image)
-          const top = 46.5 + index * 2.8;
+          const top = 50.6 + index * 2.55;
 
           return `
           <!-- Subject ${index + 1} Name -->
           <div style="
             position:absolute;
             top:${top}%;
-            left:14%;
+            left:13.5%;
             font-size:12px;
-            width:38%;
+            width:25%;
           ">
             ${subject.name}
           </div>
 
-          <!-- Theory Marks -->
+          <!-- Theory Marks (placed under Max. column) -->
           <div style="
             position:absolute;
             top:${top}%;
-            left:55%;
+            left:55.5%;
             font-size:12px;
             width:8%;
             text-align:center;
@@ -350,11 +351,11 @@ const generateMarksheetHTML = (
             ${subject.theoryMarks}
           </div>
 
-          <!-- Practical Marks -->
+          <!-- Practical Marks (placed under Max. column) -->
           <div style="
             position:absolute;
             top:${top}%;
-            left:69%;
+            left:76%;
             font-size:12px;
             width:7%;
             text-align:center;
@@ -366,7 +367,7 @@ const generateMarksheetHTML = (
           <div style="
             position:absolute;
             top:${top}%;
-            left:84%;
+            left:88.5%;
             font-size:12px;
             width:8%;
             text-align:center;
@@ -381,31 +382,31 @@ const generateMarksheetHTML = (
     <!-- ===== PASS IN GRADE ===== -->
     <div style="
       position:absolute;
-      top:62%;
-      left:18%;
+      top:69.0%;
+      left:28.5%;
       font-size:15px;
       font-weight:bold;
       color:#222;
     ">
-      &quot;${student.grade}&quot;
+      "${student.grade}"
     </div>
 
     <!-- ===== TOTAL MARKS ===== -->
     <div style="
       position:absolute;
-      top:62%;
-      left:73%;
+      top:69.0%;
+      left:78.5%;
       font-size:15px;
       font-weight:bold;
     ">
-      ${student.totalObtained}/400
+      ${student.totalObtained}
     </div>
 
     <!-- ===== DATE OF ISSUE ===== -->
     <div style="
       position:absolute;
-      top:75%;
-      left:4%;
+      top:84.5%;
+      left:5.2%;
       font-size:13px;
       font-weight:bold;
     ">
