@@ -195,246 +195,108 @@ const generateCertificateHTML = (
   </div>
   `;
 };
-const generateMarksheetHTML = (
-  student,
-  qrCodeDataUrl,
-  marksheetBg
-) => {
+const generateMarksheetHTML = (student, qrCodeDataUrl, marksheetBg) => {
   return `
   <div style="
-    width:210mm;
-    height:297mm;
+    width:794px;
+    height:1123px;
     position:relative;
-    background-image:url('${marksheetBg}');
-    background-size:100% 100%;
-    background-repeat:no-repeat;
-    font-family: Arial, Helvetica, sans-serif;
-    overflow:hidden;
+    background:url('${marksheetBg}') no-repeat;
+    background-size:794px 1123px;
+    font-family:'Times New Roman', serif;
   ">
 
-    <!-- ===== LEFT SIDE INFO ===== -->
-
-    <!-- Student Name -->
-    <div style="
-      position:absolute;
-      top:27.0%;
-      left:24.5%;
-      font-size:13px;
-      font-weight:bold;
-      color:#c62828;
-      white-space:nowrap;
-    ">
+    <!-- LEFT SIDE -->
+    <div style="position:absolute; top:205px; left:200px; transform:translateY(-50%); font-size:13px; font-weight:bold;">
       ${student.studentName}
     </div>
 
-    <!-- Father Name -->
-    <div style="
-      position:absolute;
-      top:30.8%;
-      left:24.5%;
-      font-size:13px;
-      font-weight:bold;
-      white-space:nowrap;
-    ">
+    <div style="position:absolute; top:240px; left:200px; transform:translateY(-50%); font-size:13px;">
       ${student.fatherName}
     </div>
 
-    <!-- Center of Examination Line 1 -->
-    <div style="
-      position:absolute;
-      top:34.6%;
-      left:24.5%;
-      font-size:13px;
-      white-space:nowrap;
-    ">
+    <div style="position:absolute; top:275px; left:200px; transform:translateY(-50%); font-size:13px;">
       ${student.center || ''}
     </div>
 
-    <!-- Center of Examination Line 2 (second indented line, e.g. "Jaunpur (U.P.)") -->
-    <div style="
-      position:absolute;
-      top:37.4%;
-      left:24.5%;
-      font-size:13px;
-      white-space:nowrap;
-    ">
+    <div style="position:absolute; top:305px; left:200px; transform:translateY(-50%); font-size:13px;">
       ${student.centerLine2 || ''}
     </div>
 
-    <!-- IVET-VLCs Code -->
-    <div style="
-      position:absolute;
-      top:41.3%;
-      left:24.5%;
-      font-size:13px;
-      font-weight:bold;
-      white-space:nowrap;
-    ">
+    <div style="position:absolute; top:340px; left:200px; transform:translateY(-50%); font-size:13px;">
       ${student.vlc || ''}
     </div>
 
-    <!-- ===== RIGHT SIDE INFO ===== -->
 
-    <!-- Course -->
-    <div style="
-      position:absolute;
-      top:27.0%;
-      left:68.5%;
-      font-size:13px;
-      white-space:nowrap;
-    ">
+    <!-- RIGHT SIDE -->
+    <div style="position:absolute; top:205px; left:545px; transform:translateY(-50%); font-size:13px;">
       ${student.courseName}
     </div>
 
-    <!-- Duration -->
-    <div style="
-      position:absolute;
-      top:30.8%;
-      left:68.5%;
-      font-size:13px;
-      white-space:nowrap;
-    ">
+    <div style="position:absolute; top:240px; left:545px; transform:translateY(-50%); font-size:13px;">
       ${student.duration}
     </div>
 
-    <!-- Registration No -->
-    <div style="
-      position:absolute;
-      top:34.6%;
-      left:68.5%;
-      font-size:13px;
-      white-space:nowrap;
-    ">
+    <div style="position:absolute; top:275px; left:545px; transform:translateY(-50%); font-size:13px;">
       ${student.registrationNumber}
     </div>
 
-    <!-- Session -->
-    <div style="
-      position:absolute;
-      top:39.4%;
-      left:68.5%;
-      font-size:13px;
-      white-space:nowrap;
-    ">
+    <div style="position:absolute; top:310px; left:545px; transform:translateY(-50%); font-size:13px;">
       ${student.sessionFrom} to ${student.sessionTo}
     </div>
 
-    <!-- ===== SUBJECT ROWS ===== -->
-    <!-- Header row "Sr.No/Subjects/Theory/Practical/Marks" ~44.5%, Min/Max sub-header ~47.3% -->
-    <!-- Data rows start ~50.8%, spaced ~2.55% apart -->
+
+    <!-- SUBJECT TABLE -->
     ${
-      (student.subjects || [])
-        .map((subject, index) => {
-          const top = 50.6 + index * 2.55;
+      (student.subjects || []).map((sub, i) => {
+        const top = 430 + i * 34; // tuned spacing
 
-          return `
-          <!-- Subject ${index + 1} Name -->
-          <div style="
-            position:absolute;
-            top:${top}%;
-            left:13.5%;
-            font-size:12px;
-            width:25%;
-          ">
-            ${subject.name}
-          </div>
+        return `
+        <div style="position:absolute; top:${top}px; left:115px; font-size:12px; width:260px;">
+          ${sub.name}
+        </div>
 
-          <!-- Theory Marks (placed under Max. column) -->
-          <div style="
-            position:absolute;
-            top:${top}%;
-            left:55.5%;
-            font-size:12px;
-            width:8%;
-            text-align:center;
-          ">
-            ${subject.theoryMarks}
-          </div>
+        <div style="position:absolute; top:${top}px; left:455px; width:40px; text-align:center;">
+          ${sub.theoryMarks}
+        </div>
 
-          <!-- Practical Marks (placed under Max. column) -->
-          <div style="
-            position:absolute;
-            top:${top}%;
-            left:76%;
-            font-size:12px;
-            width:7%;
-            text-align:center;
-          ">
-            ${subject.practicalMarks}
-          </div>
+        <div style="position:absolute; top:${top}px; left:615px; width:40px; text-align:center;">
+          ${sub.practicalMarks}
+        </div>
 
-          <!-- Total Marks per subject -->
-          <div style="
-            position:absolute;
-            top:${top}%;
-            left:88.5%;
-            font-size:12px;
-            width:8%;
-            text-align:center;
-          ">
-            ${Number(subject.theoryMarks) + Number(subject.practicalMarks)}
-          </div>
-          `;
-        })
-        .join("")
+        <div style="position:absolute; top:${top}px; left:710px; width:50px; text-align:center;">
+          ${Number(sub.theoryMarks) + Number(sub.practicalMarks)}
+        </div>
+        `;
+      }).join('')
     }
 
-    <!-- ===== PASS IN GRADE ===== -->
-    <div style="
-      position:absolute;
-      top:69.0%;
-      left:28.5%;
-      font-size:15px;
-      font-weight:bold;
-      color:#222;
-    ">
-      "${student.grade}"
+
+    <!-- GRADE -->
+    <div style="position:absolute; top:760px; left:260px; font-size:15px; font-weight:bold;">
+      ${student.grade}
     </div>
 
-    <!-- ===== TOTAL MARKS ===== -->
-    <div style="
-      position:absolute;
-      top:69.0%;
-      left:78.5%;
-      font-size:15px;
-      font-weight:bold;
-    ">
+    <!-- TOTAL -->
+    <div style="position:absolute; top:760px; left:660px; font-size:15px; font-weight:bold;">
       ${student.totalObtained}
     </div>
 
-    <!-- ===== DATE OF ISSUE ===== -->
-    <div style="
-      position:absolute;
-      top:84.5%;
-      left:5.2%;
-      font-size:13px;
-      font-weight:bold;
-    ">
+    <!-- DATE -->
+    <div style="position:absolute; top:940px; left:90px; font-size:13px;">
       ${student.issueDate}
     </div>
 
-    <!-- ===== QR CODE ===== -->
+    <!-- QR -->
     ${
       qrCodeDataUrl
-        ? `
-        <img
-          src="${qrCodeDataUrl}"
-          style="
-            position:absolute;
-            bottom:9%;
-            right:6%;
-            width:11%;
-            height:auto;
-          "
-        />
-      `
+        ? `<img src="${qrCodeDataUrl}" style="position:absolute; bottom:95px; right:65px; width:115px;" />`
         : ''
     }
 
   </div>
   `;
 };
-
 
 
 export const generatePDF = async (student) => {
