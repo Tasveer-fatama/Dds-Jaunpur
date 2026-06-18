@@ -198,86 +198,101 @@ const generateCertificateHTML = (
 const generateMarksheetHTML = (student, qrCodeDataUrl, marksheetBg) => {
   return `
   <div style="width:794px;height:1123px;position:relative;
-    background:url('${marksheetBg}') no-repeat;
+    background:url('${marksheetBg}') no-repeat center top;
     background-size:794px 1123px;
     font-family:'Times New Roman', serif;">
 
-    <!-- ✅ LEFT SIDE: Student Info -->
-    <!-- Student Name -->
-    <div style="position:absolute;top:218px;left:190px;font-size:13px;font-weight:bold;white-space:nowrap;">
+    <!-- ========== LEFT SIDE: Student Info ========== -->
+
+    <!-- Student Name → line starts at ~270px left -->
+    <div style="position:absolute;top:272px;left:270px;font-size:13px;font-weight:bold;white-space:nowrap;">
       ${student.studentName}</div>
 
     <!-- Father's / Husband's Name -->
-    <div style="position:absolute;top:250px;left:190px;font-size:13px;white-space:nowrap;">
+    <div style="position:absolute;top:308px;left:270px;font-size:13px;white-space:nowrap;">
       ${student.fatherName}</div>
 
     <!-- Center of Examination -->
-    <div style="position:absolute;top:283px;left:190px;font-size:12px;white-space:nowrap;">
+    <div style="position:absolute;top:344px;left:270px;font-size:12px;white-space:nowrap;">
       ${student.center || ''}</div>
 
-    <!-- Center Line 2 (if any) -->
-    <div style="position:absolute;top:308px;left:190px;font-size:12px;white-space:nowrap;">
-      ${student.centerLine2 || ''}</div>
-
     <!-- IIVET-VLCs Code -->
-    <div style="position:absolute;top:336px;left:190px;font-size:12px;white-space:nowrap;">
+    <div style="position:absolute;top:380px;left:270px;font-size:12px;white-space:nowrap;">
       ${student.vlc || ''}</div>
 
-    <!-- ✅ RIGHT SIDE: Course Info -->
-    <!-- Course Number (top-right, e.g. 56895760) -->
-    <div style="position:absolute;top:205px;left:572px;font-size:12px;white-space:nowrap;">
-      ${student.courseCode || ''}</div>
+    <!-- ========== RIGHT SIDE: Course Info ========== -->
 
-    <!-- Course Name -->
-    <div style="position:absolute;top:222px;left:490px;font-size:12px;white-space:nowrap;">
+    <!-- Course Name → after "Course :" colon, line at ~680px -->
+    <div style="position:absolute;top:272px;left:660px;font-size:12px;white-space:nowrap;">
       ${student.courseName}</div>
 
     <!-- Duration -->
-    <div style="position:absolute;top:253px;left:490px;font-size:12px;white-space:nowrap;">
+    <div style="position:absolute;top:308px;left:660px;font-size:12px;white-space:nowrap;">
       ${student.duration}</div>
 
     <!-- Registration No -->
-    <div style="position:absolute;top:283px;left:490px;font-size:12px;white-space:nowrap;">
+    <div style="position:absolute;top:344px;left:660px;font-size:12px;white-space:nowrap;">
       ${student.registrationNumber}</div>
 
     <!-- Session -->
-    <div style="position:absolute;top:313px;left:490px;font-size:12px;white-space:nowrap;">
+    <div style="position:absolute;top:380px;left:660px;font-size:12px;white-space:nowrap;">
       ${student.sessionFrom} to ${student.sessionTo}</div>
 
-    <!-- ✅ SUBJECT ROWS -->
-    <!-- Row 1 starts at top:463px, each row gap = 32px -->
-    <!-- Columns: Name=148, Theory=398, Practical=528, Total=628 -->
+    <!-- ========== SUBJECT TABLE ROWS ========== -->
+    <!--
+      Table starts ~top:490px (after Min/Max header row)
+      Row 1 → top:530px
+      Row gap → 38px each
+      Columns (center of underline):
+        Subject Name  → left:200px  width:220px
+        Theory (Max)  → left:468px  width:50px   (Max column)
+        Practical(Max)→ left:591px  width:50px   (Max column)
+        Marks (Total) → left:693px  width:55px
+    -->
     ${(student.subjects || []).map((sub, i) => {
-      const top = 463 + i * 32;
+      const top = 530 + i * 38;
       const total = Number(sub.theoryMarks) + Number(sub.practicalMarks);
       return `
-        <div style="position:absolute;top:${top}px;left:148px;font-size:12px;width:235px;overflow:hidden;white-space:nowrap;">
+        <div style="position:absolute;top:${top}px;left:120px;
+          font-size:12px;width:250px;overflow:hidden;white-space:nowrap;">
           ${sub.name}</div>
-        <div style="position:absolute;top:${top}px;left:398px;width:46px;text-align:center;font-size:12px;">
+
+        <div style="position:absolute;top:${top}px;left:460px;
+          width:52px;text-align:center;font-size:12px;">
           ${sub.theoryMarks}</div>
-        <div style="position:absolute;top:${top}px;left:528px;width:46px;text-align:center;font-size:12px;">
+
+        <div style="position:absolute;top:${top}px;left:582px;
+          width:52px;text-align:center;font-size:12px;">
           ${sub.practicalMarks}</div>
-        <div style="position:absolute;top:${top}px;left:628px;width:50px;text-align:center;font-size:12px;">
+
+        <div style="position:absolute;top:${top}px;left:685px;
+          width:58px;text-align:center;font-size:12px;">
           ${total}</div>
       `;
     }).join('')}
 
-    <!-- ✅ PASS IN GRADE box -->
-    <div style="position:absolute;top:616px;left:218px;font-size:14px;font-weight:bold;text-align:center;width:56px;">
+    <!-- ========== PASS IN GRADE box ========== -->
+    <!-- Box is at approx left:250px, top:690px -->
+    <div style="position:absolute;top:690px;left:250px;
+      font-size:14px;font-weight:bold;text-align:center;width:80px;">
       ${student.grade}</div>
 
-    <!-- ✅ Total Marks box -->
-    <div style="position:absolute;top:616px;left:607px;font-size:14px;font-weight:bold;text-align:center;width:60px;">
+    <!-- ========== Total Marks box ========== -->
+    <!-- Box is at approx left:668px, top:690px -->
+    <div style="position:absolute;top:690px;left:668px;
+      font-size:14px;font-weight:bold;text-align:center;width:70px;">
       ${student.totalObtained}</div>
 
-    <!-- ✅ Issue Date -->
-    <div style="position:absolute;top:838px;left:92px;font-size:12px;">
+    <!-- ========== Date of Issue ========== -->
+    <!-- Line under "Date of Issue" label ~top:895px left:80px -->
+    <div style="position:absolute;top:880px;left:80px;font-size:12px;">
       ${student.issueDate}</div>
 
-    <!-- ✅ QR Code (bottom right area) -->
+    <!-- ========== QR Code ========== -->
+    <!-- Bottom-right near Sign. Manager area -->
     ${qrCodeDataUrl ? `
       <img src="${qrCodeDataUrl}"
-        style="position:absolute;top:848px;left:636px;width:100px;height:100px;" />
+        style="position:absolute;top:840px;left:660px;width:95px;height:95px;" />
     ` : ''}
 
   </div>`;
