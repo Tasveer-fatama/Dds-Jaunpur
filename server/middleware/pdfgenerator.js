@@ -195,6 +195,7 @@ const generateCertificateHTML = (
   </div>
   `;
 };
+
 const generateMarksheetHTML = (student, qrCodeDataUrl, marksheetBg) => {
   return `
   <div style="width:794px;height:1123px;position:relative;
@@ -202,121 +203,71 @@ const generateMarksheetHTML = (student, qrCodeDataUrl, marksheetBg) => {
     background-size:794px 1123px;
     font-family:'Times New Roman', serif;">
 
-    <!-- ===== LEFT SIDE ===== -->
-
-    <!-- Student Name: colon ke baad underline pe -->
-    <div style="position:absolute;top:262px;left:268px;
-      font-size:13px;font-weight:bold;white-space:nowrap;">
+    <!-- LEFT SIDE -->
+    <div style="position:absolute;top:306px;left:162px;font-size:13px;font-weight:bold;white-space:nowrap;">
       ${student.studentName}</div>
 
-    <!-- Father Name -->
-    <div style="position:absolute;top:298px;left:268px;
-      font-size:13px;white-space:nowrap;">
+    <div style="position:absolute;top:343px;left:162px;font-size:13px;white-space:nowrap;">
       ${student.fatherName}</div>
 
-    <!-- Center of Examination -->
-    <div style="position:absolute;top:334px;left:268px;
-      font-size:12px;white-space:nowrap;">
+    <div style="position:absolute;top:379px;left:162px;font-size:12px;white-space:nowrap;">
       ${student.center || ''}</div>
 
-    <!-- IIVET-VLCs Code -->
-    <div style="position:absolute;top:370px;left:268px;
-      font-size:12px;white-space:nowrap;">
+    <div style="position:absolute;top:415px;left:162px;font-size:12px;white-space:nowrap;">
       ${student.vlc || ''}</div>
 
-    <!-- ===== RIGHT SIDE — CORRECT ORDER ===== -->
-    <!--
-      Blank template mein right side order:
-      Row 1 (262px) → Course
-      Row 2 (298px) → Duration  
-      Row 3 (334px) → Registration No
-      Row 4 (370px) → Session
-    -->
-
-    <!-- Course Name (Row 1) -->
-    <div style="position:absolute;top:262px;left:660px;
-      font-size:12px;white-space:nowrap;">
+    <!-- RIGHT SIDE -->
+    <div style="position:absolute;top:306px;left:629px;font-size:12px;white-space:nowrap;">
       ${student.courseName}</div>
 
-    <!-- Duration (Row 2) -->
-    <div style="position:absolute;top:298px;left:660px;
-      font-size:12px;white-space:nowrap;">
+    <div style="position:absolute;top:343px;left:629px;font-size:12px;white-space:nowrap;">
       ${student.duration}</div>
 
-    <!-- Registration No (Row 3) -->
-    <div style="position:absolute;top:334px;left:660px;
-      font-size:12px;white-space:nowrap;">
+    <div style="position:absolute;top:379px;left:629px;font-size:12px;white-space:nowrap;">
       ${student.registrationNumber}</div>
 
-    <!-- Session (Row 4) -->
-    <div style="position:absolute;top:370px;left:660px;
-      font-size:12px;white-space:nowrap;">
+    <div style="position:absolute;top:415px;left:629px;font-size:12px;white-space:nowrap;">
       ${student.sessionFrom} to ${student.sessionTo}</div>
 
-    <!-- ===== SUBJECT TABLE ROWS ===== -->
-    <!--
-      Blank template mein table structure:
-      - "Sr.No / Subjects / Theory / Practical / Marks" header → ~418px
-      - Empty row (no Sr.No) with sub-subject names → ~445px  ← YEH HEADER HAI, data nahi
-      - "Min / Max / Min / Max" row → ~472px                  ← YEH BHI HEADER HAI
-      - Sr.No 1 data row → top: 500px
-      - Sr.No 2 data row → top: 538px
-      - Sr.No 3 data row → top: 576px
-      - Sr.No 4 data row → top: 614px
-      Row gap: ~38px
-
-      Column X positions (blank template se measure):
-      Subject name : left:120px  width:250px
-      Theory Max   : left:462px  width:52px
-      Practical Max: left:583px  width:52px
-      Marks Total  : left:690px  width:55px
-    -->
+    <!-- SUBJECT ROWS: Sr.No 1=577, 2=613, 3=648, 4=684 -->
     ${(student.subjects || []).map((sub, i) => {
-      const topArr = [500, 538, 576, 614];
-      const top = topArr[i] || (500 + i * 38);
+      const tops = [577, 613, 648, 684];
+      const top = tops[i] ?? (577 + i * 36);
       const total = Number(sub.theoryMarks) + Number(sub.practicalMarks);
       return `
-        <div style="position:absolute;top:${top}px;left:120px;
-          font-size:12px;width:250px;overflow:hidden;white-space:nowrap;">
+        <div style="position:absolute;top:${top}px;left:137px;
+          font-size:12px;width:255px;overflow:hidden;white-space:nowrap;">
           ${sub.name}</div>
-
-        <div style="position:absolute;top:${top}px;left:462px;
+        <div style="position:absolute;top:${top}px;left:437px;
           width:52px;text-align:center;font-size:12px;">
           ${sub.theoryMarks}</div>
-
-        <div style="position:absolute;top:${top}px;left:583px;
+        <div style="position:absolute;top:${top}px;left:548px;
           width:52px;text-align:center;font-size:12px;">
           ${sub.practicalMarks}</div>
-
-        <div style="position:absolute;top:${top}px;left:690px;
+        <div style="position:absolute;top:${top}px;left:644px;
           width:55px;text-align:center;font-size:12px;">
           ${total}</div>
       `;
     }).join('')}
 
-    <!-- ===== PASS IN GRADE box ===== -->
-    <!-- Blank template: box top ~670px, left box edge ~248px -->
-    <div style="position:absolute;top:672px;left:250px;
+    <!-- PASS IN GRADE box -->
+    <div style="position:absolute;top:756px;left:237px;
       font-size:14px;font-weight:bold;text-align:center;width:84px;">
       ${student.grade}</div>
 
-    <!-- ===== Total Marks box ===== -->
-    <!-- Blank template: box top ~670px, left box edge ~660px -->
-    <div style="position:absolute;top:672px;left:663px;
+    <!-- Total Marks box -->
+    <div style="position:absolute;top:756px;left:626px;
       font-size:14px;font-weight:bold;text-align:center;width:72px;">
       ${student.totalObtained}</div>
 
-    <!-- ===== Date of Issue ===== -->
-    <!-- Line under "Date of Issue" label → top ~868px, left ~75px -->
-    <div style="position:absolute;top:862px;left:75px;
-      font-size:12px;">
+    <!-- Issue Date -->
+    <div style="position:absolute;top:883px;left:104px;font-size:12px;">
       ${student.issueDate}</div>
 
-    <!-- ===== QR Code ===== -->
-    <!-- Bottom right near Sign. Manager → top ~828px, left ~658px -->
+    <!-- QR Code -->
     ${qrCodeDataUrl ? `
       <img src="${qrCodeDataUrl}"
-        style="position:absolute;top:828px;left:658px;
+        style="position:absolute;top:840px;left:651px;
         width:96px;height:96px;" />
     ` : ''}
 
