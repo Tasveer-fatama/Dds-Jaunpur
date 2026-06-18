@@ -202,55 +202,83 @@ const generateMarksheetHTML = (student, qrCodeDataUrl, marksheetBg) => {
     background-size:794px 1123px;
     font-family:'Times New Roman', serif;">
 
-    <div style="position:absolute;top:224px;left:243px;font-size:13px;font-weight:bold;">
+    <!-- ✅ LEFT SIDE: Student Info -->
+    <!-- Student Name -->
+    <div style="position:absolute;top:218px;left:190px;font-size:13px;font-weight:bold;white-space:nowrap;">
       ${student.studentName}</div>
 
-    <div style="position:absolute;top:254px;left:243px;font-size:13px;">
+    <!-- Father's / Husband's Name -->
+    <div style="position:absolute;top:250px;left:190px;font-size:13px;white-space:nowrap;">
       ${student.fatherName}</div>
 
-    <div style="position:absolute;top:284px;left:243px;font-size:13px;">
-      ${student.center||''}</div>
+    <!-- Center of Examination -->
+    <div style="position:absolute;top:283px;left:190px;font-size:12px;white-space:nowrap;">
+      ${student.center || ''}</div>
 
-    <div style="position:absolute;top:312px;left:243px;font-size:13px;">
-      ${student.centerLine2||''}</div>
+    <!-- Center Line 2 (if any) -->
+    <div style="position:absolute;top:308px;left:190px;font-size:12px;white-space:nowrap;">
+      ${student.centerLine2 || ''}</div>
 
-    <div style="position:absolute;top:341px;left:243px;font-size:13px;">
-      ${student.vlc||''}</div>
+    <!-- IIVET-VLCs Code -->
+    <div style="position:absolute;top:336px;left:190px;font-size:12px;white-space:nowrap;">
+      ${student.vlc || ''}</div>
 
-    <div style="position:absolute;top:224px;left:513px;font-size:13px;">
+    <!-- ✅ RIGHT SIDE: Course Info -->
+    <!-- Course Number (top-right, e.g. 56895760) -->
+    <div style="position:absolute;top:205px;left:572px;font-size:12px;white-space:nowrap;">
+      ${student.courseCode || ''}</div>
+
+    <!-- Course Name -->
+    <div style="position:absolute;top:222px;left:490px;font-size:12px;white-space:nowrap;">
       ${student.courseName}</div>
 
-    <div style="position:absolute;top:254px;left:513px;font-size:13px;">
+    <!-- Duration -->
+    <div style="position:absolute;top:253px;left:490px;font-size:12px;white-space:nowrap;">
       ${student.duration}</div>
 
-    <div style="position:absolute;top:284px;left:513px;font-size:13px;">
+    <!-- Registration No -->
+    <div style="position:absolute;top:283px;left:490px;font-size:12px;white-space:nowrap;">
       ${student.registrationNumber}</div>
 
-    <div style="position:absolute;top:315px;left:513px;font-size:13px;">
+    <!-- Session -->
+    <div style="position:absolute;top:313px;left:490px;font-size:12px;white-space:nowrap;">
       ${student.sessionFrom} to ${student.sessionTo}</div>
 
-    ${(student.subjects||[]).map((sub,i)=>{
-      const top = 472 + i * 33;
-      const total = Number(sub.theoryMarks)+Number(sub.practicalMarks);
+    <!-- ✅ SUBJECT ROWS -->
+    <!-- Row 1 starts at top:463px, each row gap = 32px -->
+    <!-- Columns: Name=148, Theory=398, Practical=528, Total=628 -->
+    ${(student.subjects || []).map((sub, i) => {
+      const top = 463 + i * 32;
+      const total = Number(sub.theoryMarks) + Number(sub.practicalMarks);
       return `
-        <div style="position:absolute;top:${top}px;left:145px;font-size:12px;width:245px;">${sub.name}</div>
-        <div style="position:absolute;top:${top}px;left:410px;width:44px;text-align:center;font-size:12px;">${sub.theoryMarks}</div>
-        <div style="position:absolute;top:${top}px;left:533px;width:44px;text-align:center;font-size:12px;">${sub.practicalMarks}</div>
-        <div style="position:absolute;top:${top}px;left:640px;width:48px;text-align:center;font-size:12px;">${total}</div>
+        <div style="position:absolute;top:${top}px;left:148px;font-size:12px;width:235px;overflow:hidden;white-space:nowrap;">
+          ${sub.name}</div>
+        <div style="position:absolute;top:${top}px;left:398px;width:46px;text-align:center;font-size:12px;">
+          ${sub.theoryMarks}</div>
+        <div style="position:absolute;top:${top}px;left:528px;width:46px;text-align:center;font-size:12px;">
+          ${sub.practicalMarks}</div>
+        <div style="position:absolute;top:${top}px;left:628px;width:50px;text-align:center;font-size:12px;">
+          ${total}</div>
       `;
     }).join('')}
 
-    <div style="position:absolute;top:617px;left:237px;font-size:14px;font-weight:bold;text-align:center;width:60px;">
+    <!-- ✅ PASS IN GRADE box -->
+    <div style="position:absolute;top:616px;left:218px;font-size:14px;font-weight:bold;text-align:center;width:56px;">
       ${student.grade}</div>
 
-    <div style="position:absolute;top:617px;left:618px;font-size:14px;font-weight:bold;text-align:center;width:65px;">
+    <!-- ✅ Total Marks box -->
+    <div style="position:absolute;top:616px;left:607px;font-size:14px;font-weight:bold;text-align:center;width:60px;">
       ${student.totalObtained}</div>
 
-    <div style="position:absolute;top:835px;left:110px;font-size:13px;font-weight:bold;">
+    <!-- ✅ Issue Date -->
+    <div style="position:absolute;top:838px;left:92px;font-size:12px;">
       ${student.issueDate}</div>
 
-    ${qrCodeDataUrl ? `<img src="${qrCodeDataUrl}" 
-      style="position:absolute;top:679px;left:513px;width:110px;" />` : ''}
+    <!-- ✅ QR Code (bottom right area) -->
+    ${qrCodeDataUrl ? `
+      <img src="${qrCodeDataUrl}"
+        style="position:absolute;top:848px;left:636px;width:100px;height:100px;" />
+    ` : ''}
 
   </div>`;
 };
