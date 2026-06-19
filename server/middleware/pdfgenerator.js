@@ -204,35 +204,38 @@ const generateMarksheetHTML = (student, qrCodeDataUrl, marksheetBg) => {
     font-family:'Times New Roman', serif;">
 
     <!-- LEFT SIDE -->
-    <div style="position:absolute;top:306px;left:162px;font-size:13px;font-weight:bold;white-space:nowrap;">
+    <!-- Student Name: moved UP by ~8px to sit above the line -->
+    <div style="position:absolute;top:298px;left:162px;font-size:13px;font-weight:bold;white-space:nowrap;">
       ${student.studentName}</div>
 
-    <div style="position:absolute;top:343px;left:162px;font-size:13px;white-space:nowrap;">
+    <div style="position:absolute;top:335px;left:162px;font-size:13px;white-space:nowrap;">
       ${student.fatherName}</div>
 
-    <div style="position:absolute;top:379px;left:162px;font-size:12px;white-space:nowrap;">
+    <!-- Center of Examination: now dynamic -->
+    <div style="position:absolute;top:371px;left:220px;font-size:12px;white-space:nowrap;">
       ${student.center || ''}</div>
 
-    <div style="position:absolute;top:415px;left:162px;font-size:12px;white-space:nowrap;">
+    <!-- IIVET-VLCs Code: now dynamic -->
+    <div style="position:absolute;top:407px;left:220px;font-size:12px;white-space:nowrap;">
       ${student.vlc || ''}</div>
 
     <!-- RIGHT SIDE -->
-    <div style="position:absolute;top:306px;left:629px;font-size:12px;white-space:nowrap;">
+    <div style="position:absolute;top:298px;left:629px;font-size:12px;white-space:nowrap;">
       ${student.courseName}</div>
 
-    <div style="position:absolute;top:343px;left:629px;font-size:12px;white-space:nowrap;">
+    <div style="position:absolute;top:335px;left:629px;font-size:12px;white-space:nowrap;">
       ${student.duration}</div>
 
-    <div style="position:absolute;top:379px;left:629px;font-size:12px;white-space:nowrap;">
+    <div style="position:absolute;top:371px;left:629px;font-size:12px;white-space:nowrap;">
       ${student.registrationNumber}</div>
 
-    <div style="position:absolute;top:415px;left:629px;font-size:12px;white-space:nowrap;">
+    <div style="position:absolute;top:407px;left:629px;font-size:12px;white-space:nowrap;">
       ${student.sessionFrom} to ${student.sessionTo}</div>
 
-    <!-- SUBJECT ROWS: Sr.No 1=577, 2=613, 3=648, 4=684 -->
+    <!-- SUBJECT ROWS: moved UP ~8px so text sits above line -->
     ${(student.subjects || []).map((sub, i) => {
-      const tops = [577, 613, 648, 684];
-      const top = tops[i] ?? (577 + i * 36);
+      const tops = [564, 600, 636, 672];
+      const top = tops[i] ?? (564 + i * 36);
       const total = Number(sub.theoryMarks) + Number(sub.practicalMarks);
       return `
         <div style="position:absolute;top:${top}px;left:137px;
@@ -250,25 +253,27 @@ const generateMarksheetHTML = (student, qrCodeDataUrl, marksheetBg) => {
       `;
     }).join('')}
 
-    <!-- PASS IN GRADE box -->
-    <div style="position:absolute;top:756px;left:237px;
-      font-size:14px;font-weight:bold;text-align:center;width:84px;">
+    <!-- PASS IN GRADE: centered inside the printed box -->
+    <div style="position:absolute;top:750px;left:222px;
+      font-size:13px;font-weight:bold;text-align:center;width:90px;
+      display:flex;align-items:center;justify-content:center;">
       ${student.grade}</div>
 
-    <!-- Total Marks box -->
-    <div style="position:absolute;top:756px;left:626px;
-      font-size:14px;font-weight:bold;text-align:center;width:72px;">
+    <!-- Total Marks: centered inside the printed box -->
+    <div style="position:absolute;top:750px;left:608px;
+      font-size:13px;font-weight:bold;text-align:center;width:80px;
+      display:flex;align-items:center;justify-content:center;">
       ${student.totalObtained}</div>
 
-    <!-- Issue Date -->
-    <div style="position:absolute;top:883px;left:104px;font-size:12px;">
+    <!-- Issue Date: moved above the line (~8px up) -->
+    <div style="position:absolute;top:870px;left:104px;font-size:12px;">
       ${student.issueDate}</div>
 
-    <!-- QR Code -->
+    <!-- QR Code: smaller size, shifted below signature area -->
     ${qrCodeDataUrl ? `
       <img src="${qrCodeDataUrl}"
-        style="position:absolute;top:840px;left:651px;
-        width:96px;height:96px;" />
+        style="position:absolute;top:868px;left:668px;
+        width:68px;height:68px;" />
     ` : ''}
 
   </div>`;
