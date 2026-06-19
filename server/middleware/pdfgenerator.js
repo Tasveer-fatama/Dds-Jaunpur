@@ -204,38 +204,42 @@ const generateMarksheetHTML = (student, qrCodeDataUrl, marksheetBg) => {
     font-family:'Times New Roman', serif;">
 
     <!-- LEFT SIDE -->
-    <!-- Student Name: moved UP by ~8px to sit above the line -->
-    <div style="position:absolute;top:298px;left:162px;font-size:13px;font-weight:bold;white-space:nowrap;">
+    <!-- Student Name: ON the line (line ~316px, text baseline sits on it) -->
+    <div style="position:absolute;top:303px;left:162px;font-size:13px;font-weight:bold;white-space:nowrap;">
       ${student.studentName}</div>
 
-    <div style="position:absolute;top:335px;left:162px;font-size:13px;white-space:nowrap;">
+    <!-- Father Name: ON the line -->
+    <div style="position:absolute;top:340px;left:162px;font-size:13px;white-space:nowrap;">
       ${student.fatherName}</div>
 
-    <!-- Center of Examination: now dynamic -->
-    <div style="position:absolute;top:371px;left:220px;font-size:12px;white-space:nowrap;">
+    <!-- Center of Examination: dynamic, after colon -->
+    <div style="position:absolute;top:377px;left:222px;font-size:12px;white-space:nowrap;">
       ${student.center || ''}</div>
 
-    <!-- IIVET-VLCs Code: now dynamic -->
-    <div style="position:absolute;top:407px;left:220px;font-size:12px;white-space:nowrap;">
+    <!-- IIVET-VLCs Code: dynamic, after colon -->
+    <div style="position:absolute;top:413px;left:222px;font-size:12px;white-space:nowrap;">
       ${student.vlc || ''}</div>
 
     <!-- RIGHT SIDE -->
-    <div style="position:absolute;top:298px;left:629px;font-size:12px;white-space:nowrap;">
+    <div style="position:absolute;top:303px;left:560px;font-size:12px;white-space:nowrap;">
       ${student.courseName}</div>
 
-    <div style="position:absolute;top:335px;left:629px;font-size:12px;white-space:nowrap;">
+    <div style="position:absolute;top:340px;left:560px;font-size:12px;white-space:nowrap;">
       ${student.duration}</div>
 
-    <div style="position:absolute;top:371px;left:629px;font-size:12px;white-space:nowrap;">
+    <div style="position:absolute;top:377px;left:560px;font-size:12px;white-space:nowrap;">
       ${student.registrationNumber}</div>
 
-    <div style="position:absolute;top:407px;left:629px;font-size:12px;white-space:nowrap;">
+    <div style="position:absolute;top:413px;left:560px;font-size:12px;white-space:nowrap;">
       ${student.sessionFrom} to ${student.sessionTo}</div>
 
-    <!-- SUBJECT ROWS: moved UP ~8px so text sits above line -->
+    <!-- SUBJECT ROWS -->
+    <!-- Subject text sits ON the underline of each row -->
+    <!-- Row lines approx at: 590, 626, 662, 698 -->
+    <!-- So text top = line - 16px (font height) -->
     ${(student.subjects || []).map((sub, i) => {
-      const tops = [564, 600, 636, 672];
-      const top = tops[i] ?? (564 + i * 36);
+      const tops = [574, 610, 646, 682];
+      const top = tops[i] ?? (574 + i * 36);
       const total = Number(sub.theoryMarks) + Number(sub.practicalMarks);
       return `
         <div style="position:absolute;top:${top}px;left:137px;
@@ -253,27 +257,33 @@ const generateMarksheetHTML = (student, qrCodeDataUrl, marksheetBg) => {
       `;
     }).join('')}
 
-    <!-- PASS IN GRADE: centered inside the printed box -->
-    <div style="position:absolute;top:750px;left:222px;
-      font-size:13px;font-weight:bold;text-align:center;width:90px;
+    <!-- PASS IN GRADE box -->
+    <!-- Box visible at approx left:218px, top:742px, width:88px, height:22px -->
+    <!-- Center text inside: top=742, left=218, width=88 -->
+    <div style="position:absolute;top:743px;left:218px;
+      width:88px;height:22px;
+      font-size:13px;font-weight:bold;
       display:flex;align-items:center;justify-content:center;">
       ${student.grade}</div>
 
-    <!-- Total Marks: centered inside the printed box -->
-    <div style="position:absolute;top:750px;left:608px;
-      font-size:13px;font-weight:bold;text-align:center;width:80px;
+    <!-- Total Marks box -->
+    <!-- Box visible at approx left:604px, top:742px, width:76px, height:22px -->
+    <div style="position:absolute;top:743px;left:604px;
+      width:76px;height:22px;
+      font-size:13px;font-weight:bold;
       display:flex;align-items:center;justify-content:center;">
       ${student.totalObtained}</div>
 
-    <!-- Issue Date: moved above the line (~8px up) -->
-    <div style="position:absolute;top:870px;left:104px;font-size:12px;">
+    <!-- Issue Date: ON the Date of Issue line (line ~896px) -->
+    <div style="position:absolute;top:882px;left:104px;font-size:12px;">
       ${student.issueDate}</div>
 
-    <!-- QR Code: smaller size, shifted below signature area -->
+    <!-- QR Code: BELOW signature, small size so sign stays visible -->
+    <!-- Signature area approx top:840-880px, so QR starts at 888px -->
     ${qrCodeDataUrl ? `
       <img src="${qrCodeDataUrl}"
-        style="position:absolute;top:868px;left:668px;
-        width:68px;height:68px;" />
+        style="position:absolute;top:890px;left:672px;
+        width:60px;height:60px;" />
     ` : ''}
 
   </div>`;
