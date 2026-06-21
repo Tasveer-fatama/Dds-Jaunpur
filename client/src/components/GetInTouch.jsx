@@ -1,7 +1,7 @@
 
 import { useState } from "react";
 
-const API_BASE = "https://www.ddsgroupofinstitution.com";
+const API_BASE = "https://ddsgroup.onrender.com";
 
 export default function StudentSearch() {
   const [name, setName] = useState("");
