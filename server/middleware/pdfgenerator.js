@@ -211,14 +211,14 @@ const generateMarksheetHTML = (student, qrCodeDataUrl, marksheetBg) => {
     <div style="position:absolute;top:349px;left:262px;font-size:13px;white-space:nowrap;">
       ${student.fatherName}</div>
 
-    <!-- Center of Examination: line y=408, text top=393 -->
-    <div style="position:absolute;top:393px;left:262px;font-size:12px;white-space:nowrap;">
-      ${student.center || ''}</div>
+   <!-- Center of Examination -->
+<div style="position:absolute;top:393px;left:262px;font-size:12px;white-space:nowrap;">
+  ${student.centerOfExamination || ''}</div>
 
-    <!-- IIVET-VLCs Code: line y=453, text top=438 -->
-    <div style="position:absolute;top:438px;left:262px;font-size:12px;white-space:nowrap;">
-      ${student.vlc || ''}</div>
-
+<!-- IIVET-VLCs Code -->
+<div style="position:absolute;top:438px;left:262px;font-size:12px;white-space:nowrap;">
+  ${student.ivetVlcsCode || ''}</div>
+  
     <!-- Course: same line as Student Name -->
     <div style="position:absolute;top:305px;left:580px;font-size:12px;white-space:nowrap;">
       ${student.courseName}</div>
