@@ -35,7 +35,7 @@ export default function StudentSearch() {
       const student = students[0];
 
       // Step 2: Student ka existing pdfUrl use karo
-      if (!student.pdfUrl) throw new Error("PDF abhi available nahi hai. Admin se contact karo.");
+      if (!student.pdfUrl) throw new Error("PDF not available");
 
       const pdfUrl = `https://ddsgroup.onrender.com${student.pdfUrl}`;
 
@@ -44,7 +44,7 @@ export default function StudentSearch() {
 
       setSuccess("PDF open ho gayi! ✓");
     } catch (err) {
-      setError(err.message || "Kuch galat ho gaya. Dobara try karo.");
+      setError(err.message || "Error");
     } finally {
       setLoading(false);
     }
