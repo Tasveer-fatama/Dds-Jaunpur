@@ -22,7 +22,7 @@ export default function StudentSearch() {
 
     try {
       const searchRes = await fetch(
-        `${API_BASE}/api/students/search?registrationNumber=${regNumber.trim()}`
+        `${API_BASE}/api/student/search?registrationNumber=${regNumber.trim()}`
       );
 
       if (!searchRes.ok) throw new Error("Student nahi mila. Registration number check karo.");
