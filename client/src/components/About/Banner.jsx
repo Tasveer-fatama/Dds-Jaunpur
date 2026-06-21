@@ -88,6 +88,12 @@ const Banner = () => {
   role: "Coordinator & Staff",
   image: "/rubi.jpeg",
   message: "Rubi Yadav is a dedicated member of the coordination and staff team at DDS Group of Institution. With her supportive attitude and responsible work approach, she helps maintain smooth academic activities and a positive environment that encourages students to learn and succeed."
+},
+{
+  name: "Miss. Saniya Sabir",
+  role: "IT Supporting Team & Staff",
+  image: "/saniya.jpeg",
+  message: "Miss. Saniya Sabir is a valued member of the IT Supporting Team and Staff at DDS Group of Institutions. With her technical expertise and dedicated work approach, she ensures smooth functioning of all IT operations and provides essential support that helps maintain an efficient and productive learning environment for students and faculty alike."
 }
 ];
 
