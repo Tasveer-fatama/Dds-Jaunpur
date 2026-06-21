@@ -11,7 +11,7 @@ export default function StudentSearch() {
 
   const handleSearch = async () => {
     if (!regNumber.trim()) {
-      setError("Registration number daalna zaroori hai.");
+      setError("Registration number required.");
       return;
     }
 
@@ -25,12 +25,12 @@ export default function StudentSearch() {
         `${API_BASE}/api/student/search?registrationNumber=${regNumber.trim()}`
       );
 
-      if (!searchRes.ok) throw new Error("Student nahi mila. Registration number check karo.");
+      if (!searchRes.ok) throw new Error("please check your registration number.");
 
       const result = await searchRes.json();
       const students = result.data;
 
-      if (!students || students.length === 0) throw new Error("Student nahi mila. Registration number check karo.");
+      if (!students || students.length === 0) throw new Error("student not found");
 
       const student = students[0];
 
@@ -42,7 +42,7 @@ export default function StudentSearch() {
       // Step 3: Naye tab mein open karo
       window.open(pdfUrl, "_blank");
 
-      setSuccess("PDF open ho gayi! ✓");
+      setSuccess("PDF Opened! ✓");
     } catch (err) {
       setError(err.message || "Error");
     } finally {
