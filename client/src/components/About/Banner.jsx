@@ -296,45 +296,59 @@ const Banner = () => {
       </div>
 
       {/* Cards */}
-      <div className="grid lg:grid-cols-3 md:grid-cols-2 gap-12 max-w-7xl mx-auto">
+    <div className="bg-gradient-to-b from-gray-50 to-gray-100 py-24 px-6">
 
-        {team.map((person, index) => (
-          <div
-            key={index}
-            className="group bg-white rounded-3xl overflow-hidden shadow-xl hover:shadow-2xl transition duration-500 hover:-translate-y-3"
-          >
+  {/* Heading */}
+  <div className="text-center mb-20">
+    <h2 className="text-4xl md:text-5xl font-bold text-gray-800">
+      About Our Team
+    </h2>
+    <p className="text-gray-500 mt-4 text-lg">
+      Meet the people who guide and inspire our organization
+    </p>
+  </div>
 
-            {/* Image */}
-            <div className="h-80 overflow-hidden">
-              <img
-                src={person.image}
-                alt={person.name}
-                className="w-full h-full object-cover object-top group-hover:scale-110 transition duration-700"
-              />
-            </div>
+  {/* Cards */}
+  <div className="grid lg:grid-cols-3 md:grid-cols-2 gap-12 max-w-7xl mx-auto">
 
-            {/* Content */}
-            <div className="p-8 text-center">
+    {team.map((person, index) => (
+      <div
+        key={index}
+        className="group bg-white rounded-3xl overflow-hidden shadow-xl hover:shadow-2xl transition duration-500 hover:-translate-y-3"
+      >
 
-              <h3 className="text-2xl font-semibold text-gray-800">
-                {person.name}
-              </h3>
+        {/* Image */}
+        <div className="h-80 overflow-hidden">
+          <img
+            src={person.image}
+            alt={person.name}
+            className="w-full h-full object-cover object-top transition duration-700"
+          />
+        </div>
 
-              <span className="inline-block mt-3 mb-5 px-5 py-1.5 text-sm font-medium text-white bg-red-600 rounded-full">
-                {person.role}
-              </span>
+        {/* Content */}
+        <div className="p-8 text-center">
 
-              <p className="text-gray-600 text-base leading-relaxed">
-                {person.message}
-              </p>
+          <h3 className="text-2xl font-semibold text-gray-800">
+            {person.name}
+          </h3>
 
-            </div>
+          <span className="inline-block mt-3 mb-5 px-5 py-1.5 text-sm font-medium text-white bg-red-600 rounded-full">
+            {person.role}
+          </span>
 
-          </div>
-        ))}
+          <p className="text-gray-600 text-base leading-relaxed">
+            {person.message}
+          </p>
+
+        </div>
 
       </div>
+    ))}
 
+  </div>
+
+</div>
     </div>
     </>
   )
