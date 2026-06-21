@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 
 const API_BASE = "https://ddsgroup.onrender.com";
@@ -21,6 +20,7 @@ export default function StudentSearch() {
     setLoading(true);
 
     try {
+      // Step 1: Registration number se student dhundo
       const searchRes = await fetch(
         `${API_BASE}/api/student/search?registrationNumber=${regNumber.trim()}`
       );
@@ -34,24 +34,15 @@ export default function StudentSearch() {
 
       const student = students[0];
 
-      const pdfRes = await fetch(`${API_BASE}/api/students/regenerate-pdf/${student._id}`, {
-        method: "POST",
-      });
+      // Step 2: Student ka existing pdfUrl use karo
+      if (!student.pdfUrl) throw new Error("PDF abhi available nahi hai. Admin se contact karo.");
 
-      if (!pdfRes.ok) throw new Error("PDF generate nahi hui. Dobara try karo.");
+      const pdfUrl = `https://ddsgroup.onrender.com${student.pdfUrl}`;
 
-      const data = await pdfRes.json();
-      const pdfUrl = `${API_BASE}${data.pdfPath}`;
+      // Step 3: Naye tab mein open karo
+      window.open(pdfUrl, "_blank");
 
-      const a = document.createElement("a");
-      a.href = pdfUrl;
-      a.download = `${regNumber.trim()}_marksheet.pdf`;
-      a.target = "_blank";
-      document.body.appendChild(a);
-      a.click();
-      a.remove();
-
-      setSuccess("PDF download ho gayi! ✓");
+      setSuccess("PDF open ho gayi! ✓");
     } catch (err) {
       setError(err.message || "Kuch galat ho gaya. Dobara try karo.");
     } finally {
@@ -142,7 +133,7 @@ export default function StudentSearch() {
                   <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
                   <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
                 </svg>
-                PDF load ho rahi hai...
+                 loading
               </>
             ) : (
               <>
@@ -163,4 +154,3 @@ export default function StudentSearch() {
     </div>
   );
 }
-
