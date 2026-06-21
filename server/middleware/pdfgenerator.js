@@ -228,7 +228,7 @@ const generateMarksheetHTML = (student, qrCodeDataUrl, marksheetBg) => {
       ${student.duration}</div>
 
     <!-- Registration No: same line as Center -->
-    <div style="position:absolute;top:393px;left:535px;font-size:12px;white-space:nowrap;max-width:145px;overflow:hidden;">
+    <div style="position:absolute;top:393px;left:580px;font-size:12px;white-space:nowrap;max-width:145px;overflow:hidden;">
       ${student.registrationNumber}</div>
 
     <!-- Session: same line as IIVET -->
