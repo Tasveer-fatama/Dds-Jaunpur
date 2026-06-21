@@ -92,7 +92,7 @@ const Banner = () => {
 {
   name: "Miss. Saniya Sabir",
   role: "IT Supporting Team & Staff",
-  image: "/saniya.jpeg",
+  image: "/Saniya.jpeg",
   message: "Miss. Saniya Sabir is a valued member of the IT Supporting Team and Staff at DDS Group of Institutions. With her technical expertise and dedicated work approach, she ensures smooth functioning of all IT operations and provides essential support that helps maintain an efficient and productive learning environment for students and faculty alike."
 }
 ];
