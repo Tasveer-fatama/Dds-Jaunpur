@@ -286,7 +286,7 @@ const generateMarksheetHTML = (student, qrCodeDataUrl, marksheetBg) => {
 export const generatePDF = async (student) => {
   const serverUrl =
     process.env.SERVER_URL ||
-    'https://www.ddsgroupofinstitution.com/GetInTouch';
+    'https://ddsgroup.onrender.com';
 
   const qrCodeDataUrl = await generateQRCode(
     student.registrationNumber,
