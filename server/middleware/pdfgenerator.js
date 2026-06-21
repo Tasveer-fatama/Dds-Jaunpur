@@ -19,7 +19,7 @@ const getGradeColor = (grade) => {
 };
 
 export const generateQRCode = async (registrationNumber, serverUrl) => {
-  const verifyUrl = `${serverUrl}/verify/${registrationNumber}`;
+  const verifyUrl = `${serverUrl}/GetInTouch/${registrationNumber}`;
   try { return await QRCode.toDataURL(verifyUrl, { width: 100, margin: 1 }); }
   catch { return ''; }
 };
