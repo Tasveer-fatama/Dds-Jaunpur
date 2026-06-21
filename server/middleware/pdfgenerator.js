@@ -18,12 +18,13 @@ const getGradeColor = (grade) => {
   return colors[grade] || '#2563eb';
 };
 
-export const generateQRCode = async (registrationNumber, serverUrl) => {
-  const verifyUrl = `${serverUrl}/verify/${registrationNumber}`;
-  try { return await QRCode.toDataURL(verifyUrl, { width: 100, margin: 1 }); }
+export const generateQRCode = async (registrationNumber) => {
+  const verifyUrl = `https://www.ddsgroupofinstitution.com/Getintouch/${registrationNumber}`;
+  try { 
+    return await QRCode.toDataURL(verifyUrl, { width: 100, margin: 1 }); 
+  }
   catch { return ''; }
 };
-
 const getImageBase64 = (filePath) => {
   try {
     if (!filePath || !fs.existsSync(filePath)) return null;
@@ -284,13 +285,11 @@ const generateMarksheetHTML = (student, qrCodeDataUrl, marksheetBg) => {
   </div>`;
 };
 export const generatePDF = async (student) => {
-  const serverUrl =
-    process.env.SERVER_URL ||
-    'https://ddsgroup.onrender.com';
+ 
 
   const qrCodeDataUrl = await generateQRCode(
     student.registrationNumber,
-    serverUrl
+   
   );
 
   let photoBase64 = null;
