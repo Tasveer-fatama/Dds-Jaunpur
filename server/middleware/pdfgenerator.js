@@ -216,29 +216,30 @@ const generateMarksheetHTML = (student, qrCodeDataUrl, marksheetBg) => {
       ${student.center || ''}</div>
 
     <!-- IIVET-VLCs Code -->
-    <div style="position:absolute;top:427px;left:259px;font-size:12px;white-space:nowrap;">
+    <div style="position:absolute;top:400px;left:259px;font-size:12px;white-space:nowrap;">
       ${student.vlc || ''}</div>
 
-    <!-- Course: line ke upar, colon ke baad sahi position -->
-    <div style="position:absolute;top:301px;left:620px;font-size:12px;white-space:nowrap;">
+    <!-- Course -->
+    <div style="position:absolute;top:308px;left:620px;font-size:12px;white-space:nowrap;">
       ${student.courseName}</div>
 
     <!-- Duration -->
-    <div style="position:absolute;top:335px;left:620px;font-size:12px;white-space:nowrap;">
+    <div style="position:absolute;top:338px;left:620px;font-size:12px;white-space:nowrap;">
       ${student.duration}</div>
 
-    <!-- Registration No -->
-    <div style="position:absolute;top:365px;left:620px;font-size:12px;white-space:nowrap;">
+    <!-- Registration No ONLY - short width to avoid session overlap -->
+    <div style="position:absolute;top:368px;left:620px;font-size:12px;
+      white-space:nowrap;max-width:130px;overflow:hidden;">
       ${student.registrationNumber}</div>
 
     <!-- Session -->
-    <div style="position:absolute;top:397px;left:620px;font-size:12px;white-space:nowrap;">
+    <div style="position:absolute;top:400px;left:620px;font-size:12px;white-space:nowrap;">
       ${student.sessionFrom} to ${student.sessionTo}</div>
 
-    <!-- SUBJECT ROWS: -15px upar -->
+    <!-- SUBJECT ROWS: +30px neeche shift -->
     ${(student.subjects || []).map((sub, i) => {
-      const tops = [557, 587, 617, 646];
-      const top = tops[i] ?? (557 + i * 30);
+      const tops = [560, 592, 624, 656];
+      const top = tops[i] ?? (560 + i * 32);
       const total = Number(sub.theoryMarks) + Number(sub.practicalMarks);
       return `
         <div style="position:absolute;top:${top}px;left:166px;
@@ -256,28 +257,28 @@ const generateMarksheetHTML = (student, qrCodeDataUrl, marksheetBg) => {
       `;
     }).join('')}
 
-    <!-- PASS IN GRADE: box ke center mein -->
-    <div style="position:absolute;top:718px;left:193px;
-      width:95px;height:26px;
+    <!-- PASS IN GRADE: box ke andar (box ~top:735px) -->
+    <div style="position:absolute;top:732px;left:193px;
+      width:95px;height:28px;
       font-size:13px;font-weight:bold;
       display:flex;align-items:center;justify-content:center;">
       ${student.grade}</div>
 
-    <!-- Total Marks: box ke center mein -->
-    <div style="position:absolute;top:718px;left:660px;
-      width:72px;height:26px;
+    <!-- Total Marks: box ke andar (box ~top:735px) -->
+    <div style="position:absolute;top:732px;left:655px;
+      width:78px;height:28px;
       font-size:13px;font-weight:bold;
       display:flex;align-items:center;justify-content:center;">
       ${student.totalObtained}</div>
 
-    <!-- Issue Date: line ke UPAR -->
-    <div style="position:absolute;top:916px;left:90px;font-size:12px;font-weight:bold;">
+    <!-- Issue Date: line ke upar -->
+    <div style="position:absolute;top:900px;left:90px;font-size:12px;font-weight:bold;">
       ${student.issueDate}</div>
 
     <!-- QR Code -->
     ${qrCodeDataUrl ? `
       <img src="${qrCodeDataUrl}"
-        style="position:absolute;top:900px;left:695px;
+        style="position:absolute;top:880px;left:695px;
         width:65px;height:65px;" />
     ` : ''}
 
