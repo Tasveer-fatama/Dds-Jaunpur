@@ -203,83 +203,82 @@ const generateMarksheetHTML = (student, qrCodeDataUrl, marksheetBg) => {
     background-size:794px 1123px;
     font-family:'Times New Roman', serif;">
 
-    <!-- Student Name -->
-    <div style="position:absolute;top:301px;left:259px;font-size:13px;font-weight:bold;white-space:nowrap;">
+    <!-- Student Name: line y=320, text top=305 -->
+    <div style="position:absolute;top:305px;left:262px;font-size:13px;font-weight:bold;white-space:nowrap;">
       ${student.studentName}</div>
 
-    <!-- Father Name -->
-    <div style="position:absolute;top:335px;left:259px;font-size:13px;white-space:nowrap;">
+    <!-- Father Name: line y=364, text top=349 -->
+    <div style="position:absolute;top:349px;left:262px;font-size:13px;white-space:nowrap;">
       ${student.fatherName}</div>
 
-    <!-- Center of Examination -->
-    <div style="position:absolute;top:365px;left:259px;font-size:12px;white-space:nowrap;">
+    <!-- Center of Examination: line y=408, text top=393 -->
+    <div style="position:absolute;top:393px;left:262px;font-size:12px;white-space:nowrap;">
       ${student.center || ''}</div>
 
-    <!-- IIVET-VLCs Code -->
-    <div style="position:absolute;top:400px;left:259px;font-size:12px;white-space:nowrap;">
+    <!-- IIVET-VLCs Code: line y=453, text top=438 -->
+    <div style="position:absolute;top:438px;left:262px;font-size:12px;white-space:nowrap;">
       ${student.vlc || ''}</div>
 
-    <!-- Course -->
-    <div style="position:absolute;top:308px;left:620px;font-size:12px;white-space:nowrap;">
+    <!-- Course: same line as Student Name -->
+    <div style="position:absolute;top:305px;left:580px;font-size:12px;white-space:nowrap;">
       ${student.courseName}</div>
 
-    <!-- Duration -->
-    <div style="position:absolute;top:338px;left:620px;font-size:12px;white-space:nowrap;">
+    <!-- Duration: same line as Father Name -->
+    <div style="position:absolute;top:349px;left:580px;font-size:12px;white-space:nowrap;">
       ${student.duration}</div>
 
-    <!-- Registration No ONLY - short width to avoid session overlap -->
-    <div style="position:absolute;top:368px;left:620px;font-size:12px;
-      white-space:nowrap;max-width:130px;overflow:hidden;">
+    <!-- Registration No: same line as Center -->
+    <div style="position:absolute;top:393px;left:535px;font-size:12px;white-space:nowrap;max-width:145px;overflow:hidden;">
       ${student.registrationNumber}</div>
 
-    <!-- Session -->
-    <div style="position:absolute;top:400px;left:620px;font-size:12px;white-space:nowrap;">
+    <!-- Session: same line as IIVET -->
+    <div style="position:absolute;top:438px;left:580px;font-size:12px;white-space:nowrap;">
       ${student.sessionFrom} to ${student.sessionTo}</div>
 
-    <!-- SUBJECT ROWS: +30px neeche shift -->
+    <!-- SUBJECT ROWS: each subject sits above its row line -->
     ${(student.subjects || []).map((sub, i) => {
-      const tops = [560, 592, 624, 656];
-      const top = tops[i] ?? (560 + i * 32);
+      const tops = [547, 593, 637, 681];
+      const top = tops[i] ?? (547 + i * 44);
       const total = Number(sub.theoryMarks) + Number(sub.practicalMarks);
       return `
-        <div style="position:absolute;top:${top}px;left:166px;
-          font-size:12px;width:260px;overflow:hidden;white-space:nowrap;">
+        <div style="position:absolute;top:${top}px;left:150px;
+          font-size:12px;width:270px;overflow:hidden;white-space:nowrap;">
           ${sub.name}</div>
-        <div style="position:absolute;top:${top}px;left:460px;
-          width:45px;text-align:center;font-size:12px;">
-          ${sub.theoryMarks}</div>
-        <div style="position:absolute;top:${top}px;left:575px;
-          width:45px;text-align:center;font-size:12px;">
-          ${sub.practicalMarks}</div>
-        <div style="position:absolute;top:${top}px;left:685px;
+        <div style="position:absolute;top:${top}px;left:450px;
           width:50px;text-align:center;font-size:12px;">
+          ${sub.theoryMarks}</div>
+        <div style="position:absolute;top:${top}px;left:562px;
+          width:50px;text-align:center;font-size:12px;">
+          ${sub.practicalMarks}</div>
+        <div style="position:absolute;top:${top}px;left:666px;
+          width:55px;text-align:center;font-size:12px;">
           ${total}</div>
       `;
     }).join('')}
 
-    <!-- PASS IN GRADE: box ke andar (box ~top:735px) -->
-    <div style="position:absolute;top:732px;left:193px;
-      width:95px;height:28px;
+    <!-- PASS IN GRADE: box center y=781 -->
+    <div style="position:absolute;top:768px;left:193px;
+      width:100px;height:26px;
       font-size:13px;font-weight:bold;
       display:flex;align-items:center;justify-content:center;">
       ${student.grade}</div>
 
-    <!-- Total Marks: box ke andar (box ~top:735px) -->
-    <div style="position:absolute;top:732px;left:655px;
-      width:78px;height:28px;
+    <!-- Total Marks: box center y=781 -->
+    <div style="position:absolute;top:768px;left:648px;
+      width:82px;height:26px;
       font-size:13px;font-weight:bold;
       display:flex;align-items:center;justify-content:center;">
       ${student.totalObtained}</div>
 
-    <!-- Issue Date: line ke upar -->
-    <div style="position:absolute;top:900px;left:90px;font-size:12px;font-weight:bold;">
+    <!-- Issue Date: line y=926, text top=911 -->
+    <div style="position:absolute;top:911px;left:80px;font-size:12px;font-weight:bold;">
       ${student.issueDate}</div>
 
     <!-- QR Code -->
     ${qrCodeDataUrl ? `
       <img src="${qrCodeDataUrl}"
-        style="position:absolute;top:880px;left:695px;
-        width:65px;height:65px;" />
+        style="position:absolute;top:875px;left:700px;
+        width:62px;height:62px;" />
     ` : ''}
 
   </div>`;
