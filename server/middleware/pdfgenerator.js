@@ -285,47 +285,19 @@ const generateMarksheetHTML = (student, qrCodeDataUrl, marksheetBg) => {
   </div>`;
 };
 export const generatePDF = async (student) => {
- 
-
-  const qrCodeDataUrl = await generateQRCode(
-    student.registrationNumber,
-   
-  );
+  const qrCodeDataUrl = await generateQRCode(student.registrationNumber);
 
   let photoBase64 = null;
-
   if (student.photoUrl) {
-    const photoPath = path.join(
-      __dirname,
-      '..',
-      student.photoUrl.replace(/^\//, '')
-    );
-
+    const photoPath = path.join(__dirname, '..', student.photoUrl.replace(/^\//, ''));
     photoBase64 = getImageBase64(photoPath);
   }
 
-  // DDS Background Images
-  const certificateBg = getImageBase64(
-    path.join(__dirname, 'templates/ddscertificate.jpeg')
-  );
+  const certificateBg = getImageBase64(path.join(__dirname, 'templates/ddscertificate.jpeg'));
+  const marksheetBg = getImageBase64(path.join(__dirname, 'templates/ddsmarksheet.jpeg'));
 
-  const marksheetBg = getImageBase64(
-    path.join(__dirname, 'templates/ddsmarksheet.jpeg')
-  );
-
-  // Generate HTML
-  const certificateHTML = generateCertificateHTML(
-    student,
-    qrCodeDataUrl,
-    photoBase64,
-    certificateBg
-  );
-
-  const marksheetHTML = generateMarksheetHTML(
-    student,
-    qrCodeDataUrl,
-    marksheetBg
-  );
+  const certificateHTML = generateCertificateHTML(student, qrCodeDataUrl, photoBase64, certificateBg);
+  const marksheetHTML = generateMarksheetHTML(student, qrCodeDataUrl, marksheetBg);
 
   const fullHTML = `
   <!DOCTYPE html>
@@ -333,77 +305,41 @@ export const generatePDF = async (student) => {
   <head>
     <meta charset="UTF-8">
     <style>
-      *{
-        margin:0;
-        padding:0;
-        box-sizing:border-box;
-      }
-
-      html,body{
-        width:210mm;
-        background:#fff;
-      }
-
-      @page{
-        size:A4;
-        margin:0;
-      }
-
-      body{
-        font-family:'Times New Roman', serif;
-      }
+      * { margin:0; padding:0; box-sizing:border-box; }
+      html, body { width:210mm; background:#fff; }
+      @page { size:A4; margin:0; }
+      body { font-family:'Times New Roman', serif; }
     </style>
   </head>
-
   <body>
     ${certificateHTML}
     ${marksheetHTML}
   </body>
-  </html>
-  `;
+  </html>`;
 
   const executablePath = await chromium.executablePath();
-
   const browser = await puppeteer.launch({
     args: chromium.args,
-    defaultViewport: {
-      width: 1240,
-      height: 1754,
-      deviceScaleFactor: 2
-    },
+    defaultViewport: { width: 1240, height: 1754, deviceScaleFactor: 2 },
     executablePath,
     headless: chromium.headless,
   });
 
   try {
     const page = await browser.newPage();
+    await page.setContent(fullHTML, { waitUntil: 'networkidle0' });
 
-    await page.setContent(fullHTML, {
-      waitUntil: 'networkidle0'
-    });
-
-    const pdfFilename =
-      `certificate-${student.registrationNumber}-${Date.now()}.pdf`;
-
-    const pdfPath = path.join(
-      pdfsDir,
-      pdfFilename
-    );
-
-    await page.pdf({
-      path: pdfPath,
+    // ✅ File save nahi, Buffer lo
+    const pdfBuffer = await page.pdf({
       format: 'A4',
       printBackground: true,
       preferCSSPageSize: true,
-      margin: {
-        top: '0mm',
-        right: '0mm',
-        bottom: '0mm',
-        left: '0mm'
-      }
+      margin: { top: '0mm', right: '0mm', bottom: '0mm', left: '0mm' }
     });
 
-    return `/uploads/pdfs/${pdfFilename}`;
+    // ✅ Base64 mein convert karo
+    const pdfBase64 = pdfBuffer.toString('base64');
+    return pdfBase64;
 
   } finally {
     await browser.close();

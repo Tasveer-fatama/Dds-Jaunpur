@@ -216,20 +216,19 @@ export const regeneratePDF = async (req, res) => {
       return res.status(404).json({ success: false, message: 'Student not found' });
     }
 
-    if (student.pdfUrl) {
-      const oldPath = path.join(__dirname, '..', student.pdfUrl);
-      if (fs.existsSync(oldPath)) fs.unlinkSync(oldPath);
-    }
+    // ✅ Base64 PDF generate karo
+    const pdfBase64 = await generatePDF(student);
 
-    const pdfUrl = await generatePDF(student);
-    student.pdfUrl = pdfUrl;
+    // ✅ MongoDB mein save karo
+    student.pdfData = pdfBase64;
     await student.save();
 
     res.json({
       success: true,
-      message: 'PDF regenerated',
-      data: { pdfUrl }
+      message: 'PDF generated and saved',
+      data: { pdfData: pdfBase64 } // Base64 return karo
     });
+
   } catch (err) {
     res.status(500).json({ success: false, message: err.message });
   }

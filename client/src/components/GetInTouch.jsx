@@ -34,15 +34,18 @@ export default function StudentSearch() {
 
       const student = students[0];
 
-      // Step 2: Student ka existing pdfUrl use karo
-      if (!student.pdfUrl) throw new Error("PDF not available");
+      // ✅ Pehle check karo pdfData hai ya nahi
+      if (!student.pdfData) throw new Error("PDF abhi available nahi hai. Admin se contact karo.");
 
-      const pdfUrl = `https://ddsgroup.onrender.com${student.pdfUrl}`;
+      // ✅ Base64 se PDF open karo
+      const byteCharacters = atob(student.pdfData);
+      const byteNumbers = Array.from(byteCharacters).map((c) => c.charCodeAt(0));
+      const byteArray = new Uint8Array(byteNumbers);
+      const blob = new Blob([byteArray], { type: "application/pdf" });
+      const blobUrl = URL.createObjectURL(blob);
 
-      // Step 3: Naye tab mein open karo
-      window.open(pdfUrl, "_blank");
-
-      setSuccess("PDF Opened! ✓");
+      window.open(blobUrl, "_blank");
+      setSuccess("PDF open ho gayi! ✓");
     } catch (err) {
       setError(err.message || "Error");
     } finally {
