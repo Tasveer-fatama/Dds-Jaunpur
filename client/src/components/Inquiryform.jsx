@@ -12,8 +12,8 @@ export default function InquiryForm() {
     message: ""
   });
 
-  const [popup, setPopup] = useState(""); 
-  const [popupType, setPopupType] = useState("success"); 
+  const [popup, setPopup] = useState("");
+  const [popupType, setPopupType] = useState("success");
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -23,7 +23,6 @@ export default function InquiryForm() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // ✅ Validation check
     if (!formData.name || !formData.email || !formData.phone || !formData.course || !formData.message) {
       setPopup("⚠️ Please fill all required fields!");
       setPopupType("error");
@@ -32,20 +31,16 @@ export default function InquiryForm() {
     }
 
     try {
-      const res = await axios.post("https://ddsgroup.onrender.com/api/inquiry/inquiryform", formData);
+      await axios.post("https://ddsgroup.onrender.com/api/inquiry/inquiryform", formData);
 
-      // ✅ backend ke message ko directly use karo
-      setPopup(res.data.message);
-      setPopupType(res.data.success ? "success" : "error");
-
-      if (res.data.success) {
-        setFormData({ name: "", email: "", phone: "", course: "", message: "" });
-      }
-
+      setPopup("✅ Your form has been submitted successfully!");
+      setPopupType("success");
+      setFormData({ name: "", email: "", phone: "", course: "", message: "" });
       setTimeout(() => setPopup(""), 3000);
+
     } catch (err) {
       console.error(err);
-      setPopup("❌ Something went wrong!");
+      setPopup("❌ Something went wrong. Please try again!");
       setPopupType("error");
       setTimeout(() => setPopup(""), 3000);
     }
@@ -53,8 +48,8 @@ export default function InquiryForm() {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-black via-red-900 to-black p-6 relative">
-      
-      {/* ✅ Popup Notification */}
+
+      {/* Popup Notification */}
       <AnimatePresence>
         {popup && (
           <motion.div
@@ -63,7 +58,7 @@ export default function InquiryForm() {
             exit={{ opacity: 0, y: -50 }}
             transition={{ duration: 0.4 }}
             className={`fixed top-5 right-5 px-6 py-3 rounded-lg shadow-lg z-50 
-              ${popupType === "success" ? "bg-black text-white" : "bg-red-600 text-white"}`}
+              ${popupType === "success" ? "bg-green-600 text-white" : "bg-red-600 text-white"}`}
           >
             {popup}
           </motion.div>
@@ -98,18 +93,10 @@ export default function InquiryForm() {
               required
               className="w-full p-3 rounded bg-black/40 text-white border border-red-400"
             >
-              <option value="" className="bg-black text-white">
-    Select Course
-  </option>
-  <option value="spoken" className="bg-black text-white hover:bg-red-600">
-    Spoken English
-  </option>
-  <option value="computer" className="bg-black text-white hover:bg-red-600">
-    Computer Course
-  </option>
-  <option value="both" className="bg-black text-white hover:bg-red-600">
-    Both
-  </option>
+              <option value="" className="bg-black text-white">Select Course</option>
+              <option value="spoken" className="bg-black text-white">Spoken English</option>
+              <option value="computer" className="bg-black text-white">Computer Course</option>
+              <option value="both" className="bg-black text-white">Both</option>
             </select>
             <textarea
               name="message" placeholder="Your Message"
@@ -118,7 +105,7 @@ export default function InquiryForm() {
               className="w-full p-3 rounded bg-black/40 text-white border border-red-400"
             ></textarea>
 
-            <button type="submit" className="w-full py-3 bg-red-600 text-white rounded-lg">
+            <button type="submit" className="w-full py-3 bg-red-600 hover:bg-red-500 transition-all text-white font-semibold rounded-lg">
               Submit Inquiry
             </button>
           </form>
