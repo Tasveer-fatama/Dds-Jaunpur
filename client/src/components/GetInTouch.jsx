@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 
 const API_BASE = "https://www.ddsgroupofinstitution.com";
@@ -20,7 +21,6 @@ export default function StudentSearch() {
     setLoading(true);
 
     try {
-      // Step 1: Registration number se student dhundo → _id lo
       const searchRes = await fetch(
         `${API_BASE}/api/students/search?registrationNumber=${regNumber.trim()}`
       );
@@ -34,7 +34,6 @@ export default function StudentSearch() {
 
       const student = students[0];
 
-      // Step 2: _id se PDF generate karo
       const pdfRes = await fetch(`${API_BASE}/api/students/regenerate-pdf/${student._id}`, {
         method: "POST",
       });
@@ -44,7 +43,6 @@ export default function StudentSearch() {
       const data = await pdfRes.json();
       const pdfUrl = `${API_BASE}${data.pdfPath}`;
 
-      // Step 3: Download karwao
       const a = document.createElement("a");
       a.href = pdfUrl;
       a.download = `${regNumber.trim()}_marksheet.pdf`;
@@ -66,25 +64,25 @@ export default function StudentSearch() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-950 via-blue-900 to-indigo-950 flex items-center justify-center px-4">
+    <div className="min-h-screen bg-gradient-to-br from-red-950 via-red-900 to-rose-950 flex items-center justify-center px-4">
       <div className="w-full max-w-md">
         {/* Header */}
         <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-blue-500/20 border border-blue-400/30 mb-4">
-            <svg className="w-8 h-8 text-blue-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-red-500/20 border border-red-400/30 mb-4">
+            <svg className="w-8 h-8 text-red-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5}
                 d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
             </svg>
           </div>
           <h1 className="text-2xl font-bold text-white tracking-tight">Marksheet Download</h1>
-          <p className="text-blue-300 text-sm mt-1">DDS Group of Institutions</p>
+          <p className="text-red-300 text-sm mt-1">DDS Group of Institutions</p>
         </div>
 
         {/* Form Card */}
         <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-6 shadow-2xl">
           {/* Name Field */}
           <div className="mb-4">
-            <label className="block text-blue-200 text-sm font-medium mb-2">
+            <label className="block text-red-200 text-sm font-medium mb-2">
               Student Name
             </label>
             <input
@@ -93,13 +91,13 @@ export default function StudentSearch() {
               onChange={(e) => setName(e.target.value)}
               onKeyDown={handleKeyDown}
               placeholder="Apna naam likhein"
-              className="w-full bg-white/10 border border-white/20 text-white placeholder-white/30 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400/50 focus:border-blue-400/50 transition-all"
+              className="w-full bg-white/10 border border-white/20 text-white placeholder-white/30 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-red-400/50 focus:border-red-400/50 transition-all"
             />
           </div>
 
           {/* Registration Number Field */}
           <div className="mb-6">
-            <label className="block text-blue-200 text-sm font-medium mb-2">
+            <label className="block text-red-200 text-sm font-medium mb-2">
               Registration Number <span className="text-red-400">*</span>
             </label>
             <input
@@ -108,7 +106,7 @@ export default function StudentSearch() {
               onChange={(e) => { setRegNumber(e.target.value); setError(""); setSuccess(""); }}
               onKeyDown={handleKeyDown}
               placeholder="Jaise: 9890"
-              className="w-full bg-white/10 border border-white/20 text-white placeholder-white/30 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400/50 focus:border-blue-400/50 transition-all"
+              className="w-full bg-white/10 border border-white/20 text-white placeholder-white/30 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-red-400/50 focus:border-red-400/50 transition-all"
             />
           </div>
 
@@ -136,7 +134,7 @@ export default function StudentSearch() {
           <button
             onClick={handleSearch}
             disabled={loading}
-            className="w-full bg-blue-500 hover:bg-blue-400 disabled:bg-blue-500/40 disabled:cursor-not-allowed text-white font-semibold py-3 px-6 rounded-xl transition-all duration-200 flex items-center justify-center gap-2 text-sm shadow-lg shadow-blue-500/20"
+            className="w-full bg-red-600 hover:bg-red-500 disabled:bg-red-600/40 disabled:cursor-not-allowed text-white font-semibold py-3 px-6 rounded-xl transition-all duration-200 flex items-center justify-center gap-2 text-sm shadow-lg shadow-red-500/20"
           >
             {loading ? (
               <>
@@ -165,3 +163,4 @@ export default function StudentSearch() {
     </div>
   );
 }
+
