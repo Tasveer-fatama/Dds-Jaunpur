@@ -1,22 +1,7 @@
 import multer from "multer";
-import path from "path";
 
-// ✅ Storage
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, "uploads/");
-  },
-
-  filename: (req, file, cb) => {
-    const ext = path.extname(file.originalname);
-
-    const safeName = file.originalname
-      .replace(/\s+/g, "-")
-      .replace(/[^a-zA-Z0-9.-]/g, "");
-
-    cb(null, Date.now() + "-" + safeName + ext);
-  },
-});
+// ✅ Storage - memory mein rakho, Cloudinary ko buffer chahiye, disk persistent nahi hota Render pe
+const storage = multer.memoryStorage();
 
 // ✅ File filter (only images)
 const fileFilter = (req, file, cb) => {
