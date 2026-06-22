@@ -1,45 +1,54 @@
 import puppeteer from 'puppeteer-core';
 import chromium from '@sparticuz/chromium';
+import QRCode from 'qrcode';
+import { uploadBufferToCloudinary } from '../utils/cloudinaryUpload.js';
+import fetch from 'node-fetch';
+
+// QR Code generate karo — registration number se URL banta hai
+export const generateQRCode = async (registrationNumber) => {
+  const verifyUrl = `https://www.ddsgroupofinstitution.com/Getintouch/${registrationNumber}`;
+  try {
+    return await QRCode.toDataURL(verifyUrl, { width: 100, margin: 1 });
+  } catch {
+    return '';
+  }
+};
+
+// Cloudinary URL se image fetch karke base64 banao
+const getImageBase64FromUrl = async (url) => {
+  try {
+    if (!url) return null;
+    const res = await fetch(url);
+    if (!res.ok) return null;
+    const buffer = await res.buffer();
+    const contentType = res.headers.get('content-type') || 'image/jpeg';
+    return `data:${contentType};base64,${buffer.toString('base64')}`;
+  } catch {
+    return null;
+  }
+};
+
+// Template images — local se base64 (build time pe available hoti hain)
 import path from 'path';
 import fs from 'fs';
-import QRCode from 'qrcode';
 import { fileURLToPath } from 'url';
- import { uploadBufferToCloudinary } from "../utils/cloudinaryUpload.js";
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const pdfsDir = path.join(__dirname, '../uploads/pdfs');
-if (!fs.existsSync(pdfsDir)) {
-  fs.mkdirSync(pdfsDir, { recursive: true });
-}
-
-const getGradeColor = (grade) => {
-  const colors = { 'A+': '#1a7a1a', 'A': '#2563eb', 'B+': '#7c3aed', 'B': '#b45309', 'C': '#b45309', 'F': '#dc2626' };
-  return colors[grade] || '#2563eb';
-};
-
-export const generateQRCode = async (registrationNumber) => {
-  const verifyUrl = `https://www.ddsgroupofinstitution.com/Getintouch/${registrationNumber}`;
-  try { 
-    return await QRCode.toDataURL(verifyUrl, { width: 100, margin: 1 }); 
-  }
-  catch { return ''; }
-};
-const getImageBase64 = (filePath) => {
+const getLocalImageBase64 = (filePath) => {
   try {
     if (!filePath || !fs.existsSync(filePath)) return null;
     const ext = path.extname(filePath).toLowerCase().replace('.', '');
     const mimeType = ext === 'jpg' ? 'jpeg' : ext;
     const data = fs.readFileSync(filePath);
     return `data:image/${mimeType};base64,${data.toString('base64')}`;
-  } catch { return null; }
+  } catch {
+    return null;
+  }
 };
-const generateCertificateHTML = (
-  student,
-  qrCodeDataUrl,
-  photoBase64,
-  certificateBg
-) => {
+
+const generateCertificateHTML = (student, qrCodeDataUrl, photoBase64, certificateBg) => {
   return `
   <div style="
     width:210mm;
@@ -51,150 +60,80 @@ const generateCertificateHTML = (
     font-family:Arial, sans-serif;
     overflow:hidden;
   ">
-
     <!-- Student Name -->
     <div style="
-      position:absolute;
-      top:105mm;
-      left:50%;
-      transform:translateX(-50%);
-      width:150mm;
-      text-align:center;
-      font-size:8mm;
-      font-weight:bold;
-      text-transform:uppercase;
-      white-space:nowrap;
-    ">
+      position:absolute;top:105mm;left:50%;
+      transform:translateX(-50%);width:150mm;
+      text-align:center;font-size:8mm;font-weight:bold;
+      text-transform:uppercase;white-space:nowrap;">
       ${student.studentName}
     </div>
 
-   <!-- Date of Issue: name ke neeche wali line pe -->
+    <!-- Date of Issue -->
     <div style="
-      position:absolute;
-      top:122mm;
-      left:50%;
-      transform:translateX(-50%);
-      width:150mm;
-      text-align:center;
-      font-size:5.5mm;
-      font-weight:bold;
-    ">
+      position:absolute;top:122mm;left:50%;
+      transform:translateX(-50%);width:150mm;
+      text-align:center;font-size:5.5mm;font-weight:bold;">
       ${student.issueDate}
     </div>
 
     <!-- Course Name -->
     <div style="
-      position:absolute;
-      top:144mm;
-      left:50%;
-      transform:translateX(-50%);
-      width:190mm;
-      text-align:center;
-      font-size:6.5mm;
-      font-weight:bold;
-      text-transform:uppercase;
-      white-space:nowrap;
-    ">
+      position:absolute;top:144mm;left:50%;
+      transform:translateX(-50%);width:190mm;
+      text-align:center;font-size:6.5mm;font-weight:bold;
+      text-transform:uppercase;white-space:nowrap;">
       ${student.courseName}
     </div>
 
     <!-- Session From -->
     <div style="
-      position:absolute;
-      top:162mm;
-      left:62mm;
-      transform:translateX(-50%);
-      font-size:5.5mm;
-      font-weight:bold;
-      text-align:center;
-      white-space:nowrap;
-    ">
+      position:absolute;top:162mm;left:62mm;
+      transform:translateX(-50%);font-size:5.5mm;
+      font-weight:bold;text-align:center;white-space:nowrap;">
       ${student.sessionFrom}
     </div>
 
     <!-- Session To -->
     <div style="
-      position:absolute;
-      top:162mm;
-      left:148mm;
-      transform:translateX(-50%);
-      font-size:5.5mm;
-      font-weight:bold;
-      text-align:center;
-      white-space:nowrap;
-    ">
+      position:absolute;top:162mm;left:148mm;
+      transform:translateX(-50%);font-size:5.5mm;
+      font-weight:bold;text-align:center;white-space:nowrap;">
       ${student.sessionTo}
     </div>
 
     <!-- Grade -->
     <div style="
-      position:absolute;
-      top:192mm;
-      left:82mm;
-      transform:translateX(-50%);
-      font-size:6.5mm;
-      font-weight:bold;
-      color:#c62828;
-      text-align:center;
-      white-space:nowrap;
-    ">
+      position:absolute;top:192mm;left:82mm;
+      transform:translateX(-50%);font-size:6.5mm;
+      font-weight:bold;color:#c62828;
+      text-align:center;white-space:nowrap;">
       &quot;${student.grade}&quot;
     </div>
 
     <!-- Duration -->
     <div style="
-      position:absolute;
-      top:192mm;
-      left:152mm;
-      transform:translateX(-50%);
-      font-size:6.5mm;
-      font-weight:bold;
-      text-align:center;
-      white-space:nowrap;
-    ">
+      position:absolute;top:192mm;left:152mm;
+      transform:translateX(-50%);font-size:6.5mm;
+      font-weight:bold;text-align:center;white-space:nowrap;">
       ${student.duration}
     </div>
 
     <!-- Photo -->
-    ${
-      photoBase64
-        ? `
-      <img
-        src="${photoBase64}"
-        style="
-          position:absolute;
-          top:43mm;
-          right:12mm;
-          width:25mm;
-          height:31mm;
-          object-fit:cover;
-          border:1px solid #555;
-        "
-      />
-    `
-        : ''
-    }
+    ${photoBase64 ? `
+      <img src="${photoBase64}" style="
+        position:absolute;top:43mm;right:12mm;
+        width:25mm;height:31mm;
+        object-fit:cover;border:1px solid #555;" />
+    ` : ''}
 
     <!-- QR Code -->
-    ${
-      qrCodeDataUrl
-        ? `
-      <img
-        src="${qrCodeDataUrl}"
-        style="
-          position:absolute;
-          bottom:8mm;
-          right:16mm;
-          width:22mm;
-          height:22mm;
-        "
-      />
-    `
-        : ''
-    }
-
-  </div>
-  `;
+    ${qrCodeDataUrl ? `
+      <img src="${qrCodeDataUrl}" style="
+        position:absolute;bottom:8mm;right:16mm;
+        width:22mm;height:22mm;" />
+    ` : ''}
+  </div>`;
 };
 
 const generateMarksheetHTML = (student, qrCodeDataUrl, marksheetBg) => {
@@ -204,39 +143,30 @@ const generateMarksheetHTML = (student, qrCodeDataUrl, marksheetBg) => {
     background-size:794px 1123px;
     font-family:'Times New Roman', serif;">
 
-    <!-- Student Name: line y=320, text top=305 -->
     <div style="position:absolute;top:305px;left:262px;font-size:13px;font-weight:bold;white-space:nowrap;">
       ${student.studentName}</div>
 
-    <!-- Father Name: line y=364, text top=349 -->
     <div style="position:absolute;top:349px;left:262px;font-size:13px;white-space:nowrap;">
       ${student.fatherName}</div>
 
-   <!-- Center of Examination -->
-<div style="position:absolute;top:393px;left:262px;font-size:12px;white-space:nowrap;">
-  ${student.centerOfExamination || ''}</div>
+    <div style="position:absolute;top:393px;left:262px;font-size:12px;white-space:nowrap;">
+      ${student.centerOfExamination || ''}</div>
 
-<!-- IIVET-VLCs Code -->
-<div style="position:absolute;top:438px;left:262px;font-size:12px;white-space:nowrap;">
-  ${student.ivetVlcsCode || ''}</div>
-  
-    <!-- Course: same line as Student Name -->
+    <div style="position:absolute;top:438px;left:262px;font-size:12px;white-space:nowrap;">
+      ${student.ivetVlcsCode || ''}</div>
+
     <div style="position:absolute;top:305px;left:580px;font-size:12px;white-space:nowrap;">
       ${student.courseName}</div>
 
-    <!-- Duration: same line as Father Name -->
     <div style="position:absolute;top:349px;left:580px;font-size:12px;white-space:nowrap;">
       ${student.duration}</div>
 
-    <!-- Registration No: same line as Center -->
     <div style="position:absolute;top:393px;left:580px;font-size:12px;white-space:nowrap;max-width:145px;overflow:hidden;">
       ${student.registrationNumber}</div>
 
-    <!-- Session: same line as IIVET -->
     <div style="position:absolute;top:438px;left:580px;font-size:12px;white-space:nowrap;">
       ${student.sessionFrom} to ${student.sessionTo}</div>
 
-    <!-- SUBJECT ROWS: each subject sits above its row line -->
     ${(student.subjects || []).map((sub, i) => {
       const tops = [547, 593, 637, 681];
       const top = tops[i] ?? (547 + i * 44);
@@ -257,44 +187,40 @@ const generateMarksheetHTML = (student, qrCodeDataUrl, marksheetBg) => {
       `;
     }).join('')}
 
-    <!-- PASS IN GRADE: box center y=781 -->
     <div style="position:absolute;top:768px;left:193px;
-      width:100px;height:26px;
-      font-size:13px;font-weight:bold;
+      width:100px;height:26px;font-size:13px;font-weight:bold;
       display:flex;align-items:center;justify-content:center;">
       ${student.grade}</div>
 
-    <!-- Total Marks: box center y=781 -->
     <div style="position:absolute;top:768px;left:648px;
-      width:82px;height:26px;
-      font-size:13px;font-weight:bold;
+      width:82px;height:26px;font-size:13px;font-weight:bold;
       display:flex;align-items:center;justify-content:center;">
       ${student.totalObtained}</div>
 
-    <!-- Issue Date: line y=926, text top=911 -->
     <div style="position:absolute;top:911px;left:80px;font-size:12px;font-weight:bold;">
       ${student.issueDate}</div>
 
-    <!-- QR Code -->
     ${qrCodeDataUrl ? `
       <img src="${qrCodeDataUrl}"
-        style="position:absolute;top:875px;left:700px;
-        width:62px;height:62px;" />
+        style="position:absolute;top:875px;left:700px;width:62px;height:62px;" />
     ` : ''}
-
   </div>`;
 };
+
+// Main PDF generator — Cloudinary URL return karta hai
 export const generatePDF = async (student) => {
+  // QR code generate karo
   const qrCodeDataUrl = await generateQRCode(student.registrationNumber);
 
+  // Photo: Cloudinary URL se fetch karke base64 banao
   let photoBase64 = null;
   if (student.photoUrl) {
-    const photoPath = path.join(__dirname, '..', student.photoUrl.replace(/^\//, ''));
-    photoBase64 = getImageBase64(photoPath);
+    photoBase64 = await getImageBase64FromUrl(student.photoUrl);
   }
 
-  const certificateBg = getImageBase64(path.join(__dirname, 'templates/ddscertificate.jpeg'));
-  const marksheetBg = getImageBase64(path.join(__dirname, 'templates/ddsmarksheet.jpeg'));
+  // Background templates: local files se
+  const certificateBg = getLocalImageBase64(path.join(__dirname, 'templates/ddscertificate.jpeg'));
+  const marksheetBg = getLocalImageBase64(path.join(__dirname, 'templates/ddsmarksheet.jpeg'));
 
   const certificateHTML = generateCertificateHTML(student, qrCodeDataUrl, photoBase64, certificateBg);
   const marksheetHTML = generateMarksheetHTML(student, qrCodeDataUrl, marksheetBg);
@@ -326,29 +252,29 @@ export const generatePDF = async (student) => {
   });
 
   let pdfBuffer;
-
   try {
     const page = await browser.newPage();
     await page.setContent(fullHTML, { waitUntil: 'networkidle0' });
-
-    // ✅ File save nahi, Buffer lo
     pdfBuffer = await page.pdf({
       format: 'A4',
       printBackground: true,
       preferCSSPageSize: true,
       margin: { top: '0mm', right: '0mm', bottom: '0mm', left: '0mm' }
     });
-
   } finally {
     await browser.close();
   }
 
-  
+  // Cloudinary pe upload karo
   const uploadResult = await uploadBufferToCloudinary(pdfBuffer, {
-    public_id: `certificate-${student.registrationNumber}-${Date.now()}`,
-    format: "pdf",
+    folder: 'dds-certificates/pdfs',
+    public_id: `certificate-${student.registrationNumber}`,
+    format: 'pdf',
+    resource_type: 'raw',
   });
 
- 
-  return uploadResult.secure_url;
+  return {
+    pdfUrl: uploadResult.secure_url,
+    pdfPublicId: uploadResult.public_id,
+  };
 };

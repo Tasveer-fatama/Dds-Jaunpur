@@ -31,16 +31,21 @@ const studentSchema = new mongoose.Schema({
   percentage: { type: Number, default: 0 },
   grade: { type: String, enum: ['A+', 'A', 'B+', 'B', 'C', 'F'], default: 'A' },
   result: { type: String, enum: ['PASS', 'FAIL'], default: 'PASS' },
-  photoUrl: { type: String, default: '' },
-  pdfUrl: { type: String, default: '' },
-  qrCodeData: { type: String, default: '' },
+
+  // ✅ Cloudinary fields
+  photoUrl: { type: String, default: '' },         // Cloudinary secure_url (image)
+  photoPublicId: { type: String, default: '' },     // Cloudinary public_id (delete ke liye)
+  pdfUrl: { type: String, default: '' },            // Cloudinary secure_url (PDF)
+  pdfPublicId: { type: String, default: '' },       // Cloudinary public_id (delete ke liye)
+  qrCodeData: { type: String, default: '' },        // QR code data URL
+
   isActive: { type: Boolean, default: true }
 }, {
   timestamps: true
 });
 
 // Auto-calculate totals before save
-studentSchema.pre('save', function(next) {
+studentSchema.pre('save', function (next) {
   if (this.subjects && this.subjects.length > 0) {
     let totalObtained = 0;
     let totalMax = 0;
@@ -55,15 +60,14 @@ studentSchema.pre('save', function(next) {
     this.totalMax = totalMax;
     this.percentage = parseFloat(((totalObtained / totalMax) * 100).toFixed(2));
 
-    // Auto grade
     if (this.percentage >= 85) this.grade = 'A+';
     else if (this.percentage >= 75) this.grade = 'A';
     else if (this.percentage >= 65) this.grade = 'B+';
     else if (this.percentage >= 51) this.grade = 'B';
     else if (this.percentage >= 40) this.grade = 'C';
-    else { 
-      this.grade = 'F'; 
-      this.result = 'FAIL'; 
+    else {
+      this.grade = 'F';
+      this.result = 'FAIL';
     }
 
     if (this.grade !== 'F') this.result = 'PASS';

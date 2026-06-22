@@ -62,7 +62,6 @@ function Field({ label, field, type = 'text', required, list, form, errors, onCh
         value={form[field] || ''}
         onChange={e => onChange(field, e.target.value)}
         placeholder={label}
-        
       />
       {list && <datalist id={list}>{COURSES.map(c => <option key={c} value={c} />)}</datalist>}
       {errors[field] && <p className="text-red-500 text-xs mt-1">{errors[field]}</p>}
@@ -70,19 +69,28 @@ function Field({ label, field, type = 'text', required, list, form, errors, onCh
   );
 }
 
+// ✅ Helper: photoUrl se safe preview URL banao
+const getPreviewUrl = (photoUrl) => {
+  if (!photoUrl) return null;
+  if (photoUrl.startsWith('http')) return photoUrl; // Cloudinary URL
+  return `https://ddsgroup.onrender.com${photoUrl}`; // legacy local path
+};
+
 export default function StudentForm({ initialData = null, studentId = null }) {
   const navigate = useNavigate();
   const [form, setForm] = useState(EMPTY_FORM);
+
   useEffect(() => {
     if (initialData) {
       setForm({ ...EMPTY_FORM, ...initialData });
     }
   }, [initialData]);
+
   const [photo, setPhoto] = useState(null);
-  const [photoPreview, setPhotoPreview] = useState(initialData?.photoUrl ? `https://ddsgroup.onrender.com${initialData.photoUrl}` : null);
+  // ✅ Fix: Cloudinary URL pe server prefix nahi lagega
+  const [photoPreview, setPhotoPreview] = useState(() => getPreviewUrl(initialData?.photoUrl));
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
-  const [preview, setPreview] = useState(false);
   const fileRef = useRef();
 
   const totalObtained = form.subjects.reduce((sum, s) => sum + (Number(s.theoryMarks) || 0) + (Number(s.practicalMarks) || 0), 0);
@@ -241,6 +249,24 @@ export default function StudentForm({ initialData = null, studentId = null }) {
             </tbody>
           </table>
         </div>
+
+        {/* Remove Subject Button */}
+        {form.subjects.length > 1 && (
+          <div className="mt-2 flex flex-col gap-1">
+            {form.subjects.map((_, i) => (
+              i > 0 && (
+                <button
+                  key={i}
+                  type="button"
+                  onClick={() => removeSubject(i)}
+                  className="text-xs text-red-400 hover:text-red-600 text-right pr-3"
+                >
+                  − Remove subject {i + 1}
+                </button>
+              )
+            ))}
+          </div>
+        )}
 
         {/* Auto-calculated Result */}
         <div className="mt-4 p-4 bg-gradient-to-r from-slate-50 to-blue-50 rounded-lg border border-blue-100">

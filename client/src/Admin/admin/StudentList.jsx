@@ -1,7 +1,14 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Link } from 'react-router-dom';
-import { studentAPI, SERVER_URL } from '../../utils/api';
+import { studentAPI } from '../../utils/api'; // SERVER_URL import hatao
 import toast from 'react-hot-toast';
+
+// ✅ Helper
+const getUrl = (url) => {
+  if (!url) return null;
+  if (url.startsWith('http')) return url;
+  return `https://ddsgroup.onrender.com${url}`;
+};
 
 const GRADE_COLORS = {
   'A+': 'bg-green-100 text-green-700', 'A': 'bg-blue-100 text-blue-700',
@@ -127,7 +134,8 @@ export default function StudentList() {
                     <td className="py-3 px-4">
                       <div className="flex items-center gap-3">
                         {s.photoUrl ? (
-                          <img src={`${SERVER_URL}${s.photoUrl}`} alt="" className="w-8 h-8 rounded-full object-cover border border-gray-200" />
+                          // ✅ Fix: getUrl() se Cloudinary URL safe rahega
+                          <img src={getUrl(s.photoUrl)} alt="" className="w-8 h-8 rounded-full object-cover border border-gray-200" />
                         ) : (
                           <div className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 font-bold text-xs">
                             {s.studentName[0]}
@@ -162,14 +170,16 @@ export default function StudentList() {
                         <Link to={`/admin/students/${s._id}`} title="View" className="p-1.5 rounded-lg hover:bg-blue-100 text-blue-600 transition-colors">👁️</Link>
                         <Link to={`/admin/students/edit/${s._id}`} title="Edit" className="p-1.5 rounded-lg hover:bg-yellow-100 text-yellow-600 transition-colors">✏️</Link>
                         {s.pdfUrl ? (
-                          <a href={`${SERVER_URL}${s.pdfUrl}`} target="_blank" rel="noreferrer" title="View PDF" className="p-1.5 rounded-lg hover:bg-green-100 text-green-600 transition-colors">📄</a>
+                          // ✅ Fix: PDF View
+                          <a href={getUrl(s.pdfUrl)} target="_blank" rel="noreferrer" title="View PDF" className="p-1.5 rounded-lg hover:bg-green-100 text-green-600 transition-colors">📄</a>
                         ) : (
                           <button onClick={() => handleRegenerate(s._id)} disabled={regenerating === s._id} title="Generate PDF" className="p-1.5 rounded-lg hover:bg-green-100 text-green-600 transition-colors disabled:opacity-50">
                             {regenerating === s._id ? '⏳' : '🔄'}
                           </button>
                         )}
                         {s.pdfUrl && (
-                          <a href={`${SERVER_URL}${s.pdfUrl}`} download title="Download PDF" className="p-1.5 rounded-lg hover:bg-purple-100 text-purple-600 transition-colors">⬇️</a>
+                          // ✅ Fix: PDF Download
+                          <a href={getUrl(s.pdfUrl)} download title="Download PDF" className="p-1.5 rounded-lg hover:bg-purple-100 text-purple-600 transition-colors">⬇️</a>
                         )}
                         <button onClick={() => handleDelete(s._id, s.studentName)} disabled={deleting === s._id} title="Delete" className="p-1.5 rounded-lg hover:bg-red-100 text-red-600 transition-colors disabled:opacity-50">
                           {deleting === s._id ? '⏳' : '🗑️'}

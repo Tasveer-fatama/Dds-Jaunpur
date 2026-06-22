@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 
 const API_BASE = "https://ddsgroup.onrender.com";
@@ -21,26 +20,26 @@ export default function StudentSearch() {
     setLoading(true);
 
     try {
-      // Step 1: Registration number se student dhundo
+      const params = new URLSearchParams();
+      params.append("registrationNumber", regNumber.trim());
+      if (name.trim()) params.append("name", name.trim());
+
       const searchRes = await fetch(
-        `${API_BASE}/api/student/search?registrationNumber=${regNumber.trim()}`
+        `${API_BASE}/api/student/search?${params.toString()}`
       );
 
-      if (!searchRes.ok) throw new Error("please check your registration number.");
+      if (!searchRes.ok) throw new Error("Please check your registration number.");
 
       const result = await searchRes.json();
       const students = result.data;
 
-      if (!students || students.length === 0) throw new Error("student not found");
+      if (!students || students.length === 0) throw new Error("Student not found.");
 
       const student = students[0];
 
-      // ✅ Ab pdfData (base64) nahi, Cloudinary ka direct pdfUrl use hoga
       if (!student.pdfUrl) throw new Error("PDF abhi available nahi hai. Admin se contact karo.");
 
-      // ✅ Cloudinary URL seedha naye tab mein open karo - decode/blob ki zarurat nahi
       window.open(student.pdfUrl, "_blank");
-
       setSuccess("PDF open ho gayi! ✓");
     } catch (err) {
       setError(err.message || "Error");
@@ -73,12 +72,12 @@ export default function StudentSearch() {
           {/* Name Field */}
           <div className="mb-4">
             <label className="block text-red-200 text-sm font-medium mb-2">
-              Student Name
+              Student Name <span className="text-white/30 font-normal">(optional)</span>
             </label>
             <input
               type="text"
               value={name}
-              onChange={(e) => setName(e.target.value)}
+              onChange={(e) => { setName(e.target.value); setError(""); setSuccess(""); }}
               onKeyDown={handleKeyDown}
               placeholder="Apna naam likhein"
               className="w-full bg-white/10 border border-white/20 text-white placeholder-white/30 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-red-400/50 focus:border-red-400/50 transition-all"
@@ -132,7 +131,7 @@ export default function StudentSearch() {
                   <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
                   <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
                 </svg>
-                 loading
+                Loading...
               </>
             ) : (
               <>

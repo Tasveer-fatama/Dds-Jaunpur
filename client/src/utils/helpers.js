@@ -45,6 +45,22 @@ export const formatDate = (dateStr) => {
   } catch { return dateStr; }
 };
 
+// ✅ Photo URL helper — Cloudinary URL direct return karo, server prefix mat lagao
+export const getPhotoUrl = (photoUrl) => {
+  if (!photoUrl) return null;
+  // Cloudinary URLs already full URL hote hain
+  if (photoUrl.startsWith('http')) return photoUrl;
+  // Legacy local path (purane records ke liye fallback)
+  return `https://ddsgroup.onrender.com${photoUrl}`;
+};
+
+// ✅ PDF URL helper — same logic
+export const getPdfUrl = (pdfUrl) => {
+  if (!pdfUrl) return null;
+  if (pdfUrl.startsWith('http')) return pdfUrl;
+  return `https://ddsgroup.onrender.com${pdfUrl}`;
+};
+
 export const validateStudentForm = (data) => {
   const errors = {};
   if (!data.studentName?.trim()) errors.studentName = 'Student name is required';
@@ -59,8 +75,10 @@ export const validateStudentForm = (data) => {
 
   if (data.subjects && data.subjects.length > 0) {
     data.subjects.forEach((s, i) => {
-      if (s.theoryMarks > s.maxTheory) errors[`subject_${i}`] = `Theory marks exceed max for subject ${i + 1}`;
-      if (s.practicalMarks > s.maxPractical) errors[`subject_${i}_p`] = `Practical marks exceed max for subject ${i + 1}`;
+      if (s.theoryMarks > s.maxTheory)
+        errors[`subject_${i}`] = `Theory marks exceed max for subject ${i + 1}`;
+      if (s.practicalMarks > s.maxPractical)
+        errors[`subject_${i}_p`] = `Practical marks exceed max for subject ${i + 1}`;
     });
   }
   return errors;

@@ -1,20 +1,21 @@
 import Student from '../model/Certificate.js';
 import { generatePDF, generateQRCode } from '../middleware/pdfgenerator.js';
-import fs from 'fs';
-import path from 'path';
-import { fileURLToPath } from 'url';
-
-// __dirname fix for ES modules
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+import { uploadBufferToCloudinary, deleteFromCloudinary } from '../utils/cloudinaryUpload.js';
 
 // POST /api/student/create
 export const createStudent = async (req, res) => {
   try {
     const data = JSON.parse(req.body.studentData || '{}');
 
+    // Photo Cloudinary pe upload karo
     if (req.file) {
-      data.photoUrl = `/uploads/photos/${req.file.filename}`;
+      const uploadResult = await uploadBufferToCloudinary(req.file.buffer, {
+        folder: 'dds-certificates/photos',
+        public_id: `photo-${data.registrationNumber}`,
+        resource_type: 'image',
+      });
+      data.photoUrl = uploadResult.secure_url;
+      data.photoPublicId = uploadResult.public_id;
     }
 
     if (typeof data.subjects === 'string') {
@@ -29,16 +30,19 @@ export const createStudent = async (req, res) => {
     const student = new Student(data);
     await student.save();
 
+    // PDF + QR generate karo
     try {
-      const pdfUrl = await generatePDF(student);
-      student.pdfUrl = pdfUrl;
+      // QR code
+      student.qrCodeData = await generateQRCode(student.registrationNumber);
 
-      const serverUrl = process.env.SERVER_URL || 'https://ddsgroup.onrender.com';
-      student.qrCodeData = `${serverUrl}/verify/${student.registrationNumber}`;
+      // PDF generate karke Cloudinary pe upload
+      const { pdfUrl, pdfPublicId } = await generatePDF(student);
+      student.pdfUrl = pdfUrl;
+      student.pdfPublicId = pdfPublicId;
 
       await student.save();
     } catch (pdfErr) {
-      console.error('PDF generation error:', pdfErr.message);
+      console.error('PDF/QR generation error:', pdfErr.message);
     }
 
     res.status(201).json({
@@ -117,13 +121,11 @@ export const searchStudent = async (req, res) => {
     }
 
     const query = { isActive: true };
-
     if (registrationNumber) query.registrationNumber = { $regex: registrationNumber, $options: 'i' };
     if (studentName) query.studentName = { $regex: studentName, $options: 'i' };
     if (courseName) query.courseName = { $regex: courseName, $options: 'i' };
 
     const students = await Student.find(query).limit(10);
-
     res.json({ success: true, data: students });
   } catch (err) {
     res.status(500).json({ success: false, message: err.message });
@@ -135,36 +137,46 @@ export const updateStudent = async (req, res) => {
   try {
     const data = JSON.parse(req.body.studentData || '{}');
 
-    if (req.file) {
-      data.photoUrl = `/uploads/photos/${req.file.filename}`;
+    // Pehle student fetch karo — old public_ids chahiye delete ke liye
+    const student = await Student.findById(req.params.id);
+    if (!student) {
+      return res.status(404).json({ success: false, message: 'Student not found' });
+    }
 
-      const old = await Student.findById(req.params.id);
-      if (old && old.photoUrl) {
-        const oldPath = path.join(__dirname, '..', old.photoUrl);
-        if (fs.existsSync(oldPath)) fs.unlinkSync(oldPath);
+    // Naya photo upload hua hai toh purana Cloudinary se delete karo
+    if (req.file) {
+      if (student.photoPublicId) {
+        await deleteFromCloudinary(student.photoPublicId, 'image');
       }
+
+      const uploadResult = await uploadBufferToCloudinary(req.file.buffer, {
+        folder: 'dds-certificates/photos',
+        public_id: `photo-${student.registrationNumber}`,
+        resource_type: 'image',
+      });
+      data.photoUrl = uploadResult.secure_url;
+      data.photoPublicId = uploadResult.public_id;
     }
 
     if (typeof data.subjects === 'string') {
       data.subjects = JSON.parse(data.subjects);
     }
 
-    const student = await Student.findById(req.params.id);
-    if (!student) {
-      return res.status(404).json({ success: false, message: 'Student not found' });
-    }
+    // Old PDF public_id save karo delete ke liye
+    const oldPdfPublicId = student.pdfPublicId || null;
 
     Object.assign(student, data);
     await student.save();
 
+    // PDF regenerate karo — purana delete, naya upload
     try {
-      if (student.pdfUrl) {
-        const oldPdfPath = path.join(__dirname, '..', student.pdfUrl);
-        if (fs.existsSync(oldPdfPath)) fs.unlinkSync(oldPdfPath);
+      if (oldPdfPublicId) {
+        await deleteFromCloudinary(oldPdfPublicId, 'raw');
       }
 
-      const pdfUrl = await generatePDF(student);
+      const { pdfUrl, pdfPublicId } = await generatePDF(student);
       student.pdfUrl = pdfUrl;
+      student.pdfPublicId = pdfPublicId;
       await student.save();
     } catch (pdfErr) {
       console.error('PDF regeneration error:', pdfErr.message);
@@ -184,20 +196,13 @@ export const updateStudent = async (req, res) => {
 export const deleteStudent = async (req, res) => {
   try {
     const student = await Student.findById(req.params.id);
-
     if (!student) {
       return res.status(404).json({ success: false, message: 'Student not found' });
     }
 
-    if (student.photoUrl) {
-      const photoPath = path.join(__dirname, '..', student.photoUrl);
-      if (fs.existsSync(photoPath)) fs.unlinkSync(photoPath);
-    }
-
-    if (student.pdfUrl) {
-      const pdfPath = path.join(__dirname, '..', student.pdfUrl);
-      if (fs.existsSync(pdfPath)) fs.unlinkSync(pdfPath);
-    }
+    // Cloudinary se photo aur PDF dono delete karo
+    if (student.photoPublicId) await deleteFromCloudinary(student.photoPublicId, 'image');
+    if (student.pdfPublicId) await deleteFromCloudinary(student.pdfPublicId, 'raw');
 
     await Student.findByIdAndDelete(req.params.id);
 
@@ -211,24 +216,26 @@ export const deleteStudent = async (req, res) => {
 export const regeneratePDF = async (req, res) => {
   try {
     const student = await Student.findById(req.params.id);
-
     if (!student) {
       return res.status(404).json({ success: false, message: 'Student not found' });
     }
 
-    // ✅ Base64 PDF generate karo
-    const pdfBase64 = await generatePDF(student);
+    // Purana PDF Cloudinary se delete karo
+    if (student.pdfPublicId) {
+      await deleteFromCloudinary(student.pdfPublicId, 'raw');
+    }
 
-    // ✅ MongoDB mein save karo
-    student.pdfData = pdfBase64;
+    // Naya PDF generate karke upload karo
+    const { pdfUrl, pdfPublicId } = await generatePDF(student);
+    student.pdfUrl = pdfUrl;
+    student.pdfPublicId = pdfPublicId;
     await student.save();
 
     res.json({
       success: true,
-      message: 'PDF generated and saved',
-      data: { pdfData: pdfBase64 } // Base64 return karo
+      message: 'PDF regenerated successfully',
+      data: { pdfUrl }
     });
-
   } catch (err) {
     res.status(500).json({ success: false, message: err.message });
   }
