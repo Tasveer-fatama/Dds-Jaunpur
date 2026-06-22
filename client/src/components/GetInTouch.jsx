@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 
 const API_BASE = "https://ddsgroup.onrender.com";
@@ -34,17 +35,12 @@ export default function StudentSearch() {
 
       const student = students[0];
 
-      // ✅ Pehle check karo pdfData hai ya nahi
-      if (!student.pdfData) throw new Error("PDF abhi available nahi hai. Admin se contact karo.");
+      // ✅ Ab pdfData (base64) nahi, Cloudinary ka direct pdfUrl use hoga
+      if (!student.pdfUrl) throw new Error("PDF abhi available nahi hai. Admin se contact karo.");
 
-      // ✅ Base64 se PDF open karo
-      const byteCharacters = atob(student.pdfData);
-      const byteNumbers = Array.from(byteCharacters).map((c) => c.charCodeAt(0));
-      const byteArray = new Uint8Array(byteNumbers);
-      const blob = new Blob([byteArray], { type: "application/pdf" });
-      const blobUrl = URL.createObjectURL(blob);
+      // ✅ Cloudinary URL seedha naye tab mein open karo - decode/blob ki zarurat nahi
+      window.open(student.pdfUrl, "_blank");
 
-      window.open(blobUrl, "_blank");
       setSuccess("PDF open ho gayi! ✓");
     } catch (err) {
       setError(err.message || "Error");

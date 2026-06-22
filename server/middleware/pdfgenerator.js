@@ -4,7 +4,7 @@ import path from 'path';
 import fs from 'fs';
 import QRCode from 'qrcode';
 import { fileURLToPath } from 'url';
-
+ import { uploadBufferToCloudinary } from "../utils/cloudinaryUpload.js";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
@@ -325,23 +325,30 @@ export const generatePDF = async (student) => {
     headless: chromium.headless,
   });
 
+  let pdfBuffer;
+
   try {
     const page = await browser.newPage();
     await page.setContent(fullHTML, { waitUntil: 'networkidle0' });
 
     // ✅ File save nahi, Buffer lo
-    const pdfBuffer = await page.pdf({
+    pdfBuffer = await page.pdf({
       format: 'A4',
       printBackground: true,
       preferCSSPageSize: true,
       margin: { top: '0mm', right: '0mm', bottom: '0mm', left: '0mm' }
     });
 
-    // ✅ Base64 mein convert karo
-    const pdfBase64 = pdfBuffer.toString('base64');
-    return pdfBase64;
-
   } finally {
     await browser.close();
   }
+
+  
+  const uploadResult = await uploadBufferToCloudinary(pdfBuffer, {
+    public_id: `certificate-${student.registrationNumber}-${Date.now()}`,
+    format: "pdf",
+  });
+
+ 
+  return uploadResult.secure_url;
 };
