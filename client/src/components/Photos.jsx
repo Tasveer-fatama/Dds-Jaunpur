@@ -1,6 +1,7 @@
 import React from "react";
 import { motion } from "framer-motion";
-import { Facebook, ArrowUpRight } from "lucide-react";
+import { FaFacebook } from "react-icons/fa";
+import { FiArrowUpRight } from "react-icons/fi";
 
 // 🔗 Apna Facebook Page ka link yahan daal do
 const FACEBOOK_PAGE_URL = "https://www.facebook.com/yourpagename";
@@ -13,14 +14,13 @@ const ImageWall = () => {
     "/image3.jpg",
     "/image4.jpg",
     "/image5.jpg",
-    "/mage6.jpg",
+    "/image6.jpg",
     "/image7.jpg",
     "/image8.jpg",
     "/image9.jpg",
     "/image10.jpg",
     "/image11.jpg",
-    "/image12.jpg"
-
+    "/image12.jpg",
   ];
 
   const chunkArray = (arr, size) => {
@@ -31,7 +31,7 @@ const ImageWall = () => {
     return result;
   };
 
-  // 6 images per row, two marquee rows (mobile & desktop same grouping now)
+  // 6 images per row, two marquee rows
   const rows = chunkArray(images, 6);
 
   return (
@@ -88,11 +88,11 @@ const ImageWall = () => {
           className="group flex flex-col items-center gap-4"
         >
           <span className="flex items-center justify-center w-16 h-16 md:w-20 md:h-20 rounded-full bg-[#1877F2] shadow-[0_0_30px_rgba(24,119,242,0.5)] transition-transform duration-300 group-hover:scale-110">
-            <Facebook className="w-8 h-8 md:w-10 md:h-10 text-white" fill="white" strokeWidth={0} />
+            <FaFacebook className="w-8 h-8 md:w-10 md:h-10 text-white" />
           </span>
           <span className="flex items-center gap-1.5 text-white/90 group-hover:text-white text-sm md:text-base font-semibold tracking-wide transition-colors">
             Explore More Images on Facebook
-            <ArrowUpRight className="w-4 h-4 md:w-5 md:h-5 transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-1" />
+            <FiArrowUpRight className="w-4 h-4 md:w-5 md:h-5 transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-1" />
           </span>
         </a>
       </div>
