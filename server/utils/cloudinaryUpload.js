@@ -18,7 +18,7 @@ export const uploadBufferToCloudinary = (buffer, options = {}) => {
   return new Promise((resolve, reject) => {
     const uploadStream = cloudinary.uploader.upload_stream(
       {
-        resource_type: 'auto',
+        resource_type: 'raw', // PDF ke liye hamesha 'raw' use karo, 'auto' nahi
         folder: options.folder || 'dds-certificates',
         ...options,
       },
