@@ -11,7 +11,7 @@ const Navbar = () => {
     { title: "Services", dropdown: true },
     { title: "Events", dropdown: true },
     { title: "Course", dropdown: true },
-    { title: "Donation", link: "/donation" },
+   
   ];
 
   // Services dropdown data
