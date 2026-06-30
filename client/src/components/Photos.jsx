@@ -4,7 +4,7 @@ import { FaFacebook } from "react-icons/fa";
 import { FiArrowUpRight } from "react-icons/fi";
 
 // 🔗 Apna Facebook Page ka link yahan daal do
-const FACEBOOK_PAGE_URL = "https://www.facebook.com/yourpagename";
+const FACEBOOK_PAGE_URL = "https://www.facebook.com/arti.singh.182";
 
 const ImageWall = () => {
   // Saare image links ek hi array mein (40+)
