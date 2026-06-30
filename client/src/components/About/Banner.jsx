@@ -285,15 +285,7 @@ const Banner = () => {
     </div>
 <div className="bg-gradient-to-b from-gray-50 to-gray-100 py-24 px-6">
 
-      {/* Heading */}
-      <div className="text-center mb-20">
-        <h2 className="text-4xl md:text-5xl font-bold text-gray-800">
-          About Our Team
-        </h2>
-        <p className="text-gray-500 mt-4 text-lg">
-          Meet the people who guide and inspire our organization
-        </p>
-      </div>
+    
 
       {/* Cards */}
     <div className="bg-gradient-to-b from-gray-50 to-gray-100 py-24 px-6">
