@@ -48,9 +48,12 @@ const features = [
 ];
 
 const images = [
-  "https://scontent.fknu1-1.fna.fbcdn.net/v/t39.30808-6/608174628_25393881446958695_8133908975299151123_n.jpg?stp=dst-jpg_tt6&cstp=mx2048x1365&ctp=s2048x1365&_nc_cat=101&ccb=1-7&_nc_sid=833d8c&_nc_ohc=6oEBMlVGRfAQ7kNvwHZwdCp&_nc_oc=AdrleQf9tyVYG4dNTlnfLh4fa8s2Ves-K44fBK5DEcv7B_AEqiNSZFrqQswRiOJ252guvXmEPmlZ63z2XsPG66y0&_nc_zt=23&_nc_ht=scontent.fknu1-1.fna&_nc_gid=MoPKM4CKWusWf23a5IpwCA&_nc_ss=7b2a8&oh=00_Af85qgQNn0SaOFnv93b3Dqrxo2ypaWR0nlMRyg8UOcTCaA&oe=6A3E02ED",
-  "https://scontent.fknu1-3.fna.fbcdn.net/v/t39.30808-6/514487552_10085345571572198_2885972596612341104_n.jpg?stp=dst-jpg_tt6&cstp=mx1040x780&ctp=s1040x780&_nc_cat=107&ccb=1-7&_nc_sid=833d8c&_nc_ohc=6dau9cwtNTgQ7kNvwH3CZfa&_nc_oc=AdphbKc47FAAVmmtCVeZLmAOzETkTQp723NDL7x83Zp4uRIF6wdzlHiV9CTwRaeSTrvEbkh1s-qYVGFhrX4IUMqU&_nc_zt=23&_nc_ht=scontent.fknu1-3.fna&_nc_gid=3GSXGZcKsClpVZXwrITUrA&_nc_ss=7b2a8&oh=00_Af-IODelmNjAy-XNF7GA1t0Ocg6TnYQCEMs2J1w3vp1HAw&oe=6A3E33CD",
-  "https://scontent.fknu1-1.fna.fbcdn.net/v/t39.30808-6/492049385_9507104106063017_4373625867834266036_n.jpg?stp=dst-jpg_tt6&cstp=mx1156x650&ctp=s1156x650&_nc_cat=101&ccb=1-7&_nc_sid=127cfc&_nc_ohc=YsMU-zHwpxEQ7kNvwHm60e0&_nc_oc=AdoDcUQ90cbgMEmgBhiz3oJ4aS7jmm_fBvEuPzco8pnBQqmr70V8HAM2aoGUS9LlC1OlVnI9stNhVNbYNZbB044x&_nc_zt=23&_nc_ht=scontent.fknu1-1.fna&_nc_gid=lChP8wIhjAHZMpYyGW5a2w&_nc_ss=7b2a8&oh=00_Af-L7pqff-XsJj57419VlK8nwHEehbm8w096EE7_esxFtw&oe=6A3E03DC"
+"/image1.jpg",
+"/image2.jpg",
+"/image3.jpg",
+"/image4.jpg",
+"/image5.jpg"
+
 ];
 
 const DDSFeatures = () => {
